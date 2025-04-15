@@ -5,7 +5,7 @@
  */
 
 // Styles
-// import '@mdi/font/css/materialdesignicons.css'
+import '@mdi/font/css/materialdesignicons.css'
 import 'vuetify/styles'
 
 
@@ -81,5 +81,12 @@ export default createVuetify({
     locales: { de },
     current: 'de'
   }, 
+  icons: {
+    defaultSet: 'mdi',
+    aliases,
+    sets: {
+      mdi,
+    },
+  },
 })
 

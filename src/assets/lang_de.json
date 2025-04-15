@@ -1,4 +1,7 @@
 {
+
+    "LAYER":"Karte",
+    "SELECT_ENTRY" : "Bitte auswählen",
     "WELCOME_TAB":"Willkommen",
     "SETTINGS_TAB":"Einstellungen",
     "FRUCHTFOLGE_TAB":"Fruchtfolge",

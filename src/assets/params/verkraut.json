@@ -1,0 +1,300 @@
+{
+    "MECH_QUECK": {
+        "PEREN_VK": {
+            "value": -3
+        },
+        "WINTER_VK": {
+            "value": 0
+        },
+        "SOMMER_VK": {
+            "value": -1
+        }
+    },
+    "REUCED": {
+        "PEREN_VK": {
+            "value": 3
+        },
+        "WINTER_VK": {
+            "value": 1
+        },
+        "SOMMER_VK": {
+            "value": 2
+        }
+    },
+    "ZW_FROSTHARD": {
+        "PEREN_VK": {
+            "value": -1
+        },
+        "WINTER_VK": {
+            "value": 0
+        },
+        "SOMMER_VK": {
+            "value": -1
+        }
+    },
+    "ZW_ABFRIEREND": {
+        "PEREN_VK": {
+            "value": 0
+        },
+        "WINTER_VK": {
+            "value": 0
+        },
+        "SOMMER_VK": {
+            "value": -1
+        }
+    },
+    "LEG_US_IN_CER": {
+        "PEREN_VK": {
+            "value": 0
+        },
+        "WINTER_VK": {
+            "value": 0
+        },
+        "SOMMER_VK": {
+            "value": 0
+        }
+    },
+    "ACK_BOHNE": {
+        "PEREN_VK": {
+            "value": -1
+        },
+        "WINTER_VK": {
+            "value": 3
+        },
+        "SOMMER_VK": {
+            "value": 0
+        }
+    },
+    "DINKEL": {
+        "PEREN_VK": {
+            "value": -1
+        },
+        "WINTER_VK": {
+            "value": -1
+        },
+        "SOMMER_VK": {
+            "value": 1
+        }
+    },
+    "FTTR_ERBSE": {
+        "PEREN_VK": {
+            "value": 0
+        },
+        "WINTER_VK": {
+            "value": 2
+        },
+        "SOMMER_VK": {
+            "value": 0
+        }
+    },
+    "FTTR_RUEBE": {
+        "PEREN_VK": {
+            "value": 0
+        },
+        "WINTER_VK": {
+            "value": 2
+        },
+        "SOMMER_VK": {
+            "value": 0
+        }
+    },
+    "HAFER": {
+        "PEREN_VK": {
+            "value": 0
+        },
+        "WINTER_VK": {
+            "value": 1
+        },
+        "SOMMER_VK": {
+            "value": -1
+        }
+    },
+    "KRN_MAIS": {
+        "PEREN_VK": {
+            "value": -2
+        },
+        "WINTER_VK": {
+            "value": 2
+        },
+        "SOMMER_VK": {
+            "value": 0
+        }
+    },
+    "LEG_GRAS": {
+        "PEREN_VK": {
+            "value": -1
+        },
+        "WINTER_VK": {
+            "value": -2
+        },
+        "SOMMER_VK": {
+            "value": -2
+        }
+    },
+    "LUPINE": {
+        "PEREN_VK": {
+            "value": 2
+        },
+        "WINTER_VK": {
+            "value": 2
+        },
+        "SOMMER_VK": {
+            "value": 0
+        }
+    },
+    "SILO_MAIS": {
+        "PEREN_VK": {
+            "value": -2
+        },
+        "SOMMER_VK": {
+            "value": -1
+        },
+        "WINTER_VK": {
+            "value": 2
+        }
+    },
+    "SOJA": {
+        "PEREN_VK": {
+            "value": -1
+        },
+        "WINTER_VK": {
+            "value": 3
+        },
+        "SOMMER_VK": {
+            "value": 1
+        }
+    },
+    "SM_WEIZEN": {
+        "PEREN_VK": {
+            "value": 1
+        },
+        "WINTER_VK": {
+            "value": 2
+        },
+        "SOMMER_VK": {
+            "value": 0
+        }
+    },
+    "SM_GERST": {
+        "PEREN_VK": {
+            "value": 1
+        },
+        "WINTER_VK": {
+            "value": 2
+        },
+        "SOMMER_VK": {
+            "value": 0
+        }
+    },
+    "SP_KART": {
+        "SOMMER_VK": {
+            "value": -2
+        },
+        "PEREN_VK": {
+            "value": 1
+        },
+        "WINTER_VK": {
+            "value": 2
+        }
+    },
+    "SP_MOEHR": {
+        "PEREN_VK": {
+            "value": 1
+        },
+        "WINTER_VK": {
+            "value": 2
+        },
+        "SOMMER_VK": {
+            "value": -2
+        }
+    },
+    "STECK_RUEBE": {
+        "PEREN_VK": {
+            "value": 0
+        },
+        "WINTER_VK": {
+            "value": 0
+        },
+        "SOMMER_VK": {
+            "value": 0
+        }
+    },
+    "TRITICALE": {
+        "PEREN_VK": {
+            "value": 1
+        },
+        "WINTER_VK": {
+            "value": -1
+        },
+        "SOMMER_VK": {
+            "value": 2
+        }
+    },
+    "WN_GERSTE": {
+        "PEREN_VK": {
+            "value": -1
+        },
+        "WINTER_VK": {
+            "value": -2
+        },
+        "SOMMER_VK": {
+            "value": 1
+        }
+    },
+    "WN_RAPS": {
+        "PEREN_VK": {
+            "value": -2
+        },
+        "WINTER_VK": {
+            "value": -1
+        },
+        "SOMMER_VK": {
+            "value": 2
+        }
+    },
+    "WN_ROGGEN": {
+        "PEREN_VK": {
+            "value": -1
+        },
+        "WINTER_VK": {
+            "value": -1
+        },
+        "SOMMER_VK": {
+            "value": 2
+        }
+    },
+    "WN_WEIZEN": {
+        "PEREN_VK": {
+            "value": 1
+        },
+        "WINTER_VK": {
+            "value": -1
+        },
+        "SOMMER_VK": {
+            "value": 3
+        }
+    },
+    "ZUCKER_RUEBE": {
+        "PEREN_VK": {
+            "value": 1
+        },
+        "WINTER_VK": {
+            "value": 1
+        },
+        "SOMMER_VK": {
+            "value": -1
+        }
+    },
+    "ZWIBELN": {
+        "PEREN_VK": {
+            "value": 0
+        },
+        "WINTER_VK": {
+            "value": 0
+        },
+        "SOMMER_VK": {
+            "value": 0
+        }
+    }
+    
+}

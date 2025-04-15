@@ -8,15 +8,16 @@
   },
   "dependencies": {
     "@vue-leaflet/vue-leaflet": "^0.10.1",
-
+    "material-design-icons-iconfont": "^6.7.0",
     "pyodide": "0.27.4",
-    "roboto-fontface": "*", 
+    "roboto-fontface": "*",
     "util": "^0.12.5",
     "vue": "^3.4.31",
     "vuedraggable": "^4.1.0",
     "vuetify": "^3.6.11"
   },
   "devDependencies": {
+    "@mdi/font": "^7.4.47",
     "@vitejs/plugin-vue": "^5.0.5",
     "@vueuse/core": "^13.0.0",
     "@vueuse/nuxt": "^13.0.0",

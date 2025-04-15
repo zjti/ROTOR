@@ -1,0 +1,70 @@
+{
+"fest frisch rind":{
+    "TM":20,
+    "N/FM":4,
+    "Navil_spring":20,
+    "Navil_autumn":20,
+    "Nloss":14,
+    "P/FM":1.2,
+    "K/FM":7.4,
+    "N_LOESSLICH": 35,
+    "HUMUS_HE" : 0.3
+},
+"fest gerottet rind":{
+    "TM":22,
+    "N/FM":5.5, 
+    "Navil_spring":13,
+    "Navil_autumn":13,
+    "Nloss":10,
+    "P/FM":1.2,
+    "K/FM":6.6,
+    "N_LOESSLICH": 35,
+    "HUMUS_HE" : 0.3
+},
+"fest frisch schwein":{
+    "TM":23,
+    "N/FM":6,
+    "Navil_spring":17,
+    "Navil_autumn":17,
+    "Nloss":10,
+    "P/FM":2.6,
+    "K/FM":7.3,    
+    "N_LOESSLICH": 35,
+    "HUMUS_HE" : 0.3
+},
+
+"fest frisch gefluegel":{
+    "TM":43,
+    "N/FM":16,
+    "Navil_spring":60,
+    "Navil_autumn":60,
+    "Nloss":17,
+    "P/FM":5.5,
+    "K/FM":8.8,
+    "N_LOESSLICH": 35,
+    "HUMUS_HE" : 0.3
+},
+
+"fluessig rind":{
+    "TM":6.5,
+    "N/FM":3.5, 
+    "Navil_spring":45,
+    "Navil_autumn":45,
+    "Nloss":18,
+    "P/FM":0.5,
+    "K/FM":5.5,
+    "N_LOESSLICH": 35,
+    "HUMUS_HE" : 0.3
+},
+"fluessig schwein":{
+    "TM":14,
+    "N/FM":6.9,
+    "Navil_spring":55,
+    "Navil_autumn":55,
+    "Nloss":14,
+    "P/FM":3.1,
+    "K/FM":2.2,
+    "N_LOESSLICH": 35,
+    "HUMUS_HE" : 0.3
+}
+}

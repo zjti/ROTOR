@@ -1,0 +1,104 @@
+{
+    "N_DEPO": {
+        "default":15,
+        "type": "int",
+        "min": 0,
+        "max": 36,
+        "unit": "kg N ha⁻¹ a⁻¹",
+        "help":"help_ATMOS_N_EINTRAG"
+    },
+    "ACKERZAHL": {
+        "default":33,
+        "type": "int",
+        "min": 19,
+        "max": 120,
+        "help":"help_ackerzahl"
+    },
+    "NFK": {
+        "default":93,
+        "type": "float",
+        "min": 0,
+        "max": 250,
+        "unit":"mm"
+    },
+   
+    "SOIL_TYPE": {
+        "default":"SOIL_S",
+        "type": "select",
+        "items":["SOIL_S","SOIL_lS","SOIL_sU","SOIL_ssL","SOIL_lU","SOIL_sL","SOIL_uL","SOIL_L","SOIL_utL","SOIL_tL","SOIL_T"]
+    },
+
+    "FELD_KAPA": {
+        "default":143.9,
+        "type": "float",
+        "min": 0,
+        "max": 250,
+        "unit":"mm"
+    },
+    "WINTER_NIEDERSCHLAG":{
+        "default":223.0,
+        "type": "float",
+        "min": 0,
+        "max": 400,
+        "unit":"mm",
+        "help":"help_winter_niederschlag"
+    },
+
+    "ORG_SUBS": {
+        "default": 0.8,
+        "type": "float",
+        "min": 0,
+        "max": 7,
+        "unit": "% C in TM"
+    },
+    "MIN_RATE_OBS": {
+        "default": 1.9,
+        "type": "float",
+        "min": 0,
+        "max": 5,
+        "unit": "%"
+    },
+    "C_N_QUOT": {
+        "default": 12.0,
+        "type": "float",
+        "min": 4,
+        "max": 15,
+        "unit": "%"
+    },
+    "OBERBODEN": {
+        "default": 30,
+        "type": "int",
+        "min": 20,
+        "max": 50,
+        "unit": "cm"
+    },
+    "___Particles GreaterEQual 2mm": "some desription, eg. GEQ == Greter EQual",
+    "PARTICLE_GEQ_2MM": {
+        "default": 0,
+        "type": "int",
+        "min": 0,
+        "max": 30,
+        "unit": "%"
+    },
+     
+    "ROHDICHTE_TOPSOIL": {
+        "default": 1.5,
+        "type": "float",
+        "min": 0,
+        "max": 1.8,
+        "unit": "g/cm³"
+    },
+    "BKR": {
+        "default": 141,
+        "type": "bkr_int"
+    },
+
+    
+
+    "N_PREVIEW": { 
+        "type": "N_panel",
+        "default": 2, 
+        "unit": "%"
+    }
+    
+}
