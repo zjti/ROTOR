@@ -22,7 +22,7 @@ export default {
     return {
       colnames: ['PEREN_VK','WINTER_VK','SOMMER_VK'],
  
-      verkrautung: globalStore['VERKRAUTUNG'],
+      verkrautung: globalStore.get('VERKRAUTUNG'),
     };
   },
   async created() {

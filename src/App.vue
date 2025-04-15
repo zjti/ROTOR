@@ -26,8 +26,14 @@ const authenticated = useStorage('authenticated', false)
 
 const is_mounted = ref(false)
 onMounted(async () => {
-  await initializePyodide();
   
+  while (isLoading.value ){
+    await new Promise(r => setTimeout(r, 200));
+    console.log('isloading')
+  }
+  console.log('done loading')
+
+
   await runPython('import json \n')
   // await runPython('import config \n')
 //   await runPython('from ff.calc_opts import calc_opts \n')
@@ -98,8 +104,15 @@ const next_lang = (lang)=>{
           max-width="40"
           contain
         ></v-img>
-
-        <v-toolbar-title class="ml-2"> ROTOR </v-toolbar-title>
+        <v-toolbar-title class="ml-2">
+        <img
+          
+          src="./assets/imgs/rotor.png"
+          height="100px"
+          
+        />
+      </v-toolbar-title>
+        <!-- <v-toolbar-title class="ml-2"> ROTOR </v-toolbar-title> -->
    
         <v-tabs v-model="tab">
           <v-tab value="1">
@@ -142,14 +155,14 @@ const next_lang = (lang)=>{
         <drop_down_console/>  
 
         <v-tabs-window v-model="tab" style="width: 90%">
-          <v-tabs-window-item value="1"> 1 </v-tabs-window-item>
+          <v-tabs-window-item value="1"> <welcome/> </v-tabs-window-item>
 
           <v-tabs-window-item value="2">
             <settings></settings>
           </v-tabs-window-item>
 
           <v-tabs-window-item value="3">
-            <FF />
+            <ff />
           </v-tabs-window-item>
           <v-tabs-window-item value="4"> 4 
               <!-- <ecoedit /> -->

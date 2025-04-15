@@ -23,47 +23,28 @@ export function usePyodideInit() {
       `)
 
     // 1. Download missing files
+    window.updateFiles = async () => {await downloadFiles(fileManifestUrl)}
     await downloadFiles(fileManifestUrl);
 
     await initSync();
     // 2. Trigger sync with Pyodide
     await triggerSync();
 
-    // 3. Verify initialization
-    const rootFiles = await pyodide.value.runPythonAsync(`
+    // 3. post initialization
+    await pyodide.value.runPythonAsync(`
       import json
       
       try:
           from autoreload import autoreload
       except:
           autoreload = lambda x: None
-     
-      try:
-          import config 
-          from pyodide.ffi import to_js
-          import ff.restrictions
-
-          from ff.calc_opts import calc_opts 
-          os.listdir('/')
-
-          import ff
-      except:
-          pass
-          
-      def updateFF(f):
-        return json.dumps(ff.updateFF(f.to_py()))
-
-    
-      def updateFFlength(f,jahre):
-        return json.dumps(ff.updateFFlength(f.to_py(),jahre))
-
-      def get_avail_crops_for_jahr(ffolge, jahr):
-        x = ff.restrictions.get_avail_crops_for_jahr(ffolge.to_py(), jahr)
-        return x
-
+      
+      import jswrapper
+      import config
+      
       
     `);
-    console.log('Pyodide initialized with files:', rootFiles);
+    console.log('Pyodide initialized ');
   };
 
   return { initialize };

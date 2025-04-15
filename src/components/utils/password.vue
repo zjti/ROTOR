@@ -8,7 +8,12 @@
         @keyup.enter="checkPassword"
       />
       <button @click="checkPassword">OK</button>
+
       <p v-if="error" class="error">{{ error }}</p>
+      <span>
+      Passwort per E-Mail bei Dr. Moritz Reckling (Moritz.Reckling@zalf.de)
+      oder Mosab Halwani (Mosab.Halwani@zalf.de) anfordern
+      </span>
     </div>
   </template>
   

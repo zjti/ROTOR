@@ -125,7 +125,7 @@ const handleMarkerPlaced = (position) => {
       const pixelValue = fieldsElement.getAttribute("Classify.PixelValue");
 
       if (pixelValue != "NoData" && pixelValue != "noData") {
-        globalStore.SOIL["NFK"].default =  parseFloat(parseFloat(pixelValue).toFixed(2));
+        globalStore.get("SOIL").value["NFK"].default =  parseFloat(parseFloat(pixelValue).toFixed(2));
       }
     } else {
       // Handle the failure case
@@ -166,7 +166,7 @@ const handleMarkerPlaced = (position) => {
       const pixelValue = fieldsElement.getAttribute("Classify.PixelValue");
 
       if (pixelValue != "NoData" && pixelValue != "noData") {
-        globalStore.SOIL["FELD_KAPA"].default =   parseFloat(parseFloat(pixelValue).toFixed(2));
+        globalStore.get("SOIL").value["FELD_KAPA"].default =   parseFloat(parseFloat(pixelValue).toFixed(2));
       }
     } else {
       // Handle the failure case
@@ -208,7 +208,7 @@ const handleMarkerPlaced = (position) => {
       const Value = fieldsElement.getAttribute("Classify.Pixelwert");
 
       if (Value != "noData") {
-        globalStore.SOIL["N_DEPO"].default = parseFloat((parseFloat(Value) /71.428).toFixed(2));
+        globalStore.get("SOIL").value["N_DEPO"].default = parseFloat((parseFloat(Value) /71.428).toFixed(2));
       }
     } else {
       // Handle the failure case
@@ -279,7 +279,7 @@ const handleMarkerPlaced = (position) => {
 
       // Extract and return the BKR-NR value
       const bkr =  bkrNrElement ? bkrNrElement.textContent.trim() : null
-      globalStore.SOIL["BKR"].default =  parseInt(bkr) ;
+      globalStore.get("SOIL").value["BKR"].default =  parseInt(bkr) ;
 
     } else {
       // Handle the failure case

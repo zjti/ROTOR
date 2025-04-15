@@ -32,14 +32,6 @@ export function usePyodideSync(pyodideRef) {
     }
     console.log('upload:',item.path)
     await pyodide.FS.writeFile(item.path, item.content || '');
-    if (item.path.startsWith('ff')){
-      // await runPython(`
-      //   if ("ff.update" in sys.modules):
-      //     importlib.reload(ff.update);
-      //   if ("ff" in sys.modules):
-      //     importlib.reload(ff)`)
-      
-    }
     try{
     await runPython('autoreload("/home/pyodide/'+item.path+'")')
     }catch{}
@@ -70,6 +62,7 @@ export function usePyodideSync(pyodideRef) {
     changeQueue.clear();
 
     for (const { type, key, value } of queue) {
+      console.log('pQ', type,key)
       try {
         if (type === 'delete') {
           await processDeletion(pyodide, key);
@@ -98,8 +91,11 @@ export function usePyodideSync(pyodideRef) {
 
   // ================= EVENT HANDLING =================
   const handleStorageChange = (event) => {
+    console.log('handleStorageChange',event.key)
+
     if (!event.key?.startsWith('JupyterLite Storage/files/')) return;
-    
+    console.log('handleStorageChange')
+
     changeQueue.add({
       type: event.newValue === null ? 'delete' : 'update',
       key: event.key,

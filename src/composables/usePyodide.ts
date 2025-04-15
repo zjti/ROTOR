@@ -1,6 +1,5 @@
 import { ref } from 'vue';
 import { loadPyodide } from 'pyodide';
-import { downloadFiles } from '@/utils/fileDownloader';
 import { usePyodideSync } from './usePyodideSync';
 import { usePyodideInit } from './usePyodideInit';
 
@@ -43,7 +42,7 @@ export default function usePyodide() {
     initializePyodide,
     runPython: async (code: string) => {
       if (!pyodideInstance.value) {
-        await initializePyodide();
+        // await initializePyodide();
       }
       return await pyodideInstance.value.runPythonAsync(code);
     },

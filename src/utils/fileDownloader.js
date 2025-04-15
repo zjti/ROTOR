@@ -42,7 +42,7 @@ export async function downloadFiles(fileListUrl) {
         const storageKey = `JupyterLite Storage/files/${file.path}`;
         
         // NOT OVERWRITE EXISTING 
-        if (localStorage.getItem(storageKey)) continue;
+        // if (localStorage.getItem(storageKey)) continue;
   
         // Download file content
         const fileResponse = await fetch(file.url);
@@ -62,10 +62,15 @@ export async function downloadFiles(fileListUrl) {
           last_modified: new Date().toISOString()
         };
         localStorage.setItem(storageKey, JSON.stringify(fileEntry));
+        const event = new Event("storage")
+        event.key = storageKey
+        event.newValue = JSON.stringify(fileEntry)
+        window.dispatchEvent( event )
+
   
         // Update parent directory content array
         const parentDirPath = file.path.split('/').slice(0, -1).join('/');
-        console.log('update parent',parentDirPath)
+        // console.log('update parent',parentDirPath)
         if (parentDirPath) {
           const parentKey = `JupyterLite Storage/files/${parentDirPath}`;
           const parentDir = JSON.parse(localStorage.getItem(parentKey));
@@ -83,6 +88,8 @@ export async function downloadFiles(fileListUrl) {
           });
           parentDir.last_modified = new Date().toISOString();
           localStorage.setItem(parentKey, JSON.stringify(parentDir));
+          
+
         }
       }
     } catch (error) {
@@ -90,3 +97,5 @@ export async function downloadFiles(fileListUrl) {
       throw error;
     }
   }
+
+  

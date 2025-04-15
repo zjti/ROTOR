@@ -5,41 +5,56 @@ from . import cropdata
 import config
 
 
-class Crop:
-    """Base crop class with common functionality"""
-    def __init__(self, crop_data: CropData, jahr_key):
-        self.crop_data = crop_data
-        self.jahr_key = jahr_key
+class FFElement:
+    def __init__(self):
+        pass
         
-    def calc_yield(self, area_ha: float) -> float:
-        """Calculate total yield in dt for given area"""
-        return self.crop_data.yield_dt_per_ha * area_ha
-    
-    def calc_n_removal(self, area_ha: float) -> float:
-        """Calculate total nitrogen removal"""
-        return self.crop_data.nitrogen_kg_per_dt * self.calc_yield(area_ha)
-    
-    def calc_n_fixation(self, area_ha: float) -> float:
-        """Delegate to crop group implementation"""
-        return self.crop_group.calc_n_fixation(area_ha)
-    
-    def calc_p_balance(self, area_ha: float, p_input: float) -> float:
-        """Calculate phosphate balance (input - removal)"""
-        return self.crop_group.calc_p_balance(area_ha, p_input)
-    
-    def calc_k_balance(self, area_ha: float, k_input: float) -> float:
-        """Calculate potassium balance (input - removal)"""
-        removal = self.crop_data.potassium_oxide_kg_per_dt * self.calc_yield(area_ha)
-        return k_input - removal
-    
-    def get_nutrient_removal(self, area_ha: float) -> Dict[str, float]:
-        """Return dictionary of all nutrient removals"""
-        return {
-            'N': self.calc_n_removal(area_ha),
-            'P2O5': self.crop_data.phosphate_kg_per_dt * self.calc_yield(area_ha),
-            'K2O': self.crop_data.potassium_oxide_kg_per_dt * self.calc_yield(area_ha),
-            'MgO': self.crop_data.magnesium_oxide_kg_per_dt * self.calc_yield(area_ha)
-        }
+
+class FFolge:
+    def __init__(self,length):
+        self.length = length
+        self.crops = []
+
+    def add_crop(self,ffelement):
+        self.crops.append(ffelement)
+        if len(self.crops) > 1:
+            if self.crops[-2]:
+                self.crops[-2].next_crop = self.crops[-1]
+            if self.crops[-1]:
+                self.crops[-1].pre_crop = self.crops[-2]
+          
+        if self.length == len(self.crops):
+            if self.crops[-1]:
+                self.crops[-1].next_crop = self.crops[0]
+            if self.crops[0]:
+                self.crops[0].pre_crop = self.crops[-1]
+            
+    def serialize(self):
+        
+        ffolge = {}
+        for i,crop in enumerate(self.crops):
+            if crop:
+                ffolge[str(i+1)] = crop.serialize()
+            else:
+                ffolge[str(i+1)] = {}
+                
+        return ffolge
+        
+
+class Crop(FFElement):
+    """Base crop class with common functionality"""
+    def __init__(self, crop_data: CropData):
+        self.crop_data = crop_data
+        
+        super().__init__()
+
+    def serialize(self):
+        data= {}
+        data['crop'] = self.crop_data.crop_code
+        data['vis'] = {'ertrag_tab':True}
+        data['yield_dt_corrected'] = 12.34
+        data['crude_protein_content_corrected'] = self.crop_data.primary_product.crude_protein_percent
+        return data
 
     def get_N_from_fert(self):
         ffcomp = config.FFolge[self.jahr_key]
@@ -181,6 +196,20 @@ class Getreide(Crop):
     def calc_n_fixation(self) -> float:
         return 0.0  # Cereals don't fix nitrogen
 
+class SommerGetreide(Getreide):
+    """Sommer-Cereal crop group"""
+    GROUP_NAME = "SommerGetreide"
+    
+    def calc_n_fixation(self) -> float:
+        return 0.0  # Cereals don't fix nitrogen
+
+class WinterGetreide(Getreide):
+    """Winter-Cereal crop group"""
+    GROUP_NAME = "WinterGetreide"
+    
+    def calc_n_fixation(self) -> float:
+        return 0.0  # Cereals don't fix nitrogen
+
      
 
 class Leguminosen(Crop):
@@ -200,43 +229,3 @@ class Hackfrüchte(Crop):
     
     def calc_n_fixation(self, area_ha: float) -> float:
         return 0.0  # Root crops don't fix nitrogen
-    
- 
-
-
-class Ackerbohne(Crop):
-    """Faba bean implementation"""
-    def __init__(self):
-        crop_data = CropData(
-            name="Ackerbohne",
-            table_name="Ackerbohnen",
-            crop_group="Leguminosen",
-            dry_matter_percent=86.0,
-            nitrogen_kg_per_dt=4.10,
-            phosphate_kg_per_dt=1.20,
-            potassium_oxide_kg_per_dt=1.40,
-            magnesium_oxide_kg_per_dt=0.20,
-            crude_protein_percent=29.8,
-            yield_dt_per_ha=35.0,
-            n_fix_kg_per_ha=5.00,
-            hnv_ratio=1.0
-        )
-        super().__init__(crop_data, Leguminosen)
-
-class Zuckerrübe(Crop):
-    """Sugar beet implementation"""
-    def __init__(self):
-        crop_data = CropData(
-            name="Zuckerrübe",
-            table_name="Zuckerrüben",
-            crop_group="Hackfrüchte",
-            dry_matter_percent=23.0,
-            nitrogen_kg_per_dt=0.18,
-            phosphate_kg_per_dt=0.10,
-            potassium_oxide_kg_per_dt=0.25,
-            magnesium_oxide_kg_per_dt=0.08,
-            yield_dt_per_ha=650.0,
-            hnv_ratio=0.7
-        )
-        super().__init__(crop_data, Hackfrüchte)
-

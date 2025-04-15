@@ -5,11 +5,11 @@ import config
 
 class ACK_BOHNE(crop.Leguminosen):
     
-    def __init__(self,jahr_key):
+    def __init__(self):
         print('ackca2')
         crop_data = cropdata.ACK_BOHNE
         
-        super().__init__(crop_data, jahr_key)
+        super().__init__(crop_data)
 
     def calc_yield_dt_fm_per_ha(self):
         AZ = config.SOIL['ACKERZAHL']['default']

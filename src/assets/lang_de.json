@@ -2,6 +2,8 @@
 
     "LAYER":"Karte",
     "SELECT_ENTRY" : "Bitte auswählen",
+    "SCHNITT_NUTZUNG":"Schnittnutzung",
+    "SCHNITT_NUTZUNG_SUB":"Die Erträge der einzelnen Schnitte wird mit dem Modell LeGRAY berechnet. Die Nutzung muss durch den Benutzer Angepasst werden",
     "WELCOME_TAB":"Willkommen",
     "SETTINGS_TAB":"Einstellungen",
     "FRUCHTFOLGE_TAB":"Fruchtfolge",

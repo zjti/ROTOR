@@ -32,7 +32,7 @@ import { ref, reactive ,computed} from "vue";
  export default {
   data() {
     return {
-      dung_data: globalStore['DUNG_DATA'],
+      dung_data: globalStore.get("DUNG_DUNG"),
       format: {
         TM: { type: "float", unit: "%" },
         "N/FM": { type: "float", unit: "kg/t FM" },

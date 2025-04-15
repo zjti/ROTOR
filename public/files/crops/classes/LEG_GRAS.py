@@ -6,10 +6,10 @@ from .legray import calcLG
 
 class LEG_GRAS(crop.Leguminosen):
     
-    def __init__(self,jahr_key):
+    def __init__(self):
         crop_data = cropdata.LEG_GRAS
         
-        super().__init__(crop_data, jahr_key)
+        super().__init__(crop_data)
 
     def calc_yield_dt_fm_per_ha(self):
         """ 

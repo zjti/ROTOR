@@ -82,8 +82,8 @@ import crops from "@/assets/crops.json";
 export default {
   data() {
     return {
-      data_delayData: globalStore['PHYTO_DELAY'],
-      data_delayData_time: globalStore['PHYTO_DELAY_TIME'],
+      data_delayData:  globalStore.get("PHYTO_DELAY"),
+      data_delayData_time: globalStore.get("PHYTO_DELAY_TIME"),
       restrctions_select: ref("Phyto"),
       all_restrictions: ["Phyto", "Zeit"],
     };

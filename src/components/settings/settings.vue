@@ -35,5 +35,5 @@
 <script setup>
 import { globalStore } from '@/utils/globalstore'
 
-const ps =  globalStore.SOIL
+const ps =  globalStore.get('SOIL')
 </script>

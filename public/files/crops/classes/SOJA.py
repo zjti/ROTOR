@@ -5,10 +5,10 @@ import config
 
 
 class SOJA(crop.Leguminosen):
-    def __init__(self,jahr_key):
+    def __init__(self):
         crop_data = cropdata.SOJA
     
-        super().__init__(crop_data, jahr_key)
+        super().__init__(crop_data)
  
     
     def get_crop_opts(self):

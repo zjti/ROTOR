@@ -3,6 +3,7 @@ import config
 
 
 from crops.utils import get_crop_dict
+from crops.crop import FFolge
 
 def jahr_key(i):
     return str(i+1)
@@ -36,16 +37,11 @@ old_ffolge_json = None
 py_FFolge = {}
 crop_dict = get_crop_dict()
 
-def updateFF(ffolge ):
-
-    global old_ffolge_json,crop_dict
-    
+def has_changes(ffolge):
     if json.dumps(ffolge, sort_keys=True, indent=2) == old_ffolge_json:
-        # print('nothing new')
-        return None
+         return False
     else:
-        if old_ffolge_json:
-             
+        if old_ffolge_json: 
             
             A=json.dumps(ffolge, sort_keys=True, indent=2).split()
             B=old_ffolge_json.split()
@@ -68,61 +64,41 @@ def updateFF(ffolge ):
                         diffs += 1
                         break
             if diffs == 0:
-                return None
+                return False
             # print('diffs',diffs)
                      
-        print('updating..')
+    return True
 
-    #update py_folge
+def updateFF(ffolge):
+    """ 
+        ffolge : nested dict
+        returns : Json
+    """
+    global old_ffolge_json
+    print('1')
+ 
+    if not has_changes(ffolge):
+        return None
+    
+    pyFolge = FFolge( len(ffolge) )
+    
     for k,val in ffolge.items():
-        if val['crop'] not in crop_dict:
+        if 'crop' not in val:
+            pyFolge.add_crop(None)
             continue
 
-        if k not in config.FFolge:
-            config.FFolge[k] = ffolge[k]
-        config.FFolge[k].update(ffolge[k])
-        
-        if k in py_FFolge:
-            if type(py_FFolge[k]) != crop_dict[val['crop']]:   
-                py_FFolge[k] = crop_dict[val['crop']](k)    
-        else:
-            py_FFolge[k] = crop_dict[val['crop']](k)
+        if val['crop'] not in crop_dict:
+            pyFolge.add_crop(None)
+            continue
 
-   
-    for k,val in py_FFolge.items():
+        pyFolge.add_crop( crop_dict[val['crop']]() )
         
 
-        #update models
-        models, always_update , always_remove = val.get_models()
-        for modname,modval in models.items():
-            if modname not in ffolge[k]:
-                ffolge[k][modname] = modval
-            if modname in always_update:
-                ffolge[k][modname] = modval
-        for modname in always_remove:
-            if modname in ffolge[k]:
-                del ffolge[k][modname]
-
-        #update vis
-        ffolge[k]['vis'] = val.get_vis()
-        if 'dung_tab' in ffolge[k]['vis']:
-            if 'dung_menge' not in ffolge[k]:
-                ffolge[k]['dung_menge'] = {}
-        if 'zw' in models:
-            ffolge[k]['vis']['zw_opt'] = True
-            ffolge[k]['vis']['anbau_tab'] = True
-        if 'stroh' in models:
-            ffolge[k]['vis']['stroh_opt'] = True
-            ffolge[k]['vis']['anbau_tab'] = True
-        if 'us' in models:
-            ffolge[k]['vis']['us_opt'] = True
-            ffolge[k]['vis']['anbau_tab'] = True
-
-
+    print(pyFolge.crops)
     
-    config.FFolge = ffolge
-    config.py_FFolge = py_FFolge
-    old_ffolge_json = json.dumps(ffolge, sort_keys=True, indent=2) 
+    ffolge = pyFolge.serialize()
+    ffolge = json.dumps(ffolge)
     
+    old_ffolge_json = ffolge
     return ffolge
     
