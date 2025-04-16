@@ -22,6 +22,8 @@ export function usePyodideInit() {
       
       `)
 
+    pyodide.value.loadPackage('micropip')
+
     // 1. Download missing files
     window.updateFiles = async () => {await downloadFiles(fileManifestUrl)}
     await downloadFiles(fileManifestUrl);

@@ -17,7 +17,7 @@ const pdt = useStorage('PHYTO_DELAY_TIME', CdelayData_time)
 const pd = useStorage('PHYTO_DELAY', CdelayData)
 const pdung = useStorage('PARAMS_DUNG', params_dung)
 const ff = useStorage('FF', {})
-
+const eval_data = useStorage('EVAL_DATA', {})
 
 
 export const globalStore = new Map();
@@ -27,6 +27,7 @@ globalStore.set('PHYTO_DELAY', pd)
 globalStore.set('VERKRAUTUNG', verkraut)
 globalStore.set('DUNG_DATA', pdung)
 globalStore.set('FF', ff)
+globalStore.set('EVAL_DATA', eval_data)
 
 await initializePyodide();
   
@@ -111,12 +112,14 @@ await runPython('config.WEATHER_DATA = json.loads("""'+ JSON.stringify( weather_
         if (isLoading.value == false) {
 
           const updateFF = runPythonS("jswrapper.updateFF"); // get Python func
+          const get_eval_data = runPythonS("jswrapper.get_eval_data"); // get Python func
           console.log('update ff ')
 
           const v = JSON.parse(updateFF(ff.value));
           if (v) {
             console.log('write ff')
             ff.value = v;
+            eval_data.value = JSON.parse(get_eval_data())
           }
 
 

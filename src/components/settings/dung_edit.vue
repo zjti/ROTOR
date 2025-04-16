@@ -11,20 +11,10 @@
 </template>
   
 <script setup>
-//  import usePyodide from '@/composables/usePyodide';
- import { globalStore } from '@/utils/globalstore'
- import { langf } from "@/main.js";
+import { globalStore } from '@/utils/globalstore'
+import { langf } from "@/main.js";
 
-
-// const { runPythonS } = usePyodide();
  
-// console.log( JSON.stringify( globalStore['DUNG_DATA']))
-// runPythonS('config.DUNG_DATA = json.loads("""'+ JSON.stringify( globalStore['DUNG_DATA']) +'""")' )
-// watch(ps, async (newValue, oldValue) => {
-//   runPythonS('config.DUNG_DATA = json.loads("""'+ JSON.stringify( globalStore['DUNG_DATA']) +'""")' )
- 
-// }, { deep: true })
-
 
 </script>
   <script>
@@ -32,7 +22,7 @@ import { ref, reactive ,computed} from "vue";
  export default {
   data() {
     return {
-      dung_data: globalStore.get("DUNG_DUNG"),
+      dung_data: globalStore.get("DUNG_DATA"),
       format: {
         TM: { type: "float", unit: "%" },
         "N/FM": { type: "float", unit: "kg/t FM" },
@@ -41,7 +31,6 @@ import { ref, reactive ,computed} from "vue";
         Nloss: { type: "float", unit: "%" },
         "P/FM": { type: "float", unit: "kg/t FM" },
         "K/FM": { type: "float", unit: "kg/t FM" },
-        "N_LOESSLICH": { type: "float", unit: "%" },
         "HUMUS_HE": { type: "float", unit: "HE" },
       },
 

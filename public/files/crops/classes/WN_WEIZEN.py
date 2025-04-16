@@ -25,15 +25,13 @@ class WN_WEIZEN(crop.WinterGetreide):
 
     def get_vis(self):
         return {'ertrag_tab':True, 'dung_tab':True}
-
+    
     def get_primary_product_nitrogen_kg_per_dt(self):
-        ffcomp = config.FFolge[self.jahr_key]
-        
-        if 'raw_protein_content_corrected' in ffcomp:
-            if ffcomp['raw_protein_content_corrected'] != ffcomp['raw_protein_content']:
-                return ffcomp['raw_protein_content_corrected'] / 6.25
-        
+        if self.primary_product_crude_protein_percent.user_modified():
+            return self.primary_product_crude_protein_percent.get_value() / 6.25
+    
         return self.crop_data.primary_product.nitrogen_kg_per_dt  
+            
         
     def get_crop_opts(self):
         return ["STROH","ZW_VOR","ZW_NACH","US_VOR","US_NACH","DUNG","REDUCED","HAS_HERBST"]

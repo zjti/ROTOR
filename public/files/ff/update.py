@@ -5,12 +5,13 @@ import config
 from crops.utils import get_crop_dict
 from crops.crop import FFolge
 
+from jsmodel import ModelFields as MF
+
 def jahr_key(i):
     return str(i+1)
 
 def updateFFlength(ffolge, NJahre):
     print(ffolge,NJahre)
-
     
     valid_keys = []
     for i in range(NJahre):
@@ -26,15 +27,12 @@ def updateFFlength(ffolge, NJahre):
     old_keys = [key for key in ffolge.keys() if key not in valid_keys ]
     for old_key in old_keys:
         del ffolge[old_key]
-        if old_key in config.py_FFolge:
-            del config.py_FFolge[old_key]
     
     return ffolge
 
 
 old_ffolge_json = None
-
-py_FFolge = {}
+pyFolge = None
 crop_dict = get_crop_dict()
 
 def has_changes(ffolge):
@@ -74,31 +72,45 @@ def updateFF(ffolge):
         ffolge : nested dict
         returns : Json
     """
-    global old_ffolge_json
-    print('1')
+    global old_ffolge_json, pyFolge
  
     if not has_changes(ffolge):
         return None
     
     pyFolge = FFolge( len(ffolge) )
     
-    for k,val in ffolge.items():
-        if 'crop' not in val:
+    for val in ffolge.values():
+        if MF.crop not in val:
             pyFolge.add_crop(None)
             continue
 
-        if val['crop'] not in crop_dict:
+        if val[MF.crop] not in crop_dict:
             pyFolge.add_crop(None)
             continue
 
-        pyFolge.add_crop( crop_dict[val['crop']]() )
+        new_crop = crop_dict[val[MF.crop]]()
+        new_crop.deserialize( val )
+        pyFolge.add_crop( new_crop )
         
 
     print(pyFolge.crops)
     
-    ffolge = pyFolge.serialize()
-    ffolge = json.dumps(ffolge)
+    new_ffolge = pyFolge.serialize()
+    
+    for key in new_ffolge.keys():
+        new_ffolge[key][MF.restr_select_phyto] = ffolge[key][MF.restr_select_phyto]
+        new_ffolge[key][MF.restr_select_time] = ffolge[key][MF.restr_select_time]
+        
+    ffolge = json.dumps(new_ffolge)
     
     old_ffolge_json = ffolge
+    
+    #for debug only:
+    config.FFolge = ffolge
+    
     return ffolge
     
+    
+def get_eval_data():
+    if pyFolge is not None:
+        return pyFolge.get_eval_data()

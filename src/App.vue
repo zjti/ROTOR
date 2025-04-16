@@ -35,16 +35,7 @@ onMounted(async () => {
 
 
   await runPython('import json \n')
-  // await runPython('import config \n')
-//   await runPython('from ff.calc_opts import calc_opts \n')
-//   await runPython('CROP_OPTS = json.loads("""'+ JSON.stringify(koraktor.get('CROP_OPTS').value) + '""")')
-//   await runPython ('config.PHYTO_DELAY =      json.loads("""' + JSON.stringify(koraktor.get('PHYTO_DELAY').value) + '""") ')
-//   await runPython ('config.PHYTO_DELAY_TIME = json.loads("""' + JSON.stringify(koraktor.get('PHYTO_DELAY_TIME').value) + '""") ')
-//   await runPython ('config.DUNG_DATA = json.loads("""' + JSON.stringify(koraktor.get('DUNG_DATA').value) + '""") ')
-  
-//   await runPython('config.SOIL = json.loads("""'+ JSON.stringify( ps.value) +'""")' )
-//   await runPython('config.WEATHER_DATA = json.loads("""'+ JSON.stringify( weather_data) +'""")' )
-  
+ 
   is_mounted.value=true;
 });
  
@@ -69,6 +60,85 @@ const next_lang = (lang)=>{
     return 'de';
   }
 }
+// const EvalData = globalStore.get("EVAL_DATA")
+
+const EvalData = [
+  {
+    crop_name: "Wheat",
+    supplies: [
+      {
+        supply_name: "Manure",
+        supply_info: "10 t/ha",
+        N: 12.4,
+        P: 5.2,
+      },
+      {
+        supply_name: "Fertilizer A",
+        supply_info: "100 kg/ha",
+        N: 20.0,
+        P: 8.0,
+        K: 5.0,
+      },
+    ],
+    removals: [
+      {
+        removal_name: "Harvest",
+        removal_info: "Grain removal",
+        N: 18.5,
+        P: 3.9,
+        K: 2.4,
+      },
+      {
+        removal_name: "Straw removal",
+        removal_info: "Removed as bedding",
+        N: 7.2,
+        P: 1.3,
+        K: 6.7,
+      },
+    ],
+  },
+  {
+    crop_name: "Corn",
+    supplies: [
+      {
+        supply_name: "Compost",
+        supply_info: "8 t/ha",
+        N: 10.0,
+        P: 4.5,
+        K: 7.8,
+      },
+    ],
+    removals: [
+      {
+        removal_name: "Harvest",
+        removal_info: "Cobs only",
+        N: 16.4,
+        P: 3.2,
+        K: 5.5,
+        ABC: 4
+      },
+    ],
+  },
+  {
+    crop_name: "Potatoes",
+    supplies: [],
+    removals: [
+      {
+        removal_name: "Harvest",
+        removal_info: "Tubers",
+        N: 25.0,
+        P: 6.0,
+        K: 12.3,
+        ABC:3
+      },
+    ],
+  },
+  {
+    crop_name: "",
+    supplies: [],
+    removals: []
+  }
+];
 </script>
 
 
@@ -171,22 +241,8 @@ const next_lang = (lang)=>{
           </v-tabs-window-item>
 
           <v-tabs-window-item value="5">
-            <v-container>
-              <v-expansion-panels multiple v-if="app.config.globalProperties.cur_lang.value=='dx'">
-                <v-expansion-panel title="CropOpts">
-                  <v-expansion-panel-text>
-                    <crop_opts />
-                  </v-expansion-panel-text>
-                </v-expansion-panel>
-
-                <v-expansion-panel title="CropCodeOpts">
-                  <v-expansion-panel-text>
-                    <kbase />
-                  </v-expansion-panel-text>
-                </v-expansion-panel>
-              </v-expansion-panels>
-            </v-container>
-            <eva/>
+             
+            <eval />
           </v-tabs-window-item>
         </v-tabs-window>
       </v-main>

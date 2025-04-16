@@ -18,8 +18,8 @@ export default function usePyodide() {
       // await new Promise(resolve => setTimeout(resolve, 9000));
       
       pyodideInstance.value = await loadPyodide({
-        // indexURL: "https://cdn.jsdelivr.net/pyodide/v0.27.4/full/"
-        indexURL: "./pyodide/"
+        indexURL: "https://cdn.jsdelivr.net/pyodide/v0.27.4/full/"
+        // indexURL: "./pyodide/"
       });
  
       

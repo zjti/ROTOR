@@ -6,8 +6,7 @@
     "Navil_autumn":20,
     "Nloss":14,
     "P/FM":1.2,
-    "K/FM":7.4,
-    "N_LOESSLICH": 35,
+    "K/FM":7.4, 
     "HUMUS_HE" : 0.3
 },
 "fest gerottet rind":{
@@ -18,7 +17,6 @@
     "Nloss":10,
     "P/FM":1.2,
     "K/FM":6.6,
-    "N_LOESSLICH": 35,
     "HUMUS_HE" : 0.3
 },
 "fest frisch schwein":{
@@ -29,7 +27,6 @@
     "Nloss":10,
     "P/FM":2.6,
     "K/FM":7.3,    
-    "N_LOESSLICH": 35,
     "HUMUS_HE" : 0.3
 },
 
@@ -41,7 +38,6 @@
     "Nloss":17,
     "P/FM":5.5,
     "K/FM":8.8,
-    "N_LOESSLICH": 35,
     "HUMUS_HE" : 0.3
 },
 
@@ -53,7 +49,6 @@
     "Nloss":18,
     "P/FM":0.5,
     "K/FM":5.5,
-    "N_LOESSLICH": 35,
     "HUMUS_HE" : 0.3
 },
 "fluessig schwein":{
@@ -64,7 +59,6 @@
     "Nloss":14,
     "P/FM":3.1,
     "K/FM":2.2,
-    "N_LOESSLICH": 35,
     "HUMUS_HE" : 0.3
 }
 }

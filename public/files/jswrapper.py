@@ -16,3 +16,6 @@ def updateFFlength(f,jahre):
 def get_avail_crops_for_jahr(ffolge, jahr):
     x = ff.restrictions.get_avail_crops_for_jahr(ffolge.to_py(), jahr)
     return x
+
+def get_eval_data():
+    return json.dumps(ff.get_eval_data())

@@ -4,9 +4,17 @@ from .cropdata import HarvestProduct,CropData
 from . import cropdata 
 import config
 
+from .cropopts import CropOpts as CO
+from jsmodel import  ModelFields as MF
+from jsmodel import  VisFields as VF
+
+import fertilizer
+
 
 class FFElement:
     def __init__(self):
+        self.pre_crop = None
+        self.next_crop = None
         pass
         
 
@@ -33,199 +41,409 @@ class FFolge:
         
         ffolge = {}
         for i,crop in enumerate(self.crops):
-            if crop:
+            if crop is not None:
                 ffolge[str(i+1)] = crop.serialize()
             else:
-                ffolge[str(i+1)] = {}
+                ffolge[str(i+1)] = {MF.vis :{}}
                 
         return ffolge
+    
+    def get_eval_data(self):
+        eval_data = []
+        for crop in self.crops:
+            if crop is None:
+                eval_data.append( {} )
+            else:
+                eval_data.append( crop.get_eval_data() )
+        return eval_data
         
+class ModelValue:
+    def __init__(self, name, default_value):
+        self.name = name
+        self.default_value = default_value
+    
+    def get_model(self):
+        return {self.name : self.default_value() }
+        
+    def get_value(self):
+        return self.default_value()
 
+class UserEditableModelValue(ModelValue):
+    def __init__(self, name, default_value = None ,
+                 name_corrected = None , user_value = None):
+        self.user_value = user_value
+        if name_corrected:
+            self.name_corrected = name_corrected
+        else:
+            self.name_corrected = name + '_corrected'
+        super().__init__(name,default_value)
+    
+    def user_modified(self):
+        return self.user_value != self.default_value()
+    
+    def get_model(self):
+        return {self.name : self.default_value(),
+                self.name_corrected : self.get_value()}
+    
+    def parse_from_dict(self, data):
+        if self.name in data:
+            self.default_value = data[self.name]
+        if self.name_corrected in data:
+            self.user_value = data[self.name_corrected]
+           
+    def get_value(self):
+        if self.user_value:
+            return  self.user_value
+        return self.default_value()              
+    
 class Crop(FFElement):
-    """Base crop class with common functionality"""
     def __init__(self, crop_data: CropData):
-        self.crop_data = crop_data
-        
         super().__init__()
 
+        self.crop_data = crop_data
+        
+        self.crop_specific_leaching_coefficent = 0.1
+        self.has_covercrop = False
+        
+        self.fertilizer_applications = fertilizer.FertilizerApplications()
+
+        self.seeds_kg_per_ha = UserEditableModelValue(
+            name=MF.seeds_kg_per_ha, 
+            default_value  = lambda : self._seeds_kg_per_ha,
+            name_corrected=MF.seeds_kg_per_ha_corrected)
+        
+        self._seeds_kg_per_ha = 100
+        
+    
+    def get_supplies(self):
+        supplies = []
+        N = self.seeds_kg_per_ha.get_value() /100 * self.get_primary_product_nitrogen_kg_per_dt()
+        P = self.seeds_kg_per_ha.get_value() /100 * self.crop_data.primary_product.phosphate_oxide_kg_per_dt * 0.4364
+        K = self.seeds_kg_per_ha.get_value() /100 * self.crop_data.primary_product.potassium_oxide_kg_per_dt * 0.83 
+        
+        supplies.append( {MF.supply_name : MF.seed_supply, 'N':N, 'P':P, 'K':K , MF.supply_info: ""})
+            
+        return supplies
+    
+    def get_N_uptake(self):
+        return -1
+    
+    def calc_N_leaching_kg_per_ha(self):
+        N_manure_p= self.fertilizer_applications.get_N_avail_from_fert_kg_per_ha()
+        
+        N_mineralization = (config.SOIL['MIN_RATE_OBS']['default'] * 0.01 *
+                            config.SOIL['C_N_QUOT']['default'] * 0.01 *
+                            config.SOIL['ORG_SUBS']['default'] * 0.01 *
+                            config.SOIL['ROHDICHTE_TOPSOIL']['default']  *
+                            config.SOIL['OBERBODEN']['default'] *
+                            (100 - config.SOIL['PARTICLE_GEQ_2MM']['default']) * 0.01 *
+                            100000 )
+        
+        N_dfs = self.get_N_uptake() - config.SOIL['N_DEPO']['default']
+        
+        N_surplus = N_manure_p + N_mineralization - N_dfs
+        
+        N_leaching_prob = config.SOIL['WINTER_NIEDERSCHLAG']['default']  / config.SOIL['FELD_KAPA']['default']
+        
+        
+        N_leaching = N_surplus * N_leaching_prob
+        N_leaching *= self.crop_specific_leaching_coefficent
+        return N_leaching, f"leachingprob {N_leaching_prob:.2f}  surpl{N_surplus:.2f} {N_mineralization:.2f}"
+    
+    def get_removals(self):
+        removals = []
+        # //n_leaching_removal
+        N,ninfo = self.calc_N_leaching_kg_per_ha()
+        
+        removals.append( {MF.removal_name : MF.n_leaching_removal, 'N':N, MF.removal_info: ninfo})
+
+        return removals
+    
     def serialize(self):
-        data= {}
-        data['crop'] = self.crop_data.crop_code
-        data['vis'] = {'ertrag_tab':True}
-        data['yield_dt_corrected'] = 12.34
-        data['crude_protein_content_corrected'] = self.crop_data.primary_product.crude_protein_percent
+        data= {
+            MF.crop : self.crop_data.crop_code,
+            MF.vis : {VF.anbau_tab : True },
+        }
+        data.update(self.seeds_kg_per_ha.get_model())
+        return data
+    
+    def deserialize(self,data) :
+        
+        if self.seeds_kg_per_ha.name_corrected in data:
+            self.seeds_kg_per_ha.user_value = data[self.seeds_kg_per_ha.name_corrected]
+            
+    
+    def get_eval_data(self):
+        data = {
+            
+            MF.crop : self.crop_data.crop_code,
+        }
+        data.update( self.seeds_kg_per_ha() )
+
         return data
 
-    def get_N_from_fert(self):
-        ffcomp = config.FFolge[self.jahr_key]
-        N=0
-        
-        if  'dung_menge' not in ffcomp:
-            return N
+class CropWithYield(Crop):
+    def __init__(self, crop_data: CropData):
+        super().__init__(crop_data = crop_data)
  
-        # {'fest frisch rind': {'menge': 4, 'is_herbst': False}}...
-        for dung_key,dung_val in ffcomp['dung_menge'].items():
-            dung_param = config.DUNG_DATA[dung_key]
+        self.yield_dt = UserEditableModelValue(
+            name=MF.yield_dt_calc, 
+            default_value  = lambda : self.calc_yield_dt(),
+            name_corrected=MF.yield_dt_corrected)
+        
+        self.byproduct_yield_dt = UserEditableModelValue(
+            name=MF.nebenprodukt_yield_dt_calc ,
+            default_value  = lambda : self.calc_byproduct_yield_dt(),
+            name_corrected=MF.nebenprodukt_yield_dt_corrected)
+        
+        self.primary_product_crude_protein_percent = UserEditableModelValue(
+            name = MF.crude_protein_content,
+            default_value= lambda : crop_data.primary_product.crude_protein_percent,
+            name_corrected= MF.crude_protein_content_corrected )
+        
+        self.yield_from_fert_dt = ModelValue(
+            name = MF.yield_from_fert_dt,
+            default_value= lambda : self.calc_yield_from_fert_dt()
+        )
+        
 
-            N += dung_val['menge'] * dung_param['N/FM'] * ( 100 - dung_param['Nloss'] ) / 100
-            #Navil_spring': 20, 'Navil_autumn': 20
-            if dung_val['is_herbst']:
-                N *= dung_param['Navil_autumn'] / 100
-            if dung_val['is_herbst']:
-                N *= dung_param['Navil_spring'] / 100
-            
-        return N
+    def get_crop_opts():
+        return []
+
+    def can_covercrop(self):
+        return False
     
-    def get_primary_product_nitrogen_kg_per_dt(self):
-        ffcomp = config.FFolge[self.jahr_key]
-        
-        if 'raw_protein_content_corrected' in ffcomp:
-            if ffcomp['raw_protein_content_corrected'] != ffcomp['raw_protein_content']:
-                return ffcomp['raw_protein_content_corrected'] / 5.7
-        
-        return self.crop_data.primary_product.nitrogen_kg_per_dt  
-
+    def calc_yield_dt(self):    
+        return 0
+    
+    def calc_byproduct_yield_dt(self):
+        return 0
+    
     def calc_yield_from_fert_dt(self):
-        N_from_fert = self.get_N_from_fert()
-        if N_from_fert == 0:
-            # print('N_from_fert', N_from_fert)
-            return 0.0
-        # print('xxb',N_from_fert, self.crop_data.primary_product.nitrogen_kg_per_dt)
-        # print(N_from_fert    / self.crop_data.primary_product.nitrogen_kg_per_dt)
-        return  N_from_fert    / self.get_primary_product_nitrogen_kg_per_dt() 
+        return 0
     
-    def get_models(self):
-            
-        ffcomp = config.FFolge[self.jahr_key]
+    def serialize(self):
+        data = super().serialize()
         
-        yield_from_fert_dt = self.calc_yield_from_fert_dt()
-        yield_dt = self.calc_yield_dt_fm_per_ha()  + yield_from_fert_dt
-
-        by_product_yield_dt = yield_dt * self.crop_data.hnv_ratio
+        data[MF.vis].update(self.get_vis())
         
-        always_remove =[ ]
-        always_update  = ['yield_dt_calc','yield_from_fert_dt','raw_protein_content',
-                          'nebenprodukt_yield_dt_calc' ]
+        data.update( self.yield_dt.get_model() )
+        data.update( self.byproduct_yield_dt.get_model() )
+        data.update( self.primary_product_crude_protein_percent.get_model() )
+        data.update( self.yield_from_fert_dt.get_model() )
         
-        if 'yield_dt_calc' in ffcomp:
-            if ffcomp['yield_dt_calc'] == ffcomp['yield_dt_corrected']:
-                always_update += ['yield_dt_corrected']
-        
-        if 'raw_protein_content' in ffcomp:
-            if ffcomp['raw_protein_content'] == ffcomp['raw_protein_content_corrected']:
-                always_update += ['raw_protein_content_corrected']
-
-        if 'nebenprodukt_yield_dt_calc' in ffcomp:
-            if ffcomp['nebenprodukt_yield_dt_calc'] == ffcomp['nebenprodukt_yield_dt_corrected']:
-                always_update += ['nebenprodukt_yield_dt_corrected']
-
-        roundoff = lambda x:  float(int(x *100 ) / 100) if x != 0 else 0
-
-        has_herbst_gabe = 'HAS_HERBST' in self.get_crop_opts()
-
-        models = {'has_herbst_gabe':has_herbst_gabe, 'dung_menge':{} , 
-                'yield_dt_calc': roundoff( yield_dt ), 
-                'yield_dt_corrected': roundoff( yield_dt ),
-                'yield_from_fert_dt':roundoff( yield_from_fert_dt),
-                'nebenprodukt_yield_dt_calc' : roundoff( by_product_yield_dt),
-                'nebenprodukt_yield_dt_corrected' : roundoff( by_product_yield_dt),
-                'raw_protein_content': roundoff( self.crop_data.primary_product.crude_protein_percent),
-                'raw_protein_content_corrected': roundoff( self.crop_data.primary_product.crude_protein_percent )
-                }
-        
-        ## add byproductharvest
-        if 'STROH' in self.get_crop_opts():
-            models['stroh'] = True
-
-        ## add catchcrop / zwischenfrucht 
-        pre_crop_key = int(self.jahr_key) - 1
-        if pre_crop_key == 0:
-            pre_crop_key = len(config.FFolge)
-        pre_crop_key = str(pre_crop_key)
-        ffcomp_pre = config.FFolge[pre_crop_key]
-
-        # is undersawing (catchcrop an option) ?
-        us_opt = True 
-            
-        if pre_crop_key in config.py_FFolge:
-            if 'US_NACH' not in config.py_FFolge[pre_crop_key].get_crop_opts():
-                us_opt = False 
+        data[MF.evaluation ] = {}
+        data[MF.evaluation ][ MF.removals ] = self.get_removals()
+        data[MF.evaluation ][ MF.supplies ] = self.get_supplies()
          
+        return data
 
-        zw_opt = True
-        if 'ZW_VOR' not in self.get_crop_opts():
-            zw_opt = False
-
-        if pre_crop_key in config.py_FFolge:
-            if 'ZW_NACH' not in config.py_FFolge[pre_crop_key].get_crop_opts():
-                zw_opt = False
+    def deserialize(self,data) :
+        super().deserialize(data)
         
-        if zw_opt:
-            models ['zw'] = False
-            models['zw_plant_opts'] = ['Blanksaat','Stoppelsaat']
-            if us_opt :
-                models['zw_plant_opts'] += ['Untersaat']
-                
-            models['zw_plant'] = 'Blanksaat'
-            models['zwischenfrucht_legant'] = 13
-            models['zwischenfrucht_winterhard'] = 'frosthart'
-            models['zwischenfrucht_schnittnutz'] = 'Einarbeitung'
-
-            always_update+= ['zw_plant_opts']
+        for user_editable_model_values in [
+            self.yield_dt,
+            self.byproduct_yield_dt,
+            self.primary_product_crude_protein_percent
+        ]:    
+            if user_editable_model_values.name_corrected in data:
+                user_editable_model_values.user_value = data[user_editable_model_values.name_corrected]
             
-            if us_opt == False and 'zw_plant' in ffcomp and ffcomp['zw_plant'] == 'Untersaat':
-                models['zw_plant'] = 'Blanksaat'
-                always_update+= ['zw_plant']
-        else:
-            always_remove +=[ 'zw','zw_plant' ,'zwischenfrucht_schnittnutz','zwischenfrucht_winterhard',
-                             'zw_plant_opts' ]
-        return models , always_update, always_remove
-               
+    def get_supplies(self):
+        supplies = super().get_supplies()
+        if not self.fertilizer_applications.isEmpty():
+            N,P,K = self.fertilizer_applications.get_NPK_from_fert_kg_per_ha()
+            menge = self.fertilizer_applications.get_amount_t_per_ha()
+            supplies.append( {MF.supply_name: MF.fertilizer_supply,  'N':N, 'P':P, 'K':K , MF.supply_info: f"{menge} t/ha" } )
+            
+        return supplies
+        
+    def get_removals(self):
+        removals = super().get_removals()
+        N = self.yield_dt.get_value() * self.get_primary_product_nitrogen_kg_per_dt()
+        P = self.yield_dt.get_value() * self.crop_data.primary_product.phosphate_oxide_kg_per_dt * 0.4364
+        K = self.yield_dt.get_value() * self.crop_data.primary_product.potassium_oxide_kg_per_dt * 0.83 
+        removals.append( {MF.removal_name : MF.primary_harvest_removal, 'N':N, 'P':P, 'K':K , MF.removal_info: "-"})
+        return removals
+
+    def get_primary_product_nitrogen_kg_per_dt(self):
+
+        if self.primary_product_crude_protein_percent.user_modified():
+            return self.primary_product_crude_protein_percent.get_value() / 5.7
+    
+        return self.crop_data.primary_product.nitrogen_kg_per_dt  
+    
+    
+    def get_eval_data(self):
+        data = {
+            MF.crop : self.crop_data.crop_code,
+            MF.removals : self.get_removals(),
+            MF.supplies : self.get_supplies()
+        }
+        
+        return data
+    
+    
+    def get_N_uptake(self):
+        N = self.byproduct_yield_dt.get_value() * self.crop_data.straw_product.nitrogen_kg_per_dt
+        N+= self.yield_dt.get_value() * self.crop_data.primary_product.nitrogen_kg_per_dt
+        return N
+        
+    def calc_yield_from_fert_dt(self):
+        N_from_fert = self.fertilizer_applications.get_N_avail_from_fert_kg_per_ha()
+        return  N_from_fert  / self.get_primary_product_nitrogen_kg_per_dt() 
         
 
     def get_vis(self):
-        return {'ertrag_tab':True}
+        return {VF.ertrag_tab :True}
+     
+    def calc_N_fixation_kg_per_ha(self) -> float:
+        return 0.0  # normal crops don't fix nitrogen
     
-    def get_crop_opts(self):
-        return []
     
-class Getreide(Crop):
+    
+class CropWithByProductHarvest(CropWithYield ):
     """Cereal crop group"""
     GROUP_NAME = "Getreide"
     
-    def calc_n_fixation(self) -> float:
-        return 0.0  # Cereals don't fix nitrogen
+    def __init__(self, crop_data):
+        super().__init__(crop_data)
+        self.byproduct_harvest = True
+    
+    def deserialize(self, data):
+        if MF.dung_menge in data:
+            self.fertilizer_applications.deserialize(data[MF.dung_menge])
+        if MF.stroh in data :
+            self.byproduct_harvest = data[MF.stroh]
+        return super().deserialize(data)
+    
+    def serialize(self):
+        data = super().serialize()
+        data[MF.vis][VF.dung_tab] = True 
+        data[MF.vis][VF.anbau_tab] = True 
+        data[MF.vis][VF.stroh_opt] = True 
+        data[MF.stroh] = self.byproduct_harvest
+        
+        data[MF.dung_menge] = self.fertilizer_applications.dung_menge
+        return data
+    
+    def get_removals(self):
+        removals = super().get_removals()
+        
+        if self.byproduct_harvest:
+            N = self.byproduct_yield_dt.get_value() * self.crop_data.straw_product.nitrogen_kg_per_dt
+            P = self.byproduct_yield_dt.get_value() * self.crop_data.straw_product.phosphate_oxide_kg_per_dt * 0.4364
+            K = self.byproduct_yield_dt.get_value() * self.crop_data.straw_product.potassium_oxide_kg_per_dt * 0.83 
+            removals.append( {MF.removal_name : MF.byproduct_harvest_removal, 'N':N, 'P':P, 'K':K , MF.removal_info: "-"})
+        return removals
+    
+    
+    
+class CropWithCoverCrop(CropWithYield):
+    
+    def __init__(self, crop_data):
+        super().__init__(crop_data)
+        
+        self.covercrop_yield_dt = UserEditableModelValue(
+            name=MF.covercrop_yield_dt,
+            default_value  = lambda : self.calc_covercrop_yield_dt(),
+            name_corrected=MF.covercrop_yield_dt_corrected)
+        
+        self.zw_plant = "Blanksaat"
+        self.zwischenfrucht_winterhard = 'abfrierend'
+        self.zwischenfrucht_schnittnutz = 'Einarbeitung'
+        self.zwischenfrucht_legant = 23
+        
+    def calc_covercrop_yield_dt(self):
+        return 5.4
+    
+    def get_zw_plant_opts(self):
+        opts = ["Blanksaat","Stoppelsaat"]
+        if self.pre_crop:
+            if CO.CAN_UNDERSAWN_AFTER in self.pre_crop.get_crop_opts():
+                opts += ['Untersaat']
+        return opts
+        
+    def can_covercrop(self):
+        if self.pre_crop:
+            if CO.CAN_COVERCROP_AFTER not in self.pre_crop.get_crop_opts():
+                return False
+        return True
+    
+    def deserialize(self, data):
+         
+        if MF.zw in data :
+            self.has_covercrop = data[MF.zw]
+            if not self.can_covercrop() :
+                self.has_covercrop = False
+        if self.has_covercrop:
+            if MF.zw_plant in data:
+                self.zw_plant = data[MF.zw_plant]
+            if MF.zwischenfrucht_winterhard in data:
+                self.zwischenfrucht_winterhard = data[MF.zwischenfrucht_winterhard]
+            if MF.zwischenfrucht_legant in data:
+                self.zwischenfrucht_legant = data[MF.zwischenfrucht_legant]
+            if MF.zwischenfrucht_schnittnutz in data:
+                self.zwischenfrucht_schnittnutz = data[MF.zwischenfrucht_schnittnutz] 
+            
+        if self.covercrop_yield_dt.name_corrected in data:
+            self.covercrop_yield_dt.user_value = data[self.covercrop_yield_dt.name_corrected]
+            
+            
+        return super().deserialize(data)
+    
+    def serialize(self):
+        data = super().serialize()
+        data[MF.vis][VF.has_herbst_gabe] = False
+        if self.can_covercrop():
+            data[MF.vis][VF.zw_opt] = True
+            data[MF.zw] = self.has_covercrop
+        if self.has_covercrop:
+            data[MF.zwischenfrucht_legant] = 13
+            data[MF.zw_plant] = self.zw_plant
+            data[MF.zw_plant_opts] = self.get_zw_plant_opts()
+            data[MF.zwischenfrucht_legant] = self.zwischenfrucht_legant
+            data[MF.zwischenfrucht_winterhard] = self.zwischenfrucht_winterhard
+            data[MF.zwischenfrucht_schnittnutz] = self.zwischenfrucht_schnittnutz
+            
+        data.update( self.covercrop_yield_dt.get_model() )
+            
+        return data
+    
+class WinterGetreide(CropWithByProductHarvest):
+    """Winter-Cereal crop group"""
+    GROUP_NAME = "WinterGetreide" 
+    
+    def serialize(self):
+        data = super().serialize()
+        data[MF.vis][VF.has_herbst_gabe] = True
+        return data
+    
 
-class SommerGetreide(Getreide):
+class SommerGetreide(CropWithByProductHarvest, CropWithCoverCrop):
     """Sommer-Cereal crop group"""
     GROUP_NAME = "SommerGetreide"
-    
-    def calc_n_fixation(self) -> float:
-        return 0.0  # Cereals don't fix nitrogen
-
-class WinterGetreide(Getreide):
-    """Winter-Cereal crop group"""
-    GROUP_NAME = "WinterGetreide"
-    
-    def calc_n_fixation(self) -> float:
-        return 0.0  # Cereals don't fix nitrogen
-
      
 
-class Leguminosen(Crop):
-    """Legume crop group"""
+class Leguminosen(CropWithYield):
+    """Legume crop group """
     GROUP_NAME = "Leguminosen"
     
-    def calc_n_fixation(self) -> float:
-        return self.crop_data.n_fix_kg_per_dt * self.calc_yield_dt_fm_per_ha
+    def calc_N_fixation_kg_per_ha(self) -> float:
+        return self.crop_data.n_fix_kg_per_dt * self.yield_dt.get_value()
     
-    def calc_p_balance(self, area_ha: float, p_input: float) -> float:
-        removal = self.crop_data.phosphate_kg_per_dt * self.calc_yield(area_ha)
-        return p_input - removal
-
-class Hackfrüchte(Crop):
+    def get_supplies(self):
+        supplies = super().get_supplies()
+        
+        N = self.calc_N_fixation_kg_per_ha()
+        supplies.append( {MF.supply_name: MF.fixation_supply,  'N':N , MF.supply_info: "" } )
+        
+        return supplies
+    
+     
+class Hackfrüchte(CropWithYield):
     """Root crop group"""
     GROUP_NAME = "Hackfrüchte"
     
-    def calc_n_fixation(self, area_ha: float) -> float:
-        return 0.0  # Root crops don't fix nitrogen
+    
+    

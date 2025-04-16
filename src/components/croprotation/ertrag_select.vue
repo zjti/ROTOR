@@ -39,9 +39,9 @@
         class="custom-label-color pa-0 ma-0"
         label="Rohproteingehalt im Hauptprodukt "
         suffix="%"
-        v-model="FF[props.jahr].raw_protein_content_corrected"
+        v-model="FF[props.jahr].crude_protein_content_corrected"
         :hint="
-        FF[props.jahr].raw_protein_content_corrected != FF[props.jahr].raw_protein_content 
+        FF[props.jahr].crude_protein_content_corrected != FF[props.jahr].crude_protein_content 
             ? 'Rohproteingehalt vom benutzer Modifiziert'
             : ''
         "

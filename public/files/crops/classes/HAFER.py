@@ -4,7 +4,7 @@ from .. import crop
 import config
 
 
-class HAFER(crop.Getreide): 
+class HAFER(crop.SommerGetreide): 
     def __init__(self):
         crop_data = cropdata.HAFER
         

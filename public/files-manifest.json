@@ -72,10 +72,6 @@
         "url": "/ROTOR/files/crops/cropdata.py"
     },
     {
-        "path": "crops/crop_opts.py",
-        "url": "/ROTOR/files/crops/crop_opts.py"
-    },
-    {
         "path": "crops/crop.py",
         "url": "/ROTOR/files/crops/crop.py"
     },
@@ -114,5 +110,17 @@
     {
         "path": "crops/classes/__init__.py",
         "url": "/ROTOR/files/crops/classes/__init__.py"
+    },
+    {
+        "path": "crops/cropopts.py",
+        "url": "/ROTOR/files/crops/cropopts.py"
+    },
+    {
+        "path": "jsmodel.py",
+        "url": "/ROTOR/files/jsmodel.py"
+    },
+    {
+        "path": "fertilizer.py",
+        "url": "/ROTOR/files/fertilizer.py"
     }
 ]
