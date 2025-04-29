@@ -32,6 +32,10 @@
         "url": "/ROTOR/files/ff/calc_opts.py"
     },
     {
+        "path": "ff/ffolge.py",
+        "url": "/ROTOR/files/ff/ffolge.py"
+    },
+    {
         "path": "ff/restrictions.py",
         "url": "/ROTOR/files/ff/restrictions.py"
     },

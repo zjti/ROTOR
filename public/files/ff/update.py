@@ -3,7 +3,7 @@ import config
 
 
 from crops.utils import get_crop_dict
-from crops.crop import FFolge
+from .ffolge import FFolge
 
 from jsmodel import ModelFields as MF
 
