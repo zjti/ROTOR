@@ -107,7 +107,7 @@ const formatValue = (value) => {
   if (value === null || value === undefined || isNaN(value)) {
     return ''; // Return empty string for invalid values
   }
-  const roundedValue = parseFloat(value.toFixed(6));
+  const roundedValue = parseFloat(value.toFixed(2));
   return roundedValue.toString().replace('.', ',');
 };
 

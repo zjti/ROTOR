@@ -1,5 +1,10 @@
 <template>
-  {{ eval_data }}
+  <div>
+
+    <evaltable :crops="eval_data" />
+
+  </div>
+  
 </template>
 
 <script setup>
