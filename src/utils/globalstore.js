@@ -1,7 +1,7 @@
 import { reactive, } from 'vue'
 import { useStorage, watchTriggerable } from '@vueuse/core'
 import usePyodide from '@/composables/usePyodide';
-const { runPython, runPythonS, isLoading,initializePyodide } = usePyodide();
+const { runPython, runPythonS, isLoading, initializePyodide } = usePyodide();
 
 import params_soil from "../assets/params/params_soil.json";
 import CdelayData from "../assets/cross_breaks.json";
@@ -10,6 +10,8 @@ import verkrautung from "../assets/params/verkraut.json";
 import params_dung from "../assets/params/params_dung.json";
 import weather_data from "../assets/params/wd.json";
 
+await initializePyodide();
+await runPython('config.WEATHER_DATA = json.loads("""' + JSON.stringify(weather_data) + '""")');
 
 const verkraut = useStorage('VERKRAUTUNG', verkrautung)
 const psoil = useStorage('PARAMS_SOIL', params_soil)
@@ -29,18 +31,16 @@ globalStore.set('DUNG_DATA', pdung)
 globalStore.set('FF', ff)
 globalStore.set('EVAL_DATA', eval_data)
 
-await initializePyodide();
-  
 
-await runPython('config.WEATHER_DATA = json.loads("""'+ JSON.stringify( weather_data) +'""")' )
+
 
 
 {
   const { trigger, ignoreUpdates } = watchTriggerable(
     globalStore.get('SOIL'),
     (newVal) => {
-      ignoreUpdates(  () => {
-          runPythonS('config.SOIL = json.loads("""' + JSON.stringify(newVal) + '""")')
+      ignoreUpdates(() => {
+        runPythonS('config.SOIL = json.loads("""' + JSON.stringify(newVal) + '""")')
       })
     }, { deep: true }
   )
@@ -51,8 +51,8 @@ await runPython('config.WEATHER_DATA = json.loads("""'+ JSON.stringify( weather_
   const { trigger, ignoreUpdates } = watchTriggerable(
     globalStore.get('PHYTO_DELAY'),
     (newVal) => {
-      ignoreUpdates(  () => {
-          runPythonS('config.PHYTO_DELAY = json.loads("""' + JSON.stringify(newVal) + '""")')
+      ignoreUpdates(() => {
+        runPythonS('config.PHYTO_DELAY = json.loads("""' + JSON.stringify(newVal) + '""")')
 
       })
     }, { deep: true }
@@ -64,7 +64,7 @@ await runPython('config.WEATHER_DATA = json.loads("""'+ JSON.stringify( weather_
     globalStore.get('PHYTO_DELAY_TIME'),
     (newVal) => {
       ignoreUpdates(() => {
-         runPythonS('config.PHYTO_DELAY_TIME = json.loads("""' + JSON.stringify(newVal) + '""")')
+        runPythonS('config.PHYTO_DELAY_TIME = json.loads("""' + JSON.stringify(newVal) + '""")')
 
       })
     }, { deep: true }
@@ -77,9 +77,9 @@ await runPython('config.WEATHER_DATA = json.loads("""'+ JSON.stringify( weather_
   const { trigger, ignoreUpdates } = watchTriggerable(
     globalStore.get('VERKRAUTUNG'),
     (newVal) => {
-      ignoreUpdates(  () => {
+      ignoreUpdates(() => {
 
-         runPythonS('config.VERKRAUTUNG = json.loads("""' + JSON.stringify(newVal) + '""")')
+        runPythonS('config.VERKRAUTUNG = json.loads("""' + JSON.stringify(newVal) + '""")')
 
       })
     }, { deep: true }
@@ -90,9 +90,9 @@ await runPython('config.WEATHER_DATA = json.loads("""'+ JSON.stringify( weather_
   const { trigger, ignoreUpdates } = watchTriggerable(
     globalStore.get('DUNG_DATA'),
     (newVal) => {
-      ignoreUpdates(  () => {
+      ignoreUpdates(() => {
 
-         runPythonS('config.DUNG_DATA = json.loads("""' + JSON.stringify(newVal) + '""")')
+        runPythonS('config.DUNG_DATA = json.loads("""' + JSON.stringify(newVal) + '""")')
 
       })
     }, { deep: true }
@@ -106,8 +106,7 @@ await runPython('config.WEATHER_DATA = json.loads("""'+ JSON.stringify( weather_
 
   const { trigger, ignoreUpdates } = watchTriggerable(
     globalStore.get('FF'),
-   (newVal) => {
-      console.log('ffu', isLoading.value)
+    (newVal) => {
       ignoreUpdates(() => {
         if (isLoading.value == false) {
 

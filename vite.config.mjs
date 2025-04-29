@@ -12,6 +12,9 @@ import { fileURLToPath, URL } from 'node:url'
  
 
 export default defineConfig({
+  build: {
+    target: 'esnext'
+  },
   base:'/ROTOR/',
   plugins: [ 
     Vue({
