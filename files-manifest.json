@@ -1,0 +1,130 @@
+[
+    {
+        "path": "Test_crops.ipynb",
+        "url": "/ROTOR/files/Test_crops.ipynb"
+    },
+    {
+        "path": "wd.json",
+        "url": "/ROTOR/files/wd.json"
+    },
+    {
+        "path": "config.py",
+        "url": "/ROTOR/files/config.py"
+    },
+    {
+        "path": "Test_opts.ipynb",
+        "url": "/ROTOR/files/Test_opts.ipynb"
+    },
+    {
+        "path": "jswrapper.py",
+        "url": "/ROTOR/files/jswrapper.py"
+    },
+    {
+        "path": "autoreload.py",
+        "url": "/ROTOR/files/autoreload.py"
+    },
+    {
+        "path": "README.ipynb",
+        "url": "/ROTOR/files/README.ipynb"
+    },
+    {
+        "path": "ff/calc_opts.py",
+        "url": "/ROTOR/files/ff/calc_opts.py"
+    },
+    {
+        "path": "ff/ffolge.py",
+        "url": "/ROTOR/files/ff/ffolge.py"
+    },
+    {
+        "path": "ff/restrictions.py",
+        "url": "/ROTOR/files/ff/restrictions.py"
+    },
+    {
+        "path": "ff/create.py",
+        "url": "/ROTOR/files/ff/create.py"
+    },
+    {
+        "path": "ff/update.py",
+        "url": "/ROTOR/files/ff/update.py"
+    },
+    {
+        "path": "ff/__init__.py",
+        "url": "/ROTOR/files/ff/__init__.py"
+    },
+    {
+        "path": "economy/steps.py",
+        "url": "/ROTOR/files/economy/steps.py"
+    },
+    {
+        "path": "economy/SoilManagementSteps.py",
+        "url": "/ROTOR/files/economy/SoilManagementSteps.py"
+    },
+    {
+        "path": "economy/machines.py",
+        "url": "/ROTOR/files/economy/machines.py"
+    },
+    {
+        "path": "Untitled Folder2/Untitled1.ipynb",
+        "url": "/ROTOR/files/Untitled Folder2/Untitled1.ipynb"
+    },
+    {
+        "path": "crops/utils.py",
+        "url": "/ROTOR/files/crops/utils.py"
+    },
+    {
+        "path": "crops/cropdata.py",
+        "url": "/ROTOR/files/crops/cropdata.py"
+    },
+    {
+        "path": "crops/crop.py",
+        "url": "/ROTOR/files/crops/crop.py"
+    },
+    {
+        "path": "crops/__init__.py",
+        "url": "/ROTOR/files/crops/__init__.py"
+    },
+    {
+        "path": "crops/classes/SOJA.py",
+        "url": "/ROTOR/files/crops/classes/SOJA.py"
+    },
+    {
+        "path": "crops/classes/crops.json",
+        "url": "/ROTOR/files/crops/classes/crops.json"
+    },
+    {
+        "path": "crops/classes/legray.py",
+        "url": "/ROTOR/files/crops/classes/legray.py"
+    },
+    {
+        "path": "crops/classes/HAFER.py",
+        "url": "/ROTOR/files/crops/classes/HAFER.py"
+    },
+    {
+        "path": "crops/classes/WN_WEIZEN.py",
+        "url": "/ROTOR/files/crops/classes/WN_WEIZEN.py"
+    },
+    {
+        "path": "crops/classes/ACK_BOHNE.py",
+        "url": "/ROTOR/files/crops/classes/ACK_BOHNE.py"
+    },
+    {
+        "path": "crops/classes/LEG_GRAS.py",
+        "url": "/ROTOR/files/crops/classes/LEG_GRAS.py"
+    },
+    {
+        "path": "crops/classes/__init__.py",
+        "url": "/ROTOR/files/crops/classes/__init__.py"
+    },
+    {
+        "path": "crops/cropopts.py",
+        "url": "/ROTOR/files/crops/cropopts.py"
+    },
+    {
+        "path": "jsmodel.py",
+        "url": "/ROTOR/files/jsmodel.py"
+    },
+    {
+        "path": "fertilizer.py",
+        "url": "/ROTOR/files/fertilizer.py"
+    }
+]
