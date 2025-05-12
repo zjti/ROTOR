@@ -17,14 +17,24 @@ class LEG_GRAS(crop.Leguminosen):
         uses legray
         """
         spring_seeding = True
-        ffcomp = config.FFolge[self.jahr_key]
-        if 'leg_ansaat' in config.FFolge[self.jahr_key]:
-            spring_seeding = config.FFolge[self.jahr_key]['leg_ansaat'] == 'SPRING'
+        # ffcomp = config.FFolge[self.jahr_key]
+        # if 'leg_ansaat' in config.FFolge[self.jahr_key]:
+            # spring_seeding = config.FFolge[self.jahr_key]['leg_ansaat'] == 'SPRING'
 
-        if 'schnitt_menge' in ffcomp:
-            return calcLG( ffcomp['schnitt_menge'], spring_seeding=spring_seeding)
-        else:
-            return calcLG( {}, spring_seeding=spring_seeding)
+        # if 'schnitt_menge' in ffcomp:
+        #     return calcLG( ffcomp['schnitt_menge'], spring_seeding=spring_seeding)
+        # else:
+            # return calcLG( {}, spring_seeding=spring_seeding)
+        return calcLG( {}, spring_seeding=spring_seeding)
+    
+    def calc_byproduct_yield_dt(self):
+        return 1.2
+    
+    def get_primary_product_nitrogen_kg_per_dt(self):
+        return 1
+    
+    def get_N_uptake(self):
+        return 10
     
     def get_vis(self):
         return {'schnitt_tab':True,'anbau_tab':True,'leg_ansaat':True}
