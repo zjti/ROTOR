@@ -101,16 +101,21 @@
           "$ref": "#/definitions/localforage-driver-set"
         },
         "contentsStorageName": {
-          "description": "name used to store Jupyter contents in the browser",
+          "description": "Name used to store Jupyter contents in the browser. The baseUrl is appended to the default value",
           "type": "string",
           "default": "JupyterLite Storage"
+        },
+        "showLoadingIndicator": {
+          "description": "Whether to show the loading indicator during app initialization",
+          "type": "boolean",
+          "default": false
         },
         "settingsStorageDrivers": {
           "description": "names of the localforage driver for settings, or `null` for the best available",
           "$ref": "#/definitions/localforage-driver-set"
         },
         "settingsStorageName": {
-          "description": "name used to store Jupyter settings in the browser",
+          "description": "Name used to store Jupyter settings in the browser. The baseUrl is appended to the default value",
           "type": "string",
           "default": "JupyterLite Storage"
         },
@@ -271,7 +276,23 @@
       "title": "A LocalForage Driver",
       "description": "choose a storage driver from any number of localForage drivers",
       "anyOf": [
-        
+        {
+          "type": "string",
+          "title": "custom",
+          "description": "use a custom driver added by a third-party plugin"
+        },
+        {
+          "title": "IndexedDB",
+          "description": "use the broadly-compatible IndexedDB key/value persistent store",
+          "type": "string",
+          "enum": ["asyncStorage"]
+        },
+        {
+          "title": "WebSQL",
+          "description": "use the WebSQL persistent store",
+          "type": "string",
+          "enum": ["webSQLStorage"]
+        },
         {
           "title": "localStorage",
           "description": "use the localStorage persistent store",
@@ -282,7 +303,7 @@
           "title": "memory",
           "description": "use the memory-based, volatile store: must be enabled with enableMemoryStorage",
           "type": "string",
-          "enum": ["localStorageWrapper"]
+          "enum": ["memoryStorageDriver"]
         }
       ]
     }
