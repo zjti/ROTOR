@@ -37,12 +37,13 @@ export function usePyodideInit() {
       import json
       
       try:
-          from autoreload import autoreload
+          from ROTOR.utils.autoreload import autoreload
       except:
-          autoreload = lambda x: None
+          print("could not load 'autoreload'")
+          autoreload = lambda : None
       
-      import jswrapper
-      import config
+      from ROTOR.utils.js import jswrapper 
+      from ROTOR.utils import config  
       
       
     `);

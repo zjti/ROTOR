@@ -1,5 +1,22 @@
 {
 
+    "PEREN_VK":"Mehrjährig",
+    "WINTER_VK":"Winter",
+    "SOMMER_VK":"Sommer",
+    "MECH_QUECK":"Mechanische Queckenbehandlung",
+    "REUCED":"Reduzierte Bodenbehandlung",
+    "ZW_FROSTHARD":"Frostharte Zwischenfrucht",
+    "ZW_ABFRIEREND":"Abfrierend Zwischenfrucht",
+    "LEG_US_IN_CER":"Leguminosengras Untersaat in Getreide",
+
+    "FARMNAME":"Betriebsname",
+    "USERNAME":"Bearbeiter/Berater",
+    "FARMSIZE": "mittlere Schlaggröße",
+        
+    "FARM_SMALL": "Klein ( < 10 ha)",
+    "FARM_MEDIUM": "Mittel (10 - 20 ha)",
+    "FARM_BIG": "Groß ( > 20 ha)", 
+
     "LAYER":"Karte",
     "SELECT_ENTRY" : "Bitte auswählen",
     "SCHNITT_NUTZUNG":"Schnittnutzung",
@@ -10,7 +27,7 @@
     "EVAL_TAB":"Auswertung",
     "ECO_TAB":"Ökonomie",
 
-    "MAP_SETTINGS":"Standort",
+    "MAP_SETTINGS":"Standort- und Kartenauswahl",
     "SOIL_SETTINGS":"Bodeneinstellungen",
     "PHYTO_SETTINGS":"Phytosanitäre Restriktionen / Anbaupause",
 

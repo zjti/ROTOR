@@ -20,6 +20,7 @@ import { aliases, mdi } from 'vuetify/iconsets/mdi'
 
 const myCustomLightTheme = {
   dark: false,
+  
   colors: {
     foreground: '#0FF',
 

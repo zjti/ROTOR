@@ -1,12 +1,12 @@
 <template>
-    nok
+    
     <grid
       :delayData="verkrautung"
       :cellSize="30"
       :fixedColumnOrder="colnames"
       dataType="number"
-      horizontalAxisLabel="Kraut"
-      verticalAxisLabel="Kultur/Methode"
+      horizontalAxisLabel="Verunkrautungsindex"
+      verticalAxisLabel="Fruchtart/Methode"
     />
    
   </template>

@@ -9,6 +9,9 @@
   /* font-weight: bold; */
   min-height: 48px; /* Optional: increase height */
 }
+.v-tab {
+  font-size: 19px !important;
+}
 </style>
 
 
@@ -45,7 +48,7 @@ const instance = getCurrentInstance();
 const app = instance.appContext.app; 
 
 
-const tab =  useStorage('tab', "3")
+const tab =  useStorage('tab', "1")
 const cur_lang = useStorage('cur_lang', 'de')
 app.config.globalProperties.cur_lang = cur_lang
 
@@ -157,8 +160,7 @@ const next_lang = (lang)=>{
             <ff />
           </v-tabs-window-item>
           <v-tabs-window-item value="4"> 4 
-              <ecoedit />
-               <ff_eco></ff_eco>
+              <economy/>
 
           </v-tabs-window-item>
 

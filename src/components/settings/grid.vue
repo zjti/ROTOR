@@ -179,7 +179,7 @@ export default {
   
   .top-labels {
     display: flex;
-    margin-left: 100px; /* Adjust based on your left labels width */
+    margin-left: 290px; /* Adjust based on your left labels width */
   }
   
   .top-label {
@@ -216,7 +216,8 @@ export default {
   .left-labels {
     display: flex;
     flex-direction: column;
-    width: 150px; /* Adjust based on your design */
+    /*width: 50px;  Adjust based on your design */
+    width: 350px; /* Adjust based on your design */
   }
   
   .left-label {

@@ -43,7 +43,6 @@
         "unit":"mm",
         "help":"help_winter_niederschlag"
     },
-
     "ORG_SUBS": {
         "default": 0.8,
         "type": "float",
@@ -63,7 +62,7 @@
         "type": "float",
         "min": 4,
         "max": 15,
-        "unit": "%"
+        "unit": ""
     },
     "OBERBODEN": {
         "default": 30,

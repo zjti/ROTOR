@@ -30,7 +30,7 @@ import { globalStore } from '@/utils/globalstore'
 
 const { runPythonS } = usePyodide();
 
-const get_avail_crops_for_jahr = runPythonS("jswrapper.get_avail_crops_for_jahr"); // get Python func
+const get_avail_crops_for_jahr = runPythonS("jswrapper.JSget_avail_crops_for_jahr"); // get Python func
 
 const props = defineProps({
   jahr: {

@@ -2,7 +2,7 @@
 <template>
   <v-card class="mx-auto">
     <!-- Card title -->
-    <v-card-title class="text-h6"> <l>MAP_SELECT</l> </v-card-title>
+    <!-- <v-card-title class="text-h6"> <l>MAP_SELECT</l> </v-card-title> -->
 
     <!-- Map container -->
     <v-card-text style="padding: 0">

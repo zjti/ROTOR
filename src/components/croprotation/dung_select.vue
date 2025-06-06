@@ -37,7 +37,7 @@
                 hide-details="auto"
                 suffix="t/ha"
               />
-              <v-checkbox label="herbst gabe" v-if="has_herbst_gabe" v-model='amounts[item].is_herbst' style="width: 100%"
+              <v-checkbox label="Standardgabe im Frühjahr sonst Herbstgabe auswählen" v-if="has_herbst_gabe" v-model='amounts[item].is_herbst' style="width: 100%"
               />
             </td>
           </tr>

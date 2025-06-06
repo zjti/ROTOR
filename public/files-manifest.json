@@ -1,134 +1,142 @@
 [
     {
-        "path": "Test_crops.ipynb",
-        "url": "/ROTOR/files/Test_crops.ipynb"
+        "path": "ROTOR/cerial.py",
+        "url": "/ROTOR/files/ROTOR/cerial.py"
     },
     {
-        "path": "wd.json",
-        "url": "/ROTOR/files/wd.json"
+        "path": "ROTOR/crop.py",
+        "url": "/ROTOR/files/ROTOR/crop.py"
     },
     {
-        "path": "config.py",
-        "url": "/ROTOR/files/config.py"
+        "path": "ROTOR/__init__.py",
+        "url": "/ROTOR/files/ROTOR/__init__.py"
     },
     {
-        "path": "Test_opts.ipynb",
-        "url": "/ROTOR/files/Test_opts.ipynb"
+        "path": "ROTOR/covercrop.py",
+        "url": "/ROTOR/files/ROTOR/covercrop.py"
     },
     {
-        "path": "jswrapper.py",
-        "url": "/ROTOR/files/jswrapper.py"
+        "path": "ROTOR/utils/patch_crop.py",
+        "url": "/ROTOR/files/ROTOR/utils/patch_crop.py"
     },
     {
-        "path": "autoreload.py",
-        "url": "/ROTOR/files/autoreload.py"
+        "path": "ROTOR/utils/__init__.py",
+        "url": "/ROTOR/files/ROTOR/utils/__init__.py"
     },
     {
-        "path": "README.ipynb",
-        "url": "/ROTOR/files/README.ipynb"
+        "path": "ROTOR/utils/create_edit_ipynb.py",
+        "url": "/ROTOR/files/ROTOR/utils/create_edit_ipynb.py"
     },
     {
-        "path": "ff/calc_opts.py",
-        "url": "/ROTOR/files/ff/calc_opts.py"
+        "path": "ROTOR/utils/find_crops.py",
+        "url": "/ROTOR/files/ROTOR/utils/find_crops.py"
     },
     {
-        "path": "ff/ffolge.py",
-        "url": "/ROTOR/files/ff/ffolge.py"
+        "path": "ROTOR/utils/config.py",
+        "url": "/ROTOR/files/ROTOR/utils/config.py"
     },
     {
-        "path": "ff/restrictions.py",
-        "url": "/ROTOR/files/ff/restrictions.py"
+        "path": "ROTOR/utils/isinstance_by_name.py",
+        "url": "/ROTOR/files/ROTOR/utils/isinstance_by_name.py"
     },
     {
-        "path": "ff/create.py",
-        "url": "/ROTOR/files/ff/create.py"
+        "path": "ROTOR/utils/autoreload.py",
+        "url": "/ROTOR/files/ROTOR/utils/autoreload.py"
     },
     {
-        "path": "ff/update.py",
-        "url": "/ROTOR/files/ff/update.py"
+        "path": "ROTOR/utils/modelvalue.py",
+        "url": "/ROTOR/files/ROTOR/utils/modelvalue.py"
     },
     {
-        "path": "ff/__init__.py",
-        "url": "/ROTOR/files/ff/__init__.py"
+        "path": "ROTOR/utils/user_patches/__init__.py",
+        "url": "/ROTOR/files/ROTOR/utils/user_patches/__init__.py"
     },
     {
-        "path": "economy/steps.py",
-        "url": "/ROTOR/files/economy/steps.py"
+        "path": "ROTOR/utils/user_patches/ACK_BOHNE_get_N_uptake.py",
+        "url": "/ROTOR/files/ROTOR/utils/user_patches/ACK_BOHNE_get_N_uptake.py"
     },
     {
-        "path": "economy/SoilManagementSteps.py",
-        "url": "/ROTOR/files/economy/SoilManagementSteps.py"
+        "path": "ROTOR/utils/user_patches/ACK_BOHNE_calc_N_leaching_kg_per_ha.py",
+        "url": "/ROTOR/files/ROTOR/utils/user_patches/ACK_BOHNE_calc_N_leaching_kg_per_ha.py"
     },
     {
-        "path": "economy/machines.py",
-        "url": "/ROTOR/files/economy/machines.py"
+        "path": "ROTOR/utils/js/jsmodel.py",
+        "url": "/ROTOR/files/ROTOR/utils/js/jsmodel.py"
     },
     {
-        "path": "Untitled Folder2/Untitled1.ipynb",
-        "url": "/ROTOR/files/Untitled Folder2/Untitled1.ipynb"
+        "path": "ROTOR/utils/js/jswrapper.py",
+        "url": "/ROTOR/files/ROTOR/utils/js/jswrapper.py"
     },
     {
-        "path": "crops/utils.py",
-        "url": "/ROTOR/files/crops/utils.py"
+        "path": "ROTOR/ff/update.py",
+        "url": "/ROTOR/files/ROTOR/ff/update.py"
     },
     {
-        "path": "crops/cropdata.py",
-        "url": "/ROTOR/files/crops/cropdata.py"
+        "path": "ROTOR/ff/restrictions.py",
+        "url": "/ROTOR/files/ROTOR/ff/restrictions.py"
     },
     {
-        "path": "crops/crop.py",
-        "url": "/ROTOR/files/crops/crop.py"
+        "path": "ROTOR/ff/ffolge.py",
+        "url": "/ROTOR/files/ROTOR/ff/ffolge.py"
     },
     {
-        "path": "crops/__init__.py",
-        "url": "/ROTOR/files/crops/__init__.py"
+        "path": "ROTOR/ff/__init__.py",
+        "url": "/ROTOR/files/ROTOR/ff/__init__.py"
     },
     {
-        "path": "crops/classes/SOJA.py",
-        "url": "/ROTOR/files/crops/classes/SOJA.py"
+        "path": "ROTOR/crops/WN_WEIZEN.py",
+        "url": "/ROTOR/files/ROTOR/crops/WN_WEIZEN.py"
     },
     {
-        "path": "crops/classes/crops.json",
-        "url": "/ROTOR/files/crops/classes/crops.json"
+        "path": "ROTOR/crops/ACK_BOHNE.py",
+        "url": "/ROTOR/files/ROTOR/crops/ACK_BOHNE.py"
     },
     {
-        "path": "crops/classes/legray.py",
-        "url": "/ROTOR/files/crops/classes/legray.py"
+        "path": "ROTOR/crops/__init__.py",
+        "url": "/ROTOR/files/ROTOR/crops/__init__.py"
     },
     {
-        "path": "crops/classes/HAFER.py",
-        "url": "/ROTOR/files/crops/classes/HAFER.py"
+        "path": "ROTOR/crops/HAFER.py",
+        "url": "/ROTOR/files/ROTOR/crops/HAFER.py"
     },
     {
-        "path": "crops/classes/WN_WEIZEN.py",
-        "url": "/ROTOR/files/crops/classes/WN_WEIZEN.py"
+        "path": "ROTOR/crops/SOJA.py",
+        "url": "/ROTOR/files/ROTOR/crops/SOJA.py"
     },
     {
-        "path": "crops/classes/ACK_BOHNE.py",
-        "url": "/ROTOR/files/crops/classes/ACK_BOHNE.py"
+        "path": "ROTOR/crops/data/__init__.py",
+        "url": "/ROTOR/files/ROTOR/crops/data/__init__.py"
     },
     {
-        "path": "crops/classes/LEG_GRAS.py",
-        "url": "/ROTOR/files/crops/classes/LEG_GRAS.py"
+        "path": "ROTOR/crops/data/cropdata.py",
+        "url": "/ROTOR/files/ROTOR/crops/data/cropdata.py"
     },
     {
-        "path": "crops/classes/__init__.py",
-        "url": "/ROTOR/files/crops/classes/__init__.py"
+        "path": "ROTOR/crops/data/cropopts.py",
+        "url": "/ROTOR/files/ROTOR/crops/data/cropopts.py"
     },
     {
-        "path": "crops/cropopts.py",
-        "url": "/ROTOR/files/crops/cropopts.py"
+        "path": "ROTOR/economy/covercropeconomy.py",
+        "url": "/ROTOR/files/ROTOR/economy/covercropeconomy.py"
     },
     {
-        "path": "jsmodel.py",
-        "url": "/ROTOR/files/jsmodel.py"
+        "path": "ROTOR/economy/economy.py",
+        "url": "/ROTOR/files/ROTOR/economy/economy.py"
     },
     {
-        "path": "fertilizer.py",
-        "url": "/ROTOR/files/fertilizer.py"
-    } ,
+        "path": "ROTOR/management/workstep.py",
+        "url": "/ROTOR/files/ROTOR/management/workstep.py"
+    },
     {
-        "path": "fertilizer.py",
-        "url": "/ROTOR/files/fertilizer.py"
+        "path": "ROTOR/management/__init__.py",
+        "url": "/ROTOR/files/ROTOR/management/__init__.py"
+    },
+    {
+        "path": "ROTOR/management/fertilizer.py",
+        "url": "/ROTOR/files/ROTOR/management/fertilizer.py"
+    },
+    {
+        "path": "ROTOR/management/restrictions.py",
+        "url": "/ROTOR/files/ROTOR/management/restrictions.py"
     }
 ]

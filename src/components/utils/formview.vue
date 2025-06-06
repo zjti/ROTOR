@@ -1,11 +1,14 @@
 <script  >
+import vuetify from "../../plugins/vuetify";
 import bkr_select from "./bkr_select.vue"; // Import your custom component
 import NumberInput from "./NumberInput.vue";
-
+import StringInput from "./StringInput.vue";
+ 
 export default {
   components: {
-    NumberInput,
+    NumberInput,StringInput,
     bkr_select,
+     
     
   },
   props: {
@@ -19,6 +22,7 @@ export default {
       typemap: {
         int: "NumberInput",
         float: "NumberInput", //"v-number-input",
+        string: "StringInput",
         boolean: "v-switch",
         bkr_int: "bkr_select",
       },

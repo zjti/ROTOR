@@ -33,6 +33,59 @@ globalStore.set('EVAL_DATA', eval_data)
 
 
 
+function writetojupyter(filename, content) {
+  const storageKey = `JupyterLite Storage/files/${filename}`;
+
+
+
+  // Create file entry
+  const fileEntry = {
+    name: filename.split('/').pop(),
+    path: filename,
+    type: "file",
+    format: "text",
+    mimetype: "text/plain",
+    content,
+    size: content.length,
+    writable: true,
+    created: new Date().toISOString(),
+    last_modified: new Date().toISOString()
+  };
+  localStorage.setItem(storageKey, JSON.stringify(fileEntry));
+}
+
+
+const { trigger, ignoreUpdates } = watchTriggerable(
+  globalStore.get('FF'),
+  (newVal) => {
+    ignoreUpdates(() => {
+      if (isLoading.value == false) {
+
+        try {
+          const updateFF = runPythonS("jswrapper.JSupdateFF"); // get Python func
+          const get_eval_data = runPythonS("jswrapper.JSget_eval_data"); // get Python func
+          console.log('update ff ')
+
+          const ff_json = updateFF(ff.value)
+          const v = JSON.parse(ff_json);
+          if (v) {
+            console.log('write ff')
+            ff.value = v;
+            writetojupyter('config_data/FFolge.json', ff_json)
+            eval_data.value = JSON.parse(get_eval_data())
+          }
+        } catch (error) {
+          console.error('Error updating FF:', error);
+        }
+
+
+
+      }
+    })
+  }, { deep: true }
+)
+var FF_initialized_trigger = () => { }
+const FF_trigger = trigger
 
 
 {
@@ -41,6 +94,10 @@ globalStore.set('EVAL_DATA', eval_data)
     (newVal) => {
       ignoreUpdates(() => {
         runPythonS('config.SOIL = json.loads("""' + JSON.stringify(newVal) + '""")')
+        writetojupyter('config_data/SOIL.json', JSON.stringify(newVal))
+
+        FF_initialized_trigger()
+
       })
     }, { deep: true }
   )
@@ -53,6 +110,8 @@ globalStore.set('EVAL_DATA', eval_data)
     (newVal) => {
       ignoreUpdates(() => {
         runPythonS('config.PHYTO_DELAY = json.loads("""' + JSON.stringify(newVal) + '""")')
+        writetojupyter('config_data/PHYTO_DELAY.json', JSON.stringify(newVal))
+        FF_initialized_trigger()
 
       })
     }, { deep: true }
@@ -65,6 +124,8 @@ globalStore.set('EVAL_DATA', eval_data)
     (newVal) => {
       ignoreUpdates(() => {
         runPythonS('config.PHYTO_DELAY_TIME = json.loads("""' + JSON.stringify(newVal) + '""")')
+        writetojupyter('config_data/PHYTO_DELAY_TIME.json', JSON.stringify(newVal))
+        FF_initialized_trigger()
 
       })
     }, { deep: true }
@@ -80,6 +141,8 @@ globalStore.set('EVAL_DATA', eval_data)
       ignoreUpdates(() => {
 
         runPythonS('config.VERKRAUTUNG = json.loads("""' + JSON.stringify(newVal) + '""")')
+        writetojupyter('config_data/VERKRATUNG.json', JSON.stringify(newVal))
+        FF_initialized_trigger()
 
       })
     }, { deep: true }
@@ -93,6 +156,8 @@ globalStore.set('EVAL_DATA', eval_data)
       ignoreUpdates(() => {
 
         runPythonS('config.DUNG_DATA = json.loads("""' + JSON.stringify(newVal) + '""")')
+        writetojupyter('config_data/DUNG_DATA.json', JSON.stringify(newVal))
+        FF_initialized_trigger()
 
       })
     }, { deep: true }
@@ -100,31 +165,7 @@ globalStore.set('EVAL_DATA', eval_data)
   trigger()
 }
 
+FF_trigger()
+FF_initialized_trigger = FF_trigger
 
-
-{
-
-  const { trigger, ignoreUpdates } = watchTriggerable(
-    globalStore.get('FF'),
-    (newVal) => {
-      ignoreUpdates(() => {
-        if (isLoading.value == false) {
-
-          const updateFF = runPythonS("jswrapper.updateFF"); // get Python func
-          const get_eval_data = runPythonS("jswrapper.get_eval_data"); // get Python func
-          console.log('update ff ')
-
-          const v = JSON.parse(updateFF(ff.value));
-          if (v) {
-            console.log('write ff')
-            ff.value = v;
-            eval_data.value = JSON.parse(get_eval_data())
-          }
-
-
-        }
-      })
-    }, { deep: true }
-  )
-  trigger()
-}
+window.ff_initialized_trigger = FF_trigger

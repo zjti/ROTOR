@@ -54,11 +54,11 @@ onMounted(async () => {
   map = L.map(mapContainer.value).setView([51.1657, 10.4515], 6);
 
   map.on('click', function (e) {
-      // Get the coordinates of the click
-      const { lat, lng } = e.latlng;
+    // Get the coordinates of the click
+    const { lat, lng } = e.latlng;
 
-      setMarker(e.latlng)
-    });
+    setMarker(e.latlng)
+  });
 
   // Add OpenStreetMap tile layer
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -98,10 +98,10 @@ const loadLayers = () => {
 
       my_layers[key] = wmsLayer;
       // Set the first layer as the current layer (if no layer is currently visible)
-      
+
       if (layerInfo.hasOwnProperty('legend')) {
         const legend = L.control({ position: "bottomright" });
-        
+
         legend.onAdd = function (map) {
           const div = L.DomUtil.create("div", "info legend");
           div.innerHTML = layerInfo.legend
@@ -109,14 +109,14 @@ const loadLayers = () => {
         };
         my_legends[key] = legend
 
-        
+
       }
       if (!currentLayer) {
         currentLayer = wmsLayer;
-        
+
         switchLayer(key);
       }
-    }  
+    }
   }
 };
 
@@ -127,16 +127,16 @@ const addCustomControls = () => {
   layerControl.onAdd = () => {
     const container = L.DomUtil.create("div"); //leaflet-bar leaflet-control
 
-    
+
     container.addEventListener("click", (e) => {
       e.stopPropagation();
     });
     container.style.backgroundColor = "#fff";
     const txt = L.DomUtil.create("span", "", container);
-    txt.innerHTML = langf("LAYER")+":";
+    txt.innerHTML = langf("LAYER") + ":";
 
     const select = L.DomUtil.create("select", "", container);
-    select.style.width = "150px"; // Adjust width as needed
+    select.style.width = "170px"; // Adjust width as needed
 
     // Add options to the dropdown
     for (const [key, layerInfo] of Object.entries(props.wmsLayers)) {
@@ -159,18 +159,50 @@ const addCustomControls = () => {
       const center = map.getCenter();
       setMarker(center);
     };
-    L.DomUtil.create("br", "", container);
-    const input = L.DomUtil.create("input", "", container);
+    // L.DomUtil.create("br", "", container);
+    // const input = L.DomUtil.create("input", "", container);
+    // input.type = "range";
+    // input.min = "0";
+    // input.max = "1";
+    // input.step = "0.1";
+    // input.value = opacity.value;
+    // input.style.width = "100%";
+    // Add subtitle
+   
+
+    // Create wrapper for the range input and labels
+    const rangeWrapper = L.DomUtil.create("div", "", container);
+    rangeWrapper.style.display = "flex";
+    rangeWrapper.style.alignItems = "center";
+
+    // Add left label (0)
+    const leftLabel = L.DomUtil.create("span", "", rangeWrapper);
+    leftLabel.innerHTML = "100%";
+    leftLabel.style.marginRight = "10px";
+
+    // Create the range input
+    const input = L.DomUtil.create("input", "", rangeWrapper);
     input.type = "range";
     input.min = "0";
     input.max = "1";
     input.step = "0.1";
     input.value = opacity.value;
-    input.style.width = "100%";
+    input.style.flexGrow = "1"; // Make the input take available space
+
+    // Add right label (100%)
+    const rightLabel = L.DomUtil.create("span", "", rangeWrapper);
+    rightLabel.innerHTML = "0%";
+    rightLabel.style.marginLeft = "10px";
+
+    const subtitle = L.DomUtil.create("div", "", container);
+    subtitle.innerHTML = "Transparenz"; // Change this to your desired subtitle
+    subtitle.style.textAlign = "center";
+    subtitle.style.marginBottom = "5px";
+
     input.oninput = (e) => {
       opacity.value = parseFloat(e.target.value);
       setOpacity(opacity.value);
-      
+
 
     };
 
@@ -291,58 +323,83 @@ defineExpose({
   setOpacity,
 });
 </script>
- 
+
 <template>
   <div ref="mapContainer" style="width: 100%; height: 600px"></div>
 </template>
 
 <style scoped>
 .custom-slider {
-  -webkit-appearance: none; /* Remove default styling */
+  -webkit-appearance: none;
+  /* Remove default styling */
   appearance: none;
-  width: 100%; /* Full width */
-  height: 15px; /* Increase height of the track */
-  background: #ddd; /* Background color of the track */
-  outline: none; /* Remove outline */
-  opacity: 0.7; /* Slightly transparent */
-  transition: opacity 0.2s; /* Smooth transition */
+  width: 100%;
+  /* Full width */
+  height: 15px;
+  /* Increase height of the track */
+  background: #ddd;
+  /* Background color of the track */
+  outline: none;
+  /* Remove outline */
+  opacity: 0.7;
+  /* Slightly transparent */
+  transition: opacity 0.2s;
+  /* Smooth transition */
 }
 
 .custom-slider:hover {
-  opacity: 1; /* Fully opaque on hover */
+  opacity: 1;
+  /* Fully opaque on hover */
 }
 
 /* Styling the slider thumb */
 .custom-slider::-webkit-slider-thumb {
-  -webkit-appearance: none; /* Remove default styling */
+  -webkit-appearance: none;
+  /* Remove default styling */
   appearance: none;
-  width: 25px; /* Increase width of the thumb */
-  height: 25px; /* Increase height of the thumb */
-  background: #4caf50; /* Green color */
-  cursor: pointer; /* Pointer cursor */
-  border-radius: 50%; /* Circular thumb */
+  width: 25px;
+  /* Increase width of the thumb */
+  height: 25px;
+  /* Increase height of the thumb */
+  background: #4caf50;
+  /* Green color */
+  cursor: pointer;
+  /* Pointer cursor */
+  border-radius: 50%;
+  /* Circular thumb */
 }
 
 .custom-slider::-moz-range-thumb {
-  width: 25px; /* Increase width of the thumb */
-  height: 25px; /* Increase height of the thumb */
-  background: #4caf50; /* Green color */
-  cursor: pointer; /* Pointer cursor */
-  border-radius: 50%; /* Circular thumb */
+  width: 25px;
+  /* Increase width of the thumb */
+  height: 25px;
+  /* Increase height of the thumb */
+  background: #4caf50;
+  /* Green color */
+  cursor: pointer;
+  /* Pointer cursor */
+  border-radius: 50%;
+  /* Circular thumb */
 }
 
 /* Styling the slider track */
 .custom-slider::-webkit-slider-runnable-track {
   width: 100%;
-  height: 15px; /* Height of the track */
-  background: #ddd; /* Background color of the track */
-  border-radius: 10px; /* Rounded corners */
+  height: 15px;
+  /* Height of the track */
+  background: #ddd;
+  /* Background color of the track */
+  border-radius: 10px;
+  /* Rounded corners */
 }
 
 .custom-slider::-moz-range-track {
   width: 100%;
-  height: 15px; /* Height of the track */
-  background: #ddd; /* Background color of the track */
-  border-radius: 10px; /* Rounded corners */
+  height: 15px;
+  /* Height of the track */
+  background: #ddd;
+  /* Background color of the track */
+  border-radius: 10px;
+  /* Rounded corners */
 }
 </style>

@@ -8,11 +8,12 @@ import { globalStore } from '@/utils/globalstore'
 
 const { pyodide, runPythonS, runPython } = usePyodide();
 
-const updateFFlength = runPythonS("jswrapper.updateFFlength"); // get Python func
+const updateFFlength = runPythonS("jswrapper.JSupdateFFlength"); // get Python func
 
 const FF = globalStore.get("FF")
 
-const NJahre = ref(5);
+const NJahre = useStorage('FFOLGE_NJAHRE', 5)
+// const NJahre = ref(5);
 
 FF.value = JSON.parse(updateFFlength(FF.value, NJahre.value));
 const jahr = ref(1);
@@ -28,6 +29,8 @@ watch(NJahre, (newValue, oldValue) => {
     FF.value = v;
   }
 });
+
+
 
 
 
@@ -82,8 +85,26 @@ watch(NJahre, (newValue, oldValue) => {
                   <schnitt_select v-model:schnitte="FF[jahr].schnitt_menge"></schnitt_select>
                 </v-tabs-window-item>
 
-                <v-tabs-window-item value="ertrag" v-if="FF[jahr].vis.ertrag_tab">
-                  <ertrag_select :jahr="jahr" />
+                <v-tabs-window-item value="ertrag" style="overflow-y: scroll"  v-if="FF[jahr].vis.ertrag_tab">
+                  <v-card elevation="0">
+                    <v-card-title> Ertrag: </v-card-title>
+                    <v-card-subtitle class="multi-line-subtitle">
+                      Standort-, Vorfrucht- und Düngungsabhängiger Ertrag. Ertrag und
+                      Rohproteingehalt sind veränderbar
+                    </v-card-subtitle>
+                    
+                    <v-card-text>
+
+                      <li v-for="(value, key, index) in FF[jahr]['MODELVALUES']" :key="index">
+                        <div
+                          v-if="'tab' in FF[jahr]['MODELVALUES'][key] && FF[jahr]['MODELVALUES'][key].tab == 'ertrag_tab'">
+
+                          <modelvalue v-model="FF[jahr]['MODELVALUES'][key]" />
+                        </div>
+
+                      </li>
+                    </v-card-text>
+                  </v-card>
                 </v-tabs-window-item>
 
                 <v-tabs-window-item value="anbau" style="overflow-y: scroll" v-if="FF[jahr].vis.anbau_tab">
@@ -98,30 +119,15 @@ watch(NJahre, (newValue, oldValue) => {
                       </v-card-subtitle>
                     </v-card-item>
                     <v-card-text>
-                      <v-select v-if="FF[jahr].vis.leg_ansaat" style="height: 80px" class="custom-label-color"
-                        :label="L('Ansaat')" :items="FF[jahr].leg_ansaat_opts.map((key) => ({
-                          value: key,
-                          title: L(key),
-                        }))" v-model="FF[jahr].leg_ansaat" />
-                      <v-checkbox :label="L('UNDERSAWN')" v-if="FF[jahr].vis.us_opt" v-model="FF[jahr].us"></v-checkbox>
 
+                      <li v-for="(value, key, index) in FF[jahr]['MODELVALUES']" :key="index">
+                        <div
+                          v-if="'tab' in FF[jahr]['MODELVALUES'][key] && FF[jahr]['MODELVALUES'][key].tab == 'anbau_tab'">
 
-                      <NumberInput class="custom-label-color pa-0 ma-0" label="Saatgutmenge" suffix="kg/ha"
-                        v-model="FF[jahr].seeds_kg_per_ha_corrected" :hint="FF[jahr].seeds_kg_per_ha_corrected != FF[jahr].seeds_kg_per_ha
-                          ? 'Saatgutbedarf vom benutzer Modifiziert'
-                          : ''
-                          " persistent-hint />
+                          <modelvalue v-model="FF[jahr]['MODELVALUES'][key]" />
+                        </div>
 
-                      <v-checkbox :label="L('Nebenprodukternte')" v-if="FF[jahr].vis.stroh_opt"
-                        v-model="FF[jahr].stroh"></v-checkbox>
-                      <v-checkbox :label="L('Zwischenfrucht_select')" v-if="FF[jahr].vis.zw_opt"
-                        v-model="FF[jahr].zw"></v-checkbox>
-
-                      <NumberInput class="custom-label-color pa-0 ma-0" label="Ertrag Zwischenfrucht" suffix="FM dt/ha"
-                        v-model="FF[jahr].covercrop_yield_dt_corrected" :hint="FF[jahr].covercrop_yield_dt_corrected != FF[jahr].covercrop_yield_dt
-                          ? 'Zwischenfruchtertrag vom benutzer Modifiziert'
-                          : ''
-                          " persistent-hint v-if="FF[jahr].zw" />
+                      </li>
 
                       <v-select style="height: 80px" :label="L('Zwischefruchtanbau')" :items="FF[jahr].zw_plant_opts.map((key) => ({
                         value: key,
@@ -143,16 +149,17 @@ watch(NJahre, (newValue, oldValue) => {
                         FF[jahr].zw &&
                         FF[jahr].zwischenfrucht_winterhard == 'frosthart'
                       " class="custom-label-color" :label="L('SEL_ZW_NUTZ')" :items="['Abfuhr', 'Einarbeitung'].map((key) => ({
-                      value: key,
-                      title: L(key),
-                    }))
-                      " v-model="FF[jahr].zwischenfrucht_schnittnutz"></v-select>
+                        value: key,
+                        title: L(key),
+                      }))
+                        " v-model="FF[jahr].zwischenfrucht_schnittnutz"></v-select>
                     </v-card-text>
                   </v-card>
                 </v-tabs-window-item>
                 <v-tabs-window-item value="dung" v-if="FF[jahr].vis.dung_tab"
                   style="overflow-y: scroll;overflow-x: clip;height: 100%;">
-                  <dung_select v-model:amounts="FF[jahr].dung_menge" :has_herbst_gabe="FF[jahr].vis.has_herbst_gabe" />
+                  <dung_select v-model:amounts="FF[jahr].MODELVALUES['dung_menge'].dung_menge_corrected"
+                    :has_herbst_gabe="FF[jahr].MODELVALUES['dung_herbst'].dung_herbst" />
                 </v-tabs-window-item>
 
                 <v-tabs-window-item value="auswahl">

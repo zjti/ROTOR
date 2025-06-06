@@ -33,9 +33,15 @@ export function usePyodideSync(pyodideRef) {
     console.log('upload:',item.path)
     await pyodide.FS.writeFile(item.path, item.content || '');
     try{
-    await runPython('autoreload("/home/pyodide/'+item.path+'")')
-    }catch{}
-    console.log('reload')
+    await runPython('autoreload()')
+    console.log('reload ok')
+    if (typeof window.ff_initialized_trigger === 'function') {
+      window.ff_initialized_trigger();
+    }
+    }catch{
+      console.log('reload error')
+    }
+    
   };
 
   const processDeletion = async (pyodide, key) => {
