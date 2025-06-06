@@ -1,7 +1,5 @@
 import json
 from ROTOR.utils import config
-
-
 from ROTOR.utils.find_crops import get_crop_dict
 from ROTOR.ff.ffolge import FFolge
 
@@ -94,12 +92,13 @@ def updateFF(ffolge):
         
     pyFolge.post_init()
     # print(pyFolge.crops)
-    
+    config.pyFolge = pyFolge
     new_ffolge = pyFolge.serialize()
     
     for key in new_ffolge.keys():
-        new_ffolge[key][MF.restr_select_phyto] = ffolge[key][MF.restr_select_phyto]
-        new_ffolge[key][MF.restr_select_time] = ffolge[key][MF.restr_select_time]
+        
+            new_ffolge[key][MF.restr_select_phyto] = ffolge[key][MF.restr_select_phyto]
+            new_ffolge[key][MF.restr_select_time] = ffolge[key][MF.restr_select_time]
         
     ffolge = json.dumps(new_ffolge)
     

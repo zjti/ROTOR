@@ -49,7 +49,7 @@ class FertilizerApplications(ClassWithModelValues):
             return N
  
         # {'fest frisch rind': {'menge': 4, 'is_herbst': False}}...
-        for dung_key,dung_val in self.dung_menge.items():
+        for dung_key,dung_val in self.get_dung_menge().items():
             dung_param = config.DUNG_DATA[dung_key]
 
             N += dung_val['menge'] * dung_param['N/FM'] * ( 100 - dung_param['Nloss'] ) / 100

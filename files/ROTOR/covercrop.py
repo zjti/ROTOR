@@ -10,7 +10,7 @@ class CoverCrop (ClassWithModelValues):
         
         self.ffelement = ffelement
         
-        UserEditableModelValue('get_cnum',self.get_cnum ,tab=VF.anbau_tab,visible=True)
+        
         UserEditableModelValue('get_leguminosen_percentage',self.get_leguminosen_percentage ,tab=VF.anbau_tab,visible=True)
         UserEditableModelValue('get_cultivation',self.get_cultivation ,tab=VF.anbau_tab,visible=True, type='select', select_opts=self.get_cultivation_options )
         UserEditableModelValue('get_winterhardines',self.get_winterhardines ,tab=VF.anbau_tab,visible=True, 
@@ -46,8 +46,6 @@ class CoverCrop (ClassWithModelValues):
     def get_cover_crop_harvest(self):
         return False
     
-    def get_cnum(self):
-        return 321
 
     def get_leguminosen_percentage(self):
         return 13

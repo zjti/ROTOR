@@ -3,6 +3,14 @@ from ROTOR.crops.data import cropdata
 from ROTOR.utils import config
 
 class WN_WEIZEN(WinterCerial):
+
+
+    price_yield_eur_per_dt_fm = 22.00
+    seed_cost_eur_per_kg = 0.7
+    seed_kg_per_ha = 200
+
+    
+    
     """Winter wheat implementation"""
     def __init__(self,*args,**kwargs):
         super().__init__(cropdata.WN_WEIZEN,*args,**kwargs)

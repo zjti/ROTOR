@@ -1,14 +1,24 @@
 from ROTOR.crop import Crop
 from ROTOR.crops.data import cropdata
+from ROTOR.utils import config
+from ROTOR.utils.js.jsmodel import VisFields as VF
+
+from ROTOR.utils.modelvalue import ModelValue,UserEditableModelValue
 
 
 
 class SOJA(Crop):
-    def __init__(self):
-        crop_data = cropdata.SOJA
+
+    price_yield_eur_per_dt_fm = 19.00
+    seed_cost_eur_per_kg = 0.8
+    seed_kg_per_ha = 120
     
-        super().__init__(crop_data)
- 
+    def __init__(self, *args, **kwargs):
+        super().__init__(cropdata.SOJA, *args, **kwargs)
+
+        UserEditableModelValue('yield_dt_fm_per_ha',
+                               self.calc_yield_dt_fm_per_ha,
+                               tab = VF.ertrag_tab, unit='FM dt/ha' )
     
     def get_crop_opts(self):
         return ["ZW_VOR","US_NACH","US_VOR"]

@@ -34,15 +34,16 @@ class WorkStepList ( ClassWithModelValues ):
 
     def add(self, workstep):
 
-        # TODO: this could be done by overwrite setter to _model_values
-        if workstep._model_values is None:
-            workstep._model_values = self._model_values 
-            workstep._model_value_ref = self
-            setattr(self, '_model_child_'+str(id(workstep)), workstep)
+        # # TODO: this could be improved by overwrite setter to _model_values
+        # if workstep._model_values is None:
+        #     workstep._model_values = self._model_values 
+        #     workstep._model_value_ref = self
+        #     setattr(self, '_model_child_'+str(id(workstep)), workstep)
 
+        new_workstep = WorkStep( workstep.name, workstep.date, workstep.machine_cost_eur_per_ha,
+                                 workstep.man_hours_h_per_ha, workstep.diesel_l_per_ha, workstep.crop, model_value_ref =self  )
 
-
-        self.worksteps.append(workstep)
+        self.worksteps.append(new_workstep)
     
     def set_worksteps(self, work_steps):
         for i,work_step in enumerate(work_steps):
@@ -58,19 +59,22 @@ class WorkStepList ( ClassWithModelValues ):
 
 class WorkStep( ClassWithModelValues ):
 
-    def __init__(self, name, date = 'JAN1', machine_cost_eur_per_ha=100 , man_hours_h_per_ha=2, *args, **kwargs):
+    def __init__(self, name, date = 'JAN1', machine_cost_eur_per_ha=12 , man_hours_h_per_ha=0.6, diesel_l_per_ha= 4.5, crop = None, *args, **kwargs):
         super().__init__(*args, **kwargs,  model_value_group_name=name)
         
         self.name = name
         self.date = date
-
+        self.diesel_l_per_ha = diesel_l_per_ha
         self.machine_cost_eur_per_ha = machine_cost_eur_per_ha
         self.man_hours_h_per_ha = man_hours_h_per_ha
-
+        self.crop = crop
         # UserEditableModelValue(name +'_get_date', self.get_date, tab=VF.eco_workstep_tab, type='date' )
         UserEditableModelValue('get_date', self.get_date, type='select', select_opts = self.get_date_options )
         UserEditableModelValue('get_man_hours_h_per_ha', self.get_man_hours_h_per_ha )
+        UserEditableModelValue('get_diesel_l_per_ha', self.get_diesel_l_per_ha )
         UserEditableModelValue('get_machine_cost_eur_per_ha', self.get_machine_cost_eur_per_ha )
+
+        ModelValue('get_diesel_eur_per_ha', self.get_diesel_eur_per_ha, unit = '€/l' )
 
 
 
@@ -87,11 +91,53 @@ class WorkStep( ClassWithModelValues ):
     def get_man_hours_h_per_ha(self):
         return self.man_hours_h_per_ha
 
+    def get_diesel_l_per_ha(self):
+        return self.diesel_l_per_ha
+
+    
+    def get_diesel_eur_per_ha(self):
+        return self.get_diesel_l_per_ha() * self.crop.ff_economy.get_diesel_eur_per_l()
+
     def get_machine_cost_eur_per_ha(self):
         return self.machine_cost_eur_per_ha
 
 
-        
+class PrimaryTilageStep(WorkStep):
+    def __init__(self,name="Grundbodenbearbeitung", date = 'OKT1', machine_cost_eur_per_ha= 28.1 , man_hours_h_per_ha=1.4, diesel_l_per_ha=20,*args, **kwargs):
+        super().__init__(name, date, machine_cost_eur_per_ha, man_hours_h_per_ha, diesel_l_per_ha,*args, **kwargs)
+
+class ReducedPrimaryTilageStep(WorkStep):
+    def __init__(self,name="Grundbodenbearbeitung (Reduziert)", date = 'OKT1', machine_cost_eur_per_ha= 18.1 , man_hours_h_per_ha=0.8, diesel_l_per_ha=11,*args, **kwargs):
+        super().__init__(name, date, machine_cost_eur_per_ha, man_hours_h_per_ha, diesel_l_per_ha,*args, **kwargs)
+
+
+class SeedBedPreparationStep(WorkStep):
+    def __init__(self,name="Saatbettbereitung", date = 'OKT2', machine_cost_eur_per_ha= 7.9 , man_hours_h_per_ha= 0.4, diesel_l_per_ha=5,*args, **kwargs):
+        super().__init__(name, date, machine_cost_eur_per_ha, man_hours_h_per_ha, diesel_l_per_ha,*args, **kwargs)
+
+class DrillStep(WorkStep):
+    def __init__(self,name="Drillen", date = 'OKT2', machine_cost_eur_per_ha= 19.5 , man_hours_h_per_ha= 0.9, diesel_l_per_ha=8,*args, **kwargs):
+        super().__init__(name, date, machine_cost_eur_per_ha, man_hours_h_per_ha, diesel_l_per_ha,*args, **kwargs)
+
+class HarvestStep(WorkStep):
+    def __init__(self,name="Mähdrusch", date = 'OKT2', machine_cost_eur_per_ha= 14.3 , man_hours_h_per_ha= 0.54, diesel_l_per_ha=16,*args, **kwargs):
+        super().__init__(name, date, machine_cost_eur_per_ha, man_hours_h_per_ha, diesel_l_per_ha,*args, **kwargs)
+
+class YieldTransportStep(WorkStep):
+    def __init__(self,name="Erntegut abfahren", date = 'OKT2', machine_cost_eur_per_ha= 14.3 , man_hours_h_per_ha= 0.54, diesel_l_per_ha=16,*args, **kwargs):
+        super().__init__(name, date, machine_cost_eur_per_ha, man_hours_h_per_ha, diesel_l_per_ha,*args, **kwargs)
+
+class ByproductHarvestStep(WorkStep):
+    def __init__(self,name="Strohernte", date = 'OKT2', machine_cost_eur_per_ha= 21.3 , man_hours_h_per_ha= 0.6, diesel_l_per_ha=8,*args, **kwargs):
+        super().__init__(name, date, machine_cost_eur_per_ha, man_hours_h_per_ha, diesel_l_per_ha,*args, **kwargs)
+
+
+class FertilizerStep(WorkStep):
+    def __init__(self,name="Dünger ausbringen", date = 'JAN1', machine_cost_eur_per_ha= 1.5 , man_hours_h_per_ha=0.2, diesel_l_per_ha=1.5,*args, **kwargs):
+        super().__init__(name, date, machine_cost_eur_per_ha, man_hours_h_per_ha, diesel_l_per_ha,*args, **kwargs)
+
+
+
 
 
         

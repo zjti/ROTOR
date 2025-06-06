@@ -13,30 +13,46 @@ from ROTOR.utils import config
 
 from ROTOR.management.workstep import WorkStep, WorkStepList
 
+from ROTOR.economy.economy import CropEconomy
+from ROTOR.management.workstep import FertilizerStep, PrimaryTilageStep, ReducedPrimaryTilageStep, HarvestStep, ByproductHarvestStep, DrillStep,SeedBedPreparationStep,YieldTransportStep
 
 
 class Crop( FFElement):
+
+    price_yield_eur_per_dt_fm = 22.00
+    seed_cost_eur_per_kg = 0.7
+    seed_kg_per_ha = 200
+
     
     def __init__(self, crop_data: CropData, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
         self.crop_data = crop_data
-        
-        self.crop_specific_leaching_coefficent = 0.9
+        self.crop_specific_leaching_coefficent = 1.0
     
-        UserEditableModelValue('seeds_kg_per_ha',self.get_seeds_kg_per_ha,tab = VF.anbau_tab )
-        UserEditableModelValue('primary_product_crude_protein_percent', 
-                            self.get_primary_product_crude_protein_percentage,tab = VF.ertrag_tab )
-        UserEditableModelValue('primary_product_nitrogen_kg_per_dt',
-                            self.get_primary_product_nitrogen_kg_per_dt , tab=VF.ertrag_tab)
+        UserEditableModelValue('seed_kg_per_ha',self.get_seed_kg_per_ha,tab = VF.anbau_tab )
+        # UserEditableModelValue('primary_product_crude_protein_percent', 
+        #                     self.get_primary_product_crude_protein_percentage,tab = VF.ertrag_tab )
+        # UserEditableModelValue('primary_product_nitrogen_kg_per_dt',
+        #                     self.get_primary_product_nitrogen_kg_per_dt , tab=VF.ertrag_tab)
 
-    def mk_economy_worksteps(self):
-        pass
+        self.fertilizer_step = FertilizerStep(crop=self)
+        self.primary_tilage_step = PrimaryTilageStep(crop=self)
+        self.reduced_primary_tilage_step =  ReducedPrimaryTilageStep(crop=self)
+        self.harvest_step = HarvestStep (crop=self)
+        self.byproduct_harvest_step = ByproductHarvestStep(crop=self)
+        self.drill_step = DrillStep(crop=self)
+        self.seed_bed_preparation_step = SeedBedPreparationStep(crop=self)
+        self.yield_transport_step = YieldTransportStep(crop=self)
+        
+
+    def get_eco_data(self, eco_param_name):
+        return 'JAN1'
         
     def post_init(self):
         super().post_init()    
-        self.mk_economy_worksteps()
-    
+        # self.mk_economy_worksteps()
+        self.economy = CropEconomy(crop=self, model_value_ref = self)
+
     def get_reduced_soil_management(self):
         return False
 
@@ -47,12 +63,14 @@ class Crop( FFElement):
         return False
 
     def has_cover_crop(self):
-        """ this is editable via UserEditableModelValue """
         return False
+
+    def get_worksteps(self):
+        return []
+
     
-    
-    def get_seeds_kg_per_ha(self): 
-        return 100
+    def get_seed_kg_per_ha(self): 
+        return self.seed_kg_per_ha
 
 
     def get_primary_product_crude_protein_percentage(self ):
@@ -66,19 +84,28 @@ class Crop( FFElement):
 
     def get_primary_product_potassium_kg_per_dt(self):
         return self.crop_data.primary_product.potassium_oxide_kg_per_dt * 0.83
+
     
     def get_supplies(self):
         supplies = []
-        N = self.get_seeds_kg_per_ha() /100 * self.get_primary_product_nitrogen_kg_per_dt()
-        P = self.get_seeds_kg_per_ha() /100 * self.get_primary_product_phosphate_kg_per_dt()
-        K = self.get_seeds_kg_per_ha() /100 * self.get_primary_product_potassium_kg_per_dt()
+        N = self.get_seed_kg_per_ha() /100 * self.get_primary_product_nitrogen_kg_per_dt()
+        P = self.get_seed_kg_per_ha() /100 * self.get_primary_product_phosphate_kg_per_dt()
+        K = self.get_seed_kg_per_ha() /100 * self.get_primary_product_potassium_kg_per_dt()
         
         supplies.append( {MF.supply_name : MF.seed_supply, 'N':N, 'P':P, 'K':K , MF.supply_info: ""})
             
         return supplies
     
     def get_N_uptake(self):
-        return 431
+        return 50
+
+    def calc_yield_from_fertilizer_dt_fm_per_ha(self):
+    
+        N_extra = self.fertilizer_applications.get_N_avail_from_fert_kg_per_ha()
+    
+        # (kg/ha) / (kg/dt) = (kg/ha) * (dt/kg) = (dt/ha)
+        return N_extra / self.get_primary_product_nitrogen_kg_per_dt()
+        
     
     def calc_N_leaching_kg_per_ha(self):
         N_manure_p = 0
@@ -117,7 +144,7 @@ class Crop( FFElement):
         # //n_leaching_removal
         N,ninfo = self.calc_N_leaching_kg_per_ha()
         
-        removals.append( {MF.removal_name : MF.n_leaching_removal, 'N':N, MF.removal_info: ninfo})
+        removals.append( {MF.removal_name : MF.n_leaching_removal, 'N':-N, MF.removal_info: ninfo})
 
         return removals
     

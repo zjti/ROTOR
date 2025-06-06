@@ -1,5 +1,5 @@
 import json
-import config 
+from ROTOR.utils import config 
 from pyodide.ffi import to_js
 from ROTOR.ff import update
 from ROTOR.ff import restrictions
@@ -16,5 +16,5 @@ def JSget_avail_crops_for_jahr(ffolge, jahr):
     return x
 
 def JSget_eval_data():
-    return json.dumps([])
+    return json.dumps(config.pyFolge.get_eval_data())
     # return json.dumps( config.... .get_eval_data())

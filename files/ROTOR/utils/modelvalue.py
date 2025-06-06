@@ -51,15 +51,16 @@ class ModelValue:
 
         
         bound_method = default_value
-         
+        
         self.instance = bound_method.__self__
+        
         for attr in dir(self.instance):
             if getattr(self.instance, attr) == bound_method:
                 method_name = attr
                 # print(method_name,attr)
                 break
         self.method_name = method_name    
-         
+        self.bound_method = bound_method
         setattr(self.instance, method_name, self )
         setattr(self.instance, method_name + "__org_func" , bound_method)
         
@@ -69,16 +70,27 @@ class ModelValue:
                'type': self.type,
                'visible': self.visible}
         if callable(self.default_value):
-            model[self.name] = self.default_value() 
+            value = self.default_value() 
+        else:
+            value = self.default_value
+
+        if isinstance(value, float):
+            value = round(value, 2)
+        model[self.name] = value
+        
         if self.unit:
             model['unit'] = self.unit
-
-        
+            
         return model
                 
     def get_value(self):
-        if default_value is not None:
-            return self.default_value()
+        return self.default_value()
+
+
+
+    def __call__(self,*args,**kwargs):
+        return self.get_value(*args,**kwargs)
+        
 
 class UserEditableModelValue(ModelValue):
     def __init__(self, name, 
@@ -94,39 +106,14 @@ class UserEditableModelValue(ModelValue):
             self.name_corrected = name_corrected
         else:
             self.name_corrected = name + '_corrected'
-
-
-        if name == 'dung_menge':
-            
-            print(name,self.user_value,'!',self.instance)
-            print(hasattr(self.instance,'_model_values') and self.instance._model_values and name in self.instance._model_values)
-            print(hasattr(self.instance,'_model_value_ref'))
-            
+ 
         if hasattr(self.instance,'_model_values') and self.instance._model_values and name in self.instance._model_values: 
-          
-            stored_model = self.instance._model_values[name]
-            
+            stored_model = self.instance._model_values[name]            
             if stored_model[stored_model['name_corrected']] != stored_model[stored_model['name']]:
                 self.user_value = stored_model[ stored_model['name_corrected' ]]
                 
-            # print(name,self.user_value)
-        # if hasattr(self.instance,'_model_value_ref') :
-        #     if (hasattr(self.instance._model_value_ref,'_model_values') and 
-        #         self.instance._model_value_ref._model_values and
-        #         name in self.instance._model_value_ref._model_values): 
-                    
-        #             stored_model = self.instance._model_value_ref._model_values[name]
-        #             if stored_model[stored_model['name_corrected']] != stored_model[stored_model['name']]:
-        #                 self.user_value = stored_model[ stored_model['name_corrected' ]]
-        #                 # print(name,self.user_value)
-        #                 # print(self.instance._model_value_ref._model_values)
-        #                 # print(self.instance._model_value)
 
          
-
-    def __call__(self,*args,**kwargs):
-        return self.get_value(*args,**kwargs)
-        
     
     def user_modified(self):
         return self.user_value != self.default_value()
@@ -140,9 +127,11 @@ class UserEditableModelValue(ModelValue):
             else:
                 model['select_opts'] = self.select_opts
 
-        
+        value = self.get_value()
+        if isinstance(value, float):
+            value = round(value, 2)
         model.update( {  'name_corrected': self.name_corrected, 
-                self.name_corrected : self.get_value()} )
+                self.name_corrected : value} )
         
         return model
            

@@ -1,6 +1,7 @@
 from ROTOR.utils.js.jsmodel import  ModelFields as MF
 from ROTOR.utils.js.jsmodel import  VisFields as VF
 from ROTOR.utils.modelvalue import ModelValue,ClassWithModelValues
+from ROTOR.economy.economy import FFEconomy
 
 class FFElement( ClassWithModelValues):
     def __init__(self, *args, **kwargs):
@@ -53,13 +54,17 @@ class FFElement( ClassWithModelValues):
         #     name_corrected = getattr(self, value).name_corrected
         #     if name_corrected in data:
         #         getattr(self, value).set_value( data[name_corrected] )
-            
+    def get_eval_data(self):
+        return {'crop':self.crop_data.crop_code, 
+                'supplies':self.get_supplies(),
+                'removals':self.get_removals()}
         
 
 class FFolge:
     def __init__(self,length):
         self.length = length
         self.crops = []
+
 
     def add_crop(self,ffelement):
         self.crops.append(ffelement)
@@ -74,7 +79,12 @@ class FFolge:
                 self.crops[-1].next_crop = self.crops[0]
             if self.crops[0]:
                 self.crops[0].pre_crop = self.crops[-1]
+        if ffelement:
+            if not hasattr(self,'ff_economy'):
+                self.ff_economy = FFEconomy( model_value_ref = ffelement )
 
+            ffelement.ff_economy = self.ff_economy
+        
     def post_init(self):
         for crop in self.crops:
             if crop is not None:
