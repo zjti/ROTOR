@@ -111,7 +111,8 @@ class Cerial(Crop ):
         worksteps.append( self.seed_bed_preparation_step )
         worksteps.append( self.drill_step)
 
-        if self.next_crop.has_cover_crop():
+
+        if self.next_crop and  self.next_crop.has_cover_crop():
             if self.next_crop.cover_crop.get_cultivation() == 'UNTER_SAAT':
                 unter_saat_date = 'APR1'
                 worksteps.append( WorkStep(name='Zwischenfruchtansaat (Untersaat)'  ,date=unter_saat_date ,crop=self))
