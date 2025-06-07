@@ -22,7 +22,11 @@ export function usePyodideInit() {
       
       `)
 
-    pyodide.value.loadPackage('micropip')
+    await pyodide.value.loadPackage('micropip')
+    await pyodide.value.runPythonAsync("import micropip")
+    await pyodide.value.runPythonAsync("micropip.install('reportlab')")
+      
+    
 
     // 1. Download missing files
     window.updateFiles = async () => {await downloadFiles(fileManifestUrl)}

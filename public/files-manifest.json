@@ -124,6 +124,10 @@
         "url": "/ROTOR/files/ROTOR/economy/economy.py"
     },
     {
+        "path": "ROTOR/economy/economy_report.py",
+        "url": "/ROTOR/files/ROTOR/economy/economy_report.py"
+    },
+    {
         "path": "ROTOR/management/workstep.py",
         "url": "/ROTOR/files/ROTOR/management/workstep.py"
     },
