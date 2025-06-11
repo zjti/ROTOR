@@ -10,6 +10,22 @@ import verkrautung from "../assets/params/verkraut.json";
 import params_dung from "../assets/params/params_dung.json";
 import weather_data from "../assets/params/wd.json";
 
+const userlocation = useStorage("USERINFO",{
+  "FARMNAME": {
+      "default": '',
+      "type": "string", 
+      "help":"Bitte Betriebsnamen für die Auswertung angeben"
+  },"USERNAME": {
+      "default": '',
+      "type": "string", 
+      "help":"Bitte Namen des Bearbeiters für die Auswertung angeben"
+  },"FARMSIZE": {
+      "default":"FARM_SMALL",
+      "type": "select",
+      "items":["FARM_SMALL","FARM_MEDIUM","FARM_BIG"]
+  },
+})
+
 await initializePyodide();
 await runPython('config.WEATHER_DATA = json.loads("""' + JSON.stringify(weather_data) + '""")');
 
@@ -19,10 +35,13 @@ const pdt = useStorage('PHYTO_DELAY_TIME', CdelayData_time)
 const pd = useStorage('PHYTO_DELAY', CdelayData)
 const pdung = useStorage('PARAMS_DUNG', params_dung)
 const ff = useStorage('FF', {})
+const puser = useStorage('PARAMS_USER', userlocation)
+
 const eval_data = useStorage('EVAL_DATA', {})
 
 
 export const globalStore = new Map();
+globalStore.set('PARAMS_USER', puser)
 globalStore.set('SOIL', psoil)
 globalStore.set('PHYTO_DELAY_TIME', pdt)
 globalStore.set('PHYTO_DELAY', pd)
@@ -111,6 +130,20 @@ const FF_trigger = trigger
       ignoreUpdates(() => {
         runPythonS('config.PHYTO_DELAY = json.loads("""' + JSON.stringify(newVal) + '""")')
         writetojupyter('config_data/PHYTO_DELAY.json', JSON.stringify(newVal))
+        FF_initialized_trigger()
+
+      })
+    }, { deep: true }
+  )
+  trigger()
+}
+{
+  const { trigger, ignoreUpdates } = watchTriggerable(
+    globalStore.get('PARAMS_USER'),
+    (newVal) => {
+      ignoreUpdates(() => {
+        runPythonS('config.PARAMS_USER = json.loads("""' + JSON.stringify(newVal) + '""")')
+        writetojupyter('config_data/PARAMS_USER.json', JSON.stringify(newVal))
         FF_initialized_trigger()
 
       })

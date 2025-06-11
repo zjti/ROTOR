@@ -44,7 +44,7 @@ watch(NJahre, (newValue, oldValue) => {
     <v-expansion-panels variant="accordion" v-model="panel">
       <v-expansion-panel :title="L('FF_CREATE')" class="custom-expansion-panel">
         <v-expansion-panel-text>
-          <NumberInput v-model="NJahre" class="custom-label-color" :label="L('FF_LENGTH')" style="width: 100%"
+          <NumberInput v-model="NJahre" min='0' max="12" class="custom-label-color" :label="L('FF_LENGTH')" style="width: 100%"
             hide-details="auto"></NumberInput>
         </v-expansion-panel-text>
       </v-expansion-panel>

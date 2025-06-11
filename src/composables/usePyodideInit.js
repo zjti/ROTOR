@@ -5,12 +5,7 @@ import usePyodide from '@/composables/usePyodide';
 export function usePyodideInit() {
   const { pyodide, runPythonS } = usePyodide();
 
-  // runPythonS(`
-  //     import os
-  //     import sys
-  //     import importlib`)
   
-
 
   const { triggerSync, initSync } = usePyodideSync(pyodide);
 
@@ -24,7 +19,8 @@ export function usePyodideInit() {
 
     await pyodide.value.loadPackage('micropip')
     await pyodide.value.runPythonAsync("import micropip")
-    await pyodide.value.runPythonAsync("micropip.install('reportlab')")
+    // await pyodide.value.runPythonAsync("micropip.install('reportlab')")
+    await pyodide.value.runPythonAsync("micropip.install('./reportlab-4.4.1-py3-none-any.whl')")
       
     
 

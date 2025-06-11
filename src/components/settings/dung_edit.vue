@@ -32,6 +32,7 @@ import { ref, reactive ,computed} from "vue";
         "P/FM": { type: "float", unit: "kg/t FM" },
         "K/FM": { type: "float", unit: "kg/t FM" },
         "HUMUS_HE": { type: "float", unit: "HE" },
+        "PREIS_EUR_PER_T": { type: "float", unit: "€/t" },
       },
 
       selectedKey: null,

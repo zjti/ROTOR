@@ -7,7 +7,8 @@
     "Nloss":14,
     "P/FM":1.2,
     "K/FM":7.4, 
-    "HUMUS_HE" : 0.3
+    "HUMUS_HE" : 0.3,
+    "PREIS_EUR_PER_T":30
 },
 "fest gerottet rind":{
     "TM":22,
@@ -17,7 +18,8 @@
     "Nloss":10,
     "P/FM":1.2,
     "K/FM":6.6,
-    "HUMUS_HE" : 0.3
+    "HUMUS_HE" : 0.3,
+    "PREIS_EUR_PER_T":30
 },
 "fest frisch schwein":{
     "TM":23,
@@ -27,7 +29,8 @@
     "Nloss":10,
     "P/FM":2.6,
     "K/FM":7.3,    
-    "HUMUS_HE" : 0.3
+    "HUMUS_HE" : 0.3,
+    "PREIS_EUR_PER_T":30
 },
 
 "fest frisch gefluegel":{
@@ -38,7 +41,8 @@
     "Nloss":17,
     "P/FM":5.5,
     "K/FM":8.8,
-    "HUMUS_HE" : 0.3
+    "HUMUS_HE" : 0.3,
+    "PREIS_EUR_PER_T":30
 },
 
 "fluessig rind":{
@@ -49,7 +53,8 @@
     "Nloss":18,
     "P/FM":0.5,
     "K/FM":5.5,
-    "HUMUS_HE" : 0.3
+    "HUMUS_HE" : 0.3,
+    "PREIS_EUR_PER_T":30
 },
 "fluessig schwein":{
     "TM":14,
@@ -59,6 +64,7 @@
     "Nloss":14,
     "P/FM":3.1,
     "K/FM":2.2,
-    "HUMUS_HE" : 0.3
+    "HUMUS_HE" : 0.3,
+    "PREIS_EUR_PER_T":30
 }
 }
