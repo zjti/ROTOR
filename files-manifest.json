@@ -92,6 +92,10 @@
         "url": "/ROTOR/files/ROTOR/crops/ACK_BOHNE.py"
     },
     {
+        "path": "ROTOR/crops/SOJA.py",
+        "url": "/ROTOR/files/ROTOR/crops/SOJA.py"
+    },
+    {
         "path": "ROTOR/crops/__init__.py",
         "url": "/ROTOR/files/ROTOR/crops/__init__.py"
     },
@@ -100,8 +104,24 @@
         "url": "/ROTOR/files/ROTOR/crops/HAFER.py"
     },
     {
-        "path": "ROTOR/crops/SOJA.py",
-        "url": "/ROTOR/files/ROTOR/crops/SOJA.py"
+        "path": "ROTOR/crops/SM_WEIZEN.py",
+        "url": "/ROTOR/files/ROTOR/crops/SM_WEIZEN.py"
+    },
+    {
+        "path": "ROTOR/crops/SM_GERST.py",
+        "url": "/ROTOR/files/ROTOR/crops/SM_GERST.py"
+    },
+    {
+        "path": "ROTOR/crops/DINKEL.py",
+        "url": "/ROTOR/files/ROTOR/crops/DINKEL.py"
+    },
+    {
+        "path": "ROTOR/crops/WN_GERSTE.py",
+        "url": "/ROTOR/files/ROTOR/crops/WN_GERSTE.py"
+    },
+    {
+        "path": "ROTOR/crops/WN_ROGGEN.py",
+        "url": "/ROTOR/files/ROTOR/crops/WN_ROGGEN.py"
     },
     {
         "path": "ROTOR/crops/data/__init__.py",
@@ -124,6 +144,10 @@
         "url": "/ROTOR/files/ROTOR/economy/economy.py"
     },
     {
+        "path": "ROTOR/economy/economy_report.py",
+        "url": "/ROTOR/files/ROTOR/economy/economy_report.py"
+    },
+    {
         "path": "ROTOR/management/workstep.py",
         "url": "/ROTOR/files/ROTOR/management/workstep.py"
     },
@@ -138,5 +162,8 @@
     {
         "path": "ROTOR/management/restrictions.py",
         "url": "/ROTOR/files/ROTOR/management/restrictions.py"
+    },   {
+        "path": "reportlab-4.4.1-py3-none-any.whl",
+        "url": "reportlab-4.4.1-py3-none-any.whl"
     }
 ]
