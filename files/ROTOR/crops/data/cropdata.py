@@ -115,6 +115,8 @@ FTTR_ERBSE = CropData(
     ),
     yield_dt_per_ha=35.0,
     n_fix_kg_per_dt=4.40,
+    hnv_ratio=1,
+
 )
 
 FTTR_RUEBE = CropData(
