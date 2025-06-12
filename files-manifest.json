@@ -58,7 +58,7 @@
     },
     {
         "path": "ROTOR/crops/FTTR_ERBSE.py",
-        "url": "/ROTOR/files/ROTOR/crops/FTTR_RUEBE.py"
+        "url": "/ROTOR/files/ROTOR/crops/FTTR_ERBSE.py"
     },
     {
         "path": "ROTOR/crops/TRITICALE.py",
@@ -122,6 +122,10 @@
     {
         "path": "ROTOR/utils/modelvalue.py",
         "url": "/ROTOR/files/ROTOR/utils/modelvalue.py"
+    },
+    {
+        "path": "ROTOR/utils/weather.py",
+        "url": "/ROTOR/files/ROTOR/utils/weather.py"
     },
     
     {
@@ -187,6 +191,12 @@
     {
         "path": "ROTOR/management/restrictions.py",
         "url": "/ROTOR/files/ROTOR/management/restrictions.py"
+    },   {
+        "path": "grid_lat_lon_data.json",
+        "url": "/ROTOR/files/grid_lat_lon_data.json"
+    },    {
+        "path": "grid_data.json",
+        "url": "/ROTOR/files/grid_data.json"
     },   {
         "path": "reportlab-4.4.1-py3-none-any.whl",
         "url": "reportlab-4.4.1-py3-none-any.whl"

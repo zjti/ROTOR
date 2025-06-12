@@ -47,7 +47,7 @@ class FFEconomy( ClassWithModelValues ):
         return 1
     
     def get_machinecost_faktor(self):
-        print('fs',config.PARAMS_USER['FARMSIZE'])
+        # print('fs',config.PARAMS_USER['FARMSIZE'])
         if config.PARAMS_USER['FARMSIZE']['default'] == 'FARM_SMALL':
             return 1.1
         if config.PARAMS_USER['FARMSIZE']['default']  == 'FARM_BIG':
