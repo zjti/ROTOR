@@ -4,21 +4,55 @@ from ROTOR.economy.covercropeconomy import CoverCropEconomy
 from ROTOR.utils.modelvalue import ModelValue,UserEditableModelValue
 from ROTOR.management.workstep import WorkStep, WorkStepList
 from ROTOR.utils.js.jsmodel import VisFields as VF
-
+from ROTOR.utils import config
  
 class FFEconomy( ClassWithModelValues ):
 
     def __init__(self, ffolge, *args,**kwargs):
         super().__init__(*args,**kwargs,model_value_group_name='economy')
         UserEditableModelValue('diesel_eur_per_l',self.get_diesel_eur_per_l ,tab=VF.eco_tab )
+        UserEditableModelValue('sesssion_labour_eur_per_h',self.get_sesssion_labour_eur_per_h ,tab=VF.eco_tab )
         UserEditableModelValue('extra_cost_eur_per_ha',self.get_extra_cost_eur_per_ha ,tab=VF.eco_tab )
+        
+        UserEditableModelValue('diesel_faktor',self.get_diesel_faktor ,tab=VF.eco_tab )
+        UserEditableModelValue('manhour_faktor',self.get_manhour_faktor ,tab=VF.eco_tab )
+        UserEditableModelValue('machinecost_faktor',self.get_machinecost_faktor ,tab=VF.eco_tab )
+
+        
         self.ffolge=ffolge
+        
+        
         
     def get_diesel_eur_per_l(self):
         return 1.7
 
     def get_extra_cost_eur_per_ha(self):
         return 50
+    
+    def get_sesssion_labour_eur_per_h(self):
+        return 13
+    
+    def get_diesel_faktor(self):
+        if config.PARAMS_USER['FARMSIZE']['default']  == 'FARM_SMALL':
+            return 1.1
+        if config.PARAMS_USER['FARMSIZE']['default']  == 'FARM_BIG':
+            return 0.9
+        return 1
+    
+    def get_manhour_faktor(self):
+        if config.PARAMS_USER['FARMSIZE']['default']  == 'FARM_SMALL':
+            return 1.1
+        if config.PARAMS_USER['FARMSIZE']['default']  == 'FARM_BIG':
+            return 0.9
+        return 1
+    
+    def get_machinecost_faktor(self):
+        print('fs',config.PARAMS_USER['FARMSIZE'])
+        if config.PARAMS_USER['FARMSIZE']['default'] == 'FARM_SMALL':
+            return 1.1
+        if config.PARAMS_USER['FARMSIZE']['default']  == 'FARM_BIG':
+            return 0.9
+        return 1
     
     def write_report(self):
         from ROTOR.economy.economy_report import EconomyReport
@@ -40,7 +74,10 @@ class CropEconomy( ClassWithModelValues ):
         
         # UserEditableModelValue('get_seed_kg_per_ha',self.get_seed_kg_per_ha ,tab=VF.eco_tab )
         # self.modelvalue_seed_kg_per_ha = crop.modelvalue_seed_kg_per_ha
-        UserEditableModelValue('seed_cost_eur_per_kg',self.get_seed_cost_eur_per_kg ,tab=VF.eco_tab , unit = '€/kg' )
+        if hasattr(self.crop , 'seed_u_per_ha'):
+            UserEditableModelValue('seed_cost_eur_per_u',self.get_seed_cost_eur_per_u ,tab=VF.eco_tab , unit = '€/U' )
+        else:
+            UserEditableModelValue('seed_cost_eur_per_kg',self.get_seed_cost_eur_per_kg ,tab=VF.eco_tab , unit = '€/kg' )
         ModelValue('seed_cost_eur_per_ha', self.get_seed_cost_eur_per_ha, tab=VF.eco_tab ,unit = '€/ha' )
         UserEditableModelValue('price_yield_eur_per_dt_fm', self.get_price_yield_eur_per_dt_fm, tab=VF.eco_tab , unit = '€/dt')
         UserEditableModelValue('extra_cost_eur_per_ha',self.get_extra_cost_eur_per_ha ,tab=VF.eco_tab ,unit = '€/ha' )
@@ -111,9 +148,17 @@ class CropEconomy( ClassWithModelValues ):
       
     def get_seed_cost_eur_per_kg(self):
         return self.seed_cost_eur_per_kg
+    
+    def get_seed_cost_eur_per_u(self):
+        return self.crop.seed_cost_eur_per_u
 
     def get_seed_cost_eur_per_ha(self):
-        return self.crop.get_seed_kg_per_ha() * self.get_seed_cost_eur_per_kg()
+        if hasattr(self.crop, 'get_seed_u_per_ha'):
+            return  self.crop.get_seed_u_per_ha() * self.get_seed_cost_eur_per_u() 
+        else:
+            return self.crop.get_seed_kg_per_ha() * self.get_seed_cost_eur_per_kg()
+    
+
 
     def get_other_leistung_eur_per_ha(self):
         return 0

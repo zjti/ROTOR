@@ -29,7 +29,6 @@ class Crop( FFElement):
         self.crop_data = crop_data
         self.crop_specific_leaching_coefficent = 1.0
     
-        UserEditableModelValue('seed_kg_per_ha',self.get_seed_kg_per_ha,tab = VF.anbau_tab )
         
          
         self.fertilizer_step = FertilizerStep(crop=self)

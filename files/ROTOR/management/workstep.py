@@ -1,6 +1,8 @@
 from ROTOR.utils.modelvalue import ModelValue,UserEditableModelValue,ClassWithModelValues
 from ROTOR.utils.js.jsmodel import VisFields as VF
 
+
+
 all_dates = [
     'JAN1','JAN2','FEB01','FEB2','MRZ1','MRZ2',
     'APR1','APR2','MAI1','MAI2','JUN1','JUN2',
@@ -76,6 +78,7 @@ class WorkStep( ClassWithModelValues ):
 
         ModelValue('get_diesel_eur_per_ha', self.get_diesel_eur_per_ha, unit = '€/l' )
 
+        
 
 
     def get_date_options(self):
@@ -89,17 +92,17 @@ class WorkStep( ClassWithModelValues ):
         return self.date
 
     def get_man_hours_h_per_ha(self):
-        return self.man_hours_h_per_ha
+        return self.man_hours_h_per_ha * self.crop.ff_economy.get_manhour_faktor()
 
     def get_diesel_l_per_ha(self):
-        return self.diesel_l_per_ha
+        return self.diesel_l_per_ha * self.crop.ff_economy.get_diesel_faktor()
 
     
     def get_diesel_eur_per_ha(self):
         return self.get_diesel_l_per_ha() * self.crop.ff_economy.get_diesel_eur_per_l()
 
     def get_machine_cost_eur_per_ha(self):
-        return self.machine_cost_eur_per_ha
+        return self.machine_cost_eur_per_ha * self.crop.ff_economy.get_machinecost_faktor()
 
 
 class PrimaryTilageStep(WorkStep):

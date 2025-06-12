@@ -602,6 +602,20 @@ ZWIBELN = CropData(
     real_name="Zwiebeln",
     table_name="Not listed",
     crop_group="Not listed",
-    primary_product=HarvestProduct(name="Not listed"),
+    primary_product=HarvestProduct(
+        name="Zwiebeln",
+        dry_matter_percent=23.0,
+        nitrogen_kg_per_dt=0.23,
+        phosphate_oxide_kg_per_dt=0.12,
+        potassium_oxide_kg_per_dt=0.30,
+        magnesium_oxide_kg_per_dt=0.09,
+    ),
+    
+    combined_nitrogen=0.23,
+    combined_phosphate=0.23,
+    combined_potassium=0.12,
+    combined_magnesium=0.3,
+    yield_dt_per_ha=300.0,
+    hnv_ratio=1,
 )
  

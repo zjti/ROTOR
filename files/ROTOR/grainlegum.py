@@ -12,9 +12,7 @@ from ROTOR.utils.js.jsmodel import ModelFields as MF
 from ROTOR.management.workstep import WorkStep,WorkStepList,num_to_date,date_to_num
 
  
-class Cerial(Crop ):
-
-    
+class GrainLegum(Crop ):
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs) 
@@ -25,10 +23,6 @@ class Cerial(Crop ):
         ModelValue('dung_herbst', self.autumn_fertelizer_application, tab = VF.dung_tab, visible=False)
         UserEditableModelValue('reduced_soil_management',
                                self.get_reduced_soil_management,
-                               type='bool', tab = VF.anbau_tab )
-        
-        UserEditableModelValue('byproduct_harvest',
-                               self.get_byproduct_harvest,
                                type='bool', tab = VF.anbau_tab )
         
         UserEditableModelValue('yield_dt_fm_per_ha',
@@ -48,17 +42,26 @@ class Cerial(Crop ):
 
         self.primary_tilage_step = PrimaryTilageStep(crop=self, date='OKT1')
         self.reduced_primary_tilage_step =  ReducedPrimaryTilageStep(crop=self ,date='OKT1')
-        self.spring_striegel_step = StriegelStep(name='Striegeln (Frühjahr)', crop=self, date = 'MRZ1' )
-        self.autumn_striegel_step = StriegelStep(name='Striegeln (Herbst)', crop=self, date = 'OKT2' )
-
-        self.harvest_step = HarvestStep (crop=self , date='JUL2')
-        self.byproduct_harvest_step = ByproductHarvestStep(crop=self,date='AUG1')
-        self.yield_transport_step = YieldTransportStep(crop=self,date='AUG1')
+        self.spring_striegel_step = StriegelStep(name='Striegeln', crop=self, date = 'MRZ1' )
         
+        self.hack_step = StriegelStep(name='Hacken', crop=self, date = 'APR2',
+                                                 machine_cost_eur_per_ha=7.7,
+                                                 diesel_l_per_ha= 4,
+                                                 man_hours_h_per_ha= 0.55)
+ 
+        self.harvest_step = HarvestStep (crop=self , date='AUG2',  
+                                         machine_cost_eur_per_ha= 15,
+                                         diesel_l_per_ha= 17,
+                                         man_hours_h_per_ha= 0.6)
         
-    
+        self.yield_transport_step = YieldTransportStep(crop=self,date='AUG2')
+      
+    def calc_yield_dt_fm_per_ha(self):
+        return 30 #  
+      
     def autumn_striegeln(self):
         return False
+  
     
     def spring_striegeln(self):
         return True
@@ -67,7 +70,7 @@ class Cerial(Crop ):
         return self.calc_yield_dt_fm_per_ha() * self.crop_data.hnv_ratio
 
     def autumn_fertelizer_application(self):
-        return True
+        return False
     
     def supports_undersowing(self):
         return True
@@ -132,6 +135,9 @@ class Cerial(Crop ):
         
         if self.spring_striegeln():
             worksteps.append( self.spring_striegel_step)
+            
+        if hasattr(self, 'hack_step'):
+            worksteps.append(self.hack_step)
 
         if self.next_crop and  self.next_crop.has_cover_crop():
             if self.next_crop.cover_crop.get_cultivation() == 'UNTER_SAAT':
@@ -143,13 +149,10 @@ class Cerial(Crop ):
         worksteps.append( self.yield_transport_step)
 
         
-        if self.get_byproduct_harvest():
-            worksteps.append( self.byproduct_harvest_step )
-        
         return worksteps
         
 
-class SummerCerial( Cerial ):
+class SummerGrainLegum( GrainLegum ):
 
     
     
@@ -184,7 +187,7 @@ class SummerCerial( Cerial ):
 
         
 
-class WinterCerial( Cerial ):
+class WinterGrainLegum(GrainLegum):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs) 
         
