@@ -1,6 +1,9 @@
 import json
 import numpy as np
 
+import numpy as np
+from scipy.interpolate import CubicSpline
+
 with open('grid_lat_lon_data.json') as f:
     grid_nos,lats,lons = json.load(f)
 
@@ -39,6 +42,33 @@ def get_two_nearest_grid_ids(lat, lon):
     return ((grid_nos[nearest_idxs[0]], dists[nearest_idxs[0]]),
             (grid_nos[nearest_idxs[1]], dists[nearest_idxs[1]]))
     
-     
+    
 
-# get_two_nearest_grid_ids(12,8,grid_nos, lats,lons)
+def load_from_lat_lon(lat_lon):
+
+    """
+     ['TEMPERATURE_MAX', 'TEMPERATURE_MIN', 'TEMPERATURE_AVG',
+                 'PRECIPITATION', 'ET0', 'RADIATION']
+    """
+    ((g_no1, dist),(g_no2, dist)) = get_two_nearest_grid_ids(lat_lon['lat'],lat_lon['lon'])
+    
+    data_temp_avg = grid_data[g_no1]['TEMPERATURE_AVG']
+    
+
+    # Original monthly means
+    monthly_means = np.array(data_temp_avg)
+
+    # Mid-month days
+    days_of_month = np.array([15, 45, 74, 105, 135, 166, 196, 227, 258, 288, 319, 349])
+
+    # Extend data to include day 380 = Jan again for periodicity
+    extended_days = np.append(days_of_month, 380)
+    extended_means = np.append(monthly_means, monthly_means[0])
+
+    # Fit periodic spline
+    spline = CubicSpline(extended_days, extended_means, bc_type='periodic')
+
+    # Interpolate daily values
+    days = np.arange(1, 366)
+    daily_temps = spline(days)
+

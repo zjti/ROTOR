@@ -11,7 +11,8 @@ def JSupdateWeather(lat_lon_json):
     print('Upda te weather')
     lat_lon = json.loads(lat_lon_json)
     try:
-        print('gno' ,weather.get_two_nearest_grid_ids(lat_lon['lat'],lat_lon['lon']))
+        weather.load_from_lat_lon(lat_lon)
+        print('gno' ,)
     except:
         pass
 
