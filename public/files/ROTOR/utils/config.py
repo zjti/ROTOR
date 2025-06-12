@@ -4,6 +4,7 @@ FFolge = {}
 py_FFolge = {}
 PHYTO_DELAY_TIME = {} 
 DUNG_DATA = {}
+PARAMS_USER ={}
 
 import json
 def jupyter_load_config():

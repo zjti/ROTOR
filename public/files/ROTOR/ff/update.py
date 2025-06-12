@@ -18,7 +18,7 @@ def updateFFlength(ffolge, NJahre):
         if ( k not in ffolge):
             ffolge[k] = {'crop':'',
                         'vis':{},
-                         'restr_select_phyto':False,
+                         'restr_select_phyto':True,
                          'restr_select_time':True,
                         }
 
@@ -75,23 +75,28 @@ def updateFF(ffolge):
     if not has_changes(ffolge):
         return old_ffolge_json
     
-    pyFolge = FFolge( len(ffolge) )
+    new_pyFolge = FFolge( len(ffolge) )
     
-    for val in ffolge.values():
+    for J,val in enumerate(ffolge.values()):
         if MF.crop not in val:
-            pyFolge.add_crop(None)
+            new_pyFolge.add_crop(None)
             continue
 
         if val[MF.crop] not in crop_dict:
-            pyFolge.add_crop(None)
+            new_pyFolge.add_crop(None)
             continue
         
-        new_crop = crop_dict[val[MF.crop]](model_values = val.get('MODELVALUES',None))
+        if pyFolge and pyFolge.crops[J] and  pyFolge.crops[J].crop_data.crop_code == val[MF.crop]:
+            new_crop = crop_dict[val[MF.crop]](model_values = val.get('MODELVALUES',None))
+        else:
+            new_crop = crop_dict[val[MF.crop]]()
+            
         # new_crop.deserialize( val )
-        pyFolge.add_crop( new_crop )
+        new_pyFolge.add_crop( new_crop )
         
-    pyFolge.post_init()
+    new_pyFolge.post_init()
     # print(pyFolge.crops)
+    pyFolge = new_pyFolge
     config.pyFolge = pyFolge
     new_ffolge = pyFolge.serialize()
     

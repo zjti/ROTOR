@@ -18,11 +18,11 @@ class ClassWithModelValues:
             setattr(model_value_ref, '_model_child_'+str(id(self)), self)
              
     def serialize_model_values(self):
-        print(' serialize_model_values(self)',self)
+        # print(' serialize_model_values(self)',self)
         model_values = {} 
         # model_data = {value : value.get_model() for name, value in self.__dict__.items() if isinstance(value, ModelValue)}
         model_data = {value : value.get_model() for name, value in self.__dict__.items() if isinstance_by_name(value, "ModelValue")}
-        print(' len(model_data)', len(model_data))
+        # print(' len(model_data)', len(model_data))
         for value, model in model_data.items():
             model_values[value.name] = model 
 

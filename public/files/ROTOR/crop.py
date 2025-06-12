@@ -29,12 +29,8 @@ class Crop( FFElement):
         self.crop_data = crop_data
         self.crop_specific_leaching_coefficent = 1.0
     
-        UserEditableModelValue('seed_kg_per_ha',self.get_seed_kg_per_ha,tab = VF.anbau_tab )
-        # UserEditableModelValue('primary_product_crude_protein_percent', 
-        #                     self.get_primary_product_crude_protein_percentage,tab = VF.ertrag_tab )
-        # UserEditableModelValue('primary_product_nitrogen_kg_per_dt',
-        #                     self.get_primary_product_nitrogen_kg_per_dt , tab=VF.ertrag_tab)
-
+        
+         
         self.fertilizer_step = FertilizerStep(crop=self)
         self.primary_tilage_step = PrimaryTilageStep(crop=self)
         self.reduced_primary_tilage_step =  ReducedPrimaryTilageStep(crop=self)

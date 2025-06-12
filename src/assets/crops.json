@@ -2,7 +2,7 @@
 {
     "ACK_BOHNE":["ZW_VOR","ZW_NACH","US_VOR"],
     "FTTR_ERBSE":["ZW_VOR","ZW_NACH","REDUCED"],
-    "FTTR_RUEBE":["ZW_VOR","DUNG"],
+    
     
     "KRN_MAIS":["STROH","ZW_VOR","US_VOR","DUNG"],
     "LEG_GRAS":["DUNG"],
@@ -10,10 +10,12 @@
     "SILO_MAIS":["ZW_VOR","US_VOR","DUNG"],
     "SOJA":["ZW_NACH","US_VOR","US_NACH"],
     
-    
+    "ZUCKER_RUEBE":["ZW_VOR","DUNG"],
+    "FTTR_RUEBE":["ZW_VOR","DUNG"],
     "SP_KART":["ZW_VOR","ZW_NACH","US_VOR","DUNG"],
     "SP_MOEHR":["ZW_VOR","US_VOR","DUNG"],
     "STECK_RUEBE":["ZW_VOR","US_VOR"],
+
     "WN_RAPS":["ZW_NACH","DUNG","REDUCED"],
     
     "TRITICALE":["STROH","ZW_NACH","US_NACH","DUNG","REDUCED"],
@@ -22,7 +24,6 @@
     "WN_WEIZEN":["STROH","ZW_VOR","ZW_NACH","US_VOR","US_NACH","DUNG","REDUCED"],
     "DINKEL":["STROH","ZW_NACH","US_NACH","DUNG","REDUCED"],
     
-    "ZUCKER_RUEBE":["ZW_VOR","DUNG"],
     "ZWIBELN":["ZW_VOR","DUNG"],
 
     "HAFER":["STROH","ZW_VOR","ZW_NACH","US_VOR","US_NACH","DUNG","REDUCED","MECH_QUECK"],

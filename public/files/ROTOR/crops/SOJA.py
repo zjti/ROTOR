@@ -1,24 +1,32 @@
 from ROTOR.crop import Crop
+from ROTOR.grainlegum import SummerGrainLegum
 from ROTOR.crops.data import cropdata
 from ROTOR.utils import config
 from ROTOR.utils.js.jsmodel import VisFields as VF
 
 from ROTOR.utils.modelvalue import ModelValue,UserEditableModelValue
+from ROTOR.management.workstep import FertilizerStep, PrimaryTilageStep, ReducedPrimaryTilageStep, StriegelStep         
 
 
 
-class SOJA(Crop):
+class SOJA(SummerGrainLegum):
 
-    price_yield_eur_per_dt_fm = 19.00
-    seed_cost_eur_per_kg = 0.8
+    price_yield_eur_per_dt_fm = 75.00
+    seed_cost_eur_per_kg = 3.5
     seed_kg_per_ha = 120
     
     def __init__(self, *args, **kwargs):
         super().__init__(cropdata.SOJA, *args, **kwargs)
 
-        UserEditableModelValue('yield_dt_fm_per_ha',
-                               self.calc_yield_dt_fm_per_ha,
-                               tab = VF.ertrag_tab, unit='FM dt/ha' )
+        self.hack_step = StriegelStep(name='Hacken', crop=self, date = 'APR2',
+                                                 machine_cost_eur_per_ha=7.7,
+                                                 diesel_l_per_ha= 4,
+                                                 man_hours_h_per_ha= 0.55)
+        
+        
+    
+    def supports_undersowing(self):
+        return True
     
     def get_crop_opts(self):
         return ["ZW_VOR","US_NACH","US_VOR"]

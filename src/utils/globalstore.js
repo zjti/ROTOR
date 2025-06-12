@@ -39,6 +39,7 @@ const puser = useStorage('PARAMS_USER', userlocation)
 
 const eval_data = useStorage('EVAL_DATA', {})
 
+const location = useStorage('LOCATION_LAT_LONG',{})
 
 export const globalStore = new Map();
 globalStore.set('PARAMS_USER', puser)
@@ -49,6 +50,8 @@ globalStore.set('VERKRAUTUNG', verkraut)
 globalStore.set('DUNG_DATA', pdung)
 globalStore.set('FF', ff)
 globalStore.set('EVAL_DATA', eval_data)
+globalStore.set('LOCATION_LAT_LONG', location)
+
 
 
 

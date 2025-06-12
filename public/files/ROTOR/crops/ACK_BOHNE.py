@@ -1,8 +1,8 @@
-from ROTOR.crop import Crop
+from ROTOR.grainlegum import GrainLegum
 from ROTOR.crops.data import cropdata
 from ROTOR.utils import config
 
-class ACK_BOHNE(Crop):
+class ACK_BOHNE(GrainLegum):
     
     
     price_yield_eur_per_dt_fm = 59.00

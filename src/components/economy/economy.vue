@@ -37,8 +37,8 @@ const fu = () => {
 
                     <modelvalue v-model="FF['1'].MODELVALUES.economy.diesel_eur_per_l" />
                     <modelvalue v-model="FF['1'].MODELVALUES.economy.extra_cost_eur_per_ha" helpText="Dieser wert kann in jedem Anbaujahr angepasst werden. Kann Kosten für Versicherungen etc. beinhalten. "/>
-
-                    <v-btn @click="fu()">Download</v-btn>
+                    <modelvalue v-model="FF['1'].MODELVALUES.economy.sesssion_labour_eur_per_h" />
+                    <v-btn @click="fu()">Download</v-btn>  
                     
 
                 </v-expansion-panel-text>
@@ -63,11 +63,16 @@ const fu = () => {
                             </v-expansion-panel-text>
                         </v-expansion-panel>
                         
-
-                        <v-expansion-panel title="Saatgut">
+                         <v-expansion-panel title="Saatgut">
                             <v-expansion-panel-text>
-                                <modelvalue v-model="value.MODELVALUES.seed_kg_per_ha" />
-                                <modelvalue v-model="value.MODELVALUES.cropeconomy.seed_cost_eur_per_kg" />
+                                
+                                <div v-if="!('seed_u_per_ha' in value.MODELVALUES)" >
+                                <modelvalue v-model="value.MODELVALUES.seed_kg_per_ha"  />
+                                <modelvalue v-model="value.MODELVALUES.cropeconomy.seed_cost_eur_per_kg"  />
+                                </div><div v-else>
+                                <modelvalue v-model="value.MODELVALUES.seed_u_per_ha"  />
+                                <modelvalue v-model="value.MODELVALUES.cropeconomy.seed_cost_eur_per_u"/>
+                                </div>
                                 <modelvalue v-model="value.MODELVALUES.cropeconomy.seed_cost_eur_per_ha" />
 
 

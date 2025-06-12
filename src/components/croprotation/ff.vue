@@ -174,7 +174,7 @@ watch(NJahre, (newValue, oldValue) => {
                     </v-card-item>
                     <v-card-text>
                       <v-checkbox :label="L('RESTRICT_PHYTO')" v-model="FF[jahr].restr_select_phyto"></v-checkbox>
-                      <v-checkbox :label="L('RESTRICT_TIME')" v-model="FF[jahr].restr_select_time"></v-checkbox>
+                      <!-- <v-checkbox :label="L('RESTRICT_TIME')" v-model="FF[jahr].restr_select_time"></v-checkbox> -->
                     </v-card-text>
                   </v-card>
                 </v-tabs-window-item>
