@@ -93,7 +93,10 @@ class Crop( FFElement):
         return supplies
     
     def get_N_uptake(self):
-        return 50
+        PpN = self.get_primary_product_nitrogen_kg_per_dt() * self.calc_yield_dt_fm_per_ha() 
+        PpN += PpN * 0.1
+        return PpN
+
 
     def calc_yield_from_fertilizer_dt_fm_per_ha(self):
     
@@ -133,7 +136,7 @@ class Crop( FFElement):
         N_leaching = N_surplus * N_leaching_prob
         N_leaching *= self.crop_specific_leaching_coefficent
         
-        return N_leaching, f"leachingprob {N_leaching_prob:.2f}  surpl{N_surplus:.2f} n_from_mineralization {N_from_mineralization:.2f}"
+        return N_leaching, f"leachingprob {N_leaching_prob:.2f} ndfs{N_dfs:.2f} surpl{N_surplus:.2f} n_from_mineralization {N_from_mineralization:.2f}"
     
     def get_removals(self):
         removals = []

@@ -42,9 +42,9 @@ class KRN_MAIS(Crop):
                                self.calc_yield_from_fertilizer_dt_fm_per_ha,
                                tab = VF.ertrag_tab, unit='FM dt/ha' )
 
-        UserEditableModelValue('byproduct_yield_dt_fm_per_ha',
-                               self.calc_byproduct_yield_dt_fm_per_ha,
-                               tab = VF.ertrag_tab,unit='FM dt/ha' )
+        # UserEditableModelValue('byproduct_yield_dt_fm_per_ha',
+        #                        self.calc_byproduct_yield_dt_fm_per_ha,
+        #                        tab = VF.ertrag_tab,unit='FM dt/ha' )
 
         UserEditableModelValue('has_cover_crop',self.has_cover_crop ,tab=VF.anbau_tab,visible=True, type='bool')
     

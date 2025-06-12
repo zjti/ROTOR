@@ -10,6 +10,7 @@ with open('grid_lat_lon_data.json') as f:
 with open('grid_data.json') as f:
     grid_data = json.load(f)
 
+daily_TEMPERATURE_AVG = None
 
 
 def haversine(lat1, lon1, lat2, lon2):
@@ -50,9 +51,11 @@ def load_from_lat_lon(lat_lon):
      ['TEMPERATURE_MAX', 'TEMPERATURE_MIN', 'TEMPERATURE_AVG',
                  'PRECIPITATION', 'ET0', 'RADIATION']
     """
+    global daily_TEMPERATURE_AVG
+    
     ((g_no1, dist),(g_no2, dist)) = get_two_nearest_grid_ids(lat_lon['lat'],lat_lon['lon'])
     
-    data_temp_avg = grid_data[g_no1]['TEMPERATURE_AVG']
+    data_temp_avg = grid_data[str(g_no1)]['TEMPERATURE_AVG']
     
 
     # Original monthly means
@@ -70,5 +73,5 @@ def load_from_lat_lon(lat_lon):
 
     # Interpolate daily values
     days = np.arange(1, 366)
-    daily_temps = spline(days)
+    daily_TEMPERATURE_AVG = spline(days)
 

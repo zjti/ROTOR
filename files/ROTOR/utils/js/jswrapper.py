@@ -8,7 +8,7 @@ from ROTOR.ff import restrictions
 
 def JSupdateWeather(lat_lon_json):
     print('aaa')
-    print('Upda te weather')
+    print('Upda te weather', lat_lon_json)
     lat_lon = json.loads(lat_lon_json)
     try:
         weather.load_from_lat_lon(lat_lon)

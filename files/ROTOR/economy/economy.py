@@ -9,6 +9,7 @@ from ROTOR.utils import config
 class FFEconomy( ClassWithModelValues ):
 
     def __init__(self, ffolge, *args,**kwargs):
+        
         super().__init__(*args,**kwargs,model_value_group_name='economy')
         UserEditableModelValue('diesel_eur_per_l',self.get_diesel_eur_per_l ,tab=VF.eco_tab )
         UserEditableModelValue('sesssion_labour_eur_per_h',self.get_sesssion_labour_eur_per_h ,tab=VF.eco_tab )
@@ -18,10 +19,20 @@ class FFEconomy( ClassWithModelValues ):
         UserEditableModelValue('manhour_faktor',self.get_manhour_faktor ,tab=VF.eco_tab )
         UserEditableModelValue('machinecost_faktor',self.get_machinecost_faktor ,tab=VF.eco_tab )
 
+        ModelValue('ff_gross_margin_eur_per_ha', self.get_ff_gross_margin_eur_per_ha, unit = '€/ha')
         
         self.ffolge=ffolge
         
         
+        
+    def get_ff_gross_margin_eur_per_ha(self):
+        S,N=0,0
+        for crop in self.ffolge.crops:
+            if crop:
+                if hasattr(crop,'economy'):
+                    S += crop.economy.get_gross_margin_eur_per_ha()
+                    N += 1
+        return S/N
         
     def get_diesel_eur_per_l(self):
         return 1.7
