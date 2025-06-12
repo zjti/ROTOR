@@ -10,9 +10,10 @@ def JSupdateWeather(lat_lon_json):
     print('aaa')
     print('Upda te weather')
     lat_lon = json.loads(lat_lon_json)
-    
-    print('gno' ,weather.get_two_nearest_grid_ids(lat_lon['lat'],lat_lon['lon']))
-    
+    try:
+        print('gno' ,weather.get_two_nearest_grid_ids(lat_lon['lat'],lat_lon['lon']))
+    except:
+        pass
 
 def JSdownload_eco_report():
     return config.pyFolge.ff_economy.write_report()
