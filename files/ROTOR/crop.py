@@ -73,7 +73,13 @@ class Crop( FFElement):
         return self.crop_data.primary_product.crude_protein_percent
     
     def get_primary_product_nitrogen_kg_per_dt(self):
-        return self.crop_data.primary_product.nitrogen_kg_per_dt
+        try:
+            if self.crop_data.primary_product.nitrogen_kg_per_dt:
+                return self.crop_data.primary_product.nitrogen_kg_per_dt
+
+        except:
+            pass    
+        return 0
 
     def get_primary_product_phosphate_kg_per_dt(self):
         return self.crop_data.primary_product.phosphate_oxide_kg_per_dt * 0.4364
@@ -84,15 +90,18 @@ class Crop( FFElement):
     
     def get_supplies(self):
         supplies = []
-        N = self.get_seed_kg_per_ha() /100 * self.get_primary_product_nitrogen_kg_per_dt()
-        P = self.get_seed_kg_per_ha() /100 * self.get_primary_product_phosphate_kg_per_dt()
-        K = self.get_seed_kg_per_ha() /100 * self.get_primary_product_potassium_kg_per_dt()
-        
-        supplies.append( {MF.supply_name : MF.seed_supply, 'N':N, 'P':P, 'K':K , MF.supply_info: ""})
+        try:
+            N = self.get_seed_kg_per_ha() /100 * self.get_primary_product_nitrogen_kg_per_dt()
+            P = self.get_seed_kg_per_ha() /100 * self.get_primary_product_phosphate_kg_per_dt()
+            K = self.get_seed_kg_per_ha() /100 * self.get_primary_product_potassium_kg_per_dt()
             
+            supplies.append( {MF.supply_name : MF.seed_supply, 'N':N, 'P':P, 'K':K , MF.supply_info: ""})
+        except:
+            print('seed_suply_error')
         return supplies
     
     def get_N_uptake(self):
+        
         PpN = self.get_primary_product_nitrogen_kg_per_dt() * self.calc_yield_dt_fm_per_ha() 
         PpN += PpN * 0.1
         return PpN

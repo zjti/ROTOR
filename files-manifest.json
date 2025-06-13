@@ -53,6 +53,10 @@
         "url": "/ROTOR/files/ROTOR/crops/ZUCKER_RUEBE.py"
     },
     {
+        "path": "ROTOR/crops/SP_KART.py",
+        "url": "/ROTOR/files/ROTOR/crops/SP_KART.py"
+    },
+    {
         "path": "ROTOR/crops/FTTR_RUEBE.py",
         "url": "/ROTOR/files/ROTOR/crops/FTTR_RUEBE.py"
     },
@@ -67,6 +71,14 @@
     {
         "path": "ROTOR/crops/LUPINE.py",
         "url": "/ROTOR/files/ROTOR/crops/LUPINE.py"
+    },
+    {
+        "path": "ROTOR/crops/LEG_GRAS.py",
+        "url": "/ROTOR/files/ROTOR/crops/LEG_GRAS.py"
+    },
+    {
+        "path": "ROTOR/crops/legray.py",
+        "url": "/ROTOR/files/ROTOR/crops/legray.py"
     },
 
 
@@ -109,6 +121,10 @@
     },
     {
         "path": "ROTOR/utils/config.py",
+        "url": "/ROTOR/files/ROTOR/utils/config.py"
+    },
+    {
+        "path": "config_data/config.py",
         "url": "/ROTOR/files/ROTOR/utils/config.py"
     },
     {

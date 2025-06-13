@@ -1,33 +1,62 @@
-import config
+from ROTOR.utils import config
+from ROTOR.utils import weather
+
 
 def calcLG(old_cuts ,spring_seeding=False):
     """
     old_cuts is uses to extract 'nutz'
     """
-    wd = config.WEATHER_DATA
     LEGRAY_CONSTS['NFK'] = config.SOIL['NFK']['default']
     
     legray_state = get_lgstate_0()
     print(legray_state,'LEGRAY')
-    # print(bkr, end=',')
-    for r in wd['data']:
-        if int(r['SDAY'])<1101:
-            continue
-        add_day(r,legray_state)
+
+
+    start = weather.mmdd_to_day_index('1101')
+    end = weather.mmdd_to_day_index('1231')
+
+ 
+    for day_i in range(start,end):
+        wd = {}
+        wd['nied'] = weather.daily_weather['PRECIPITATION'][day_i]
+        wd['stra'] = weather.daily_weather['RADIATION'][day_i]   * 0.0864 
+        wd['tmit']  = weather.daily_weather['TEMPERATURE_AVG'][day_i]
+        wd['tmin']  = weather.daily_weather['TEMPERATURE_MIN'][day_i]
+        wd['tmax']  = weather.daily_weather['TEMPERATURE_MAX'][day_i]
+        wd['day_of_year'] = day_i
+        wd['month_of_year'] = weather.day_index_to_month(day_i)
         
-    for r in wd['data']:
-        add_day(r,legray_state, verbose=False,spring_seeding=spring_seeding )
+        add_day(wd,legray_state)
+
+    
+    start = weather.mmdd_to_day_index('0101')
+    end = weather.mmdd_to_day_index('1231')
+    for day_i in range(start,end):
+        wd = {}
+        wd['nied'] = weather.daily_weather['PRECIPITATION'][day_i]
+        wd['stra'] = weather.daily_weather['RADIATION'][day_i]   * 0.0864 
+        wd['tmit']  = weather.daily_weather['TEMPERATURE_AVG'][day_i]
+        wd['tmin']  = weather.daily_weather['TEMPERATURE_MIN'][day_i]
+        wd['tmax']  = weather.daily_weather['TEMPERATURE_MAX'][day_i]
+        wd['day_of_year'] = day_i
+        wd['month_of_year'] = weather.day_index_to_month(day_i)
+        
+        add_day(wd,legray_state)
+    
+    # for r in wd['data']:
+    #     add_day(r,legray_state, verbose=False,spring_seeding=spring_seeding )
         
     print(legray_state['cuts'])
     #(1, '0525', 3.926836982871826), (2, '0702', 3.981348652233907), (3, '0817', 4.0199544128050375), (4, '0928', 1.77122647532251)
     
-    schnitte={}
-    for n,date,menge in legray_state['cuts']:
-        schnitte[str(n)] = {'yield': int(100*(menge*10))/100, 'nutz':'grünfutter'}
-        if str(n) in old_cuts and 'nutz' in old_cuts[str(n)]:
-            schnitte[str(n)]['nutz'] = old_cuts[str(n)]['nutz']
+    return legray_state['cuts']
+    # schnitte={}
+    # for n,date,menge in legray_state['cuts']:
+    #     schnitte[str(n)] = {'yield': int(100*(menge*10))/100, 'nutz':'grünfutter'}
+    #     if str(n) in old_cuts and 'nutz' in old_cuts[str(n)]:
+    #         schnitte[str(n)]['nutz'] = old_cuts[str(n)]['nutz']
     
-    return schnitte
+    # return schnitte
     
 
 LEGRAY_CONSTS = {
@@ -79,13 +108,13 @@ def get_lgstate_0():
 
 
 def add_day(weather_of_the_day, legray_state , verbose=True , spring_seeding = False):
-    weather_of_the_day['nied'] = weather_of_the_day['PRECIPITATION'] 
-    weather_of_the_day['stra'] = weather_of_the_day['RADIATION']   * 0.0864 
-    weather_of_the_day['tmit'] = weather_of_the_day['TEMPERATURE_AVG'] 
-    weather_of_the_day['tmin'] = weather_of_the_day['TEMPERATURE_MIN'] 
-    weather_of_the_day['tmax'] = weather_of_the_day['TEMPERATURE_MAX'] 
-    weather_of_the_day['Datum'] = weather_of_the_day['SDAY'] 
-    weather_of_the_day['monat'] = int( weather_of_the_day['SDAY'][:2] )
+    # weather_of_the_day['nied'] = weather_of_the_day['PRECIPITATION'] 
+    # weather_of_the_day['stra'] = weather_of_the_day['RADIATION']   * 0.0864 
+    # weather_of_the_day['tmit'] = weather_of_the_day['TEMPERATURE_AVG'] 
+    # weather_of_the_day['tmin'] = weather_of_the_day['TEMPERATURE_MIN'] 
+    # weather_of_the_day['tmax'] = weather_of_the_day['TEMPERATURE_MAX'] 
+    # weather_of_the_day['Datum'] = weather_of_the_day['SDAY'] 
+    # weather_of_the_day['monat'] = int( weather_of_the_day['SDAY'][:2] )
     
     if legray_state['last_cut'] == 2  and spring_seeding:
         return
@@ -97,7 +126,7 @@ def add_day(weather_of_the_day, legray_state , verbose=True , spring_seeding = F
     NS = weather_of_the_day['nied']
     #MZeig = WENN(ODER(MONAT(A7)=1;MONAT(A7)=2;MONAT(A7)=11;MONAT(A7)=12);1;0) 
     #MZeig $E
-    MZeig = weather_of_the_day['monat'] in LEGRAY_CONSTS['MZeig_Months']
+    MZeig = weather_of_the_day['month_of_year'] in LEGRAY_CONSTS['MZeig_Months']
     #NSkorr =WENN(UND(D7<Algorithmen!$A$17;E7=0);0;D7)
     #NSkorr $F
     NSkorr = 0 if NS < LEGRAY_CONSTS['TRM_KOEFF_0_1'] and MZeig == 0 else NS
@@ -158,11 +187,11 @@ def add_day(weather_of_the_day, legray_state , verbose=True , spring_seeding = F
     # $AF
     # GTS_T =WENN(O130>0;WENN(ODER(MONAT(A130)=11;MONAT(A130)=12);0;WENN(MONAT(A130)=1;Algorithmen!$I$5;WENN(MONAT(A130)=2;Algorithmen!$I$6; WENN(MONAT(A130)=3;1;1))))*O130;0)
     GTS_T = max(weather_of_the_day['tmit'],0)
-    if  weather_of_the_day['monat'] in [11,12]:
+    if  weather_of_the_day['month_of_year'] in [11,12]:
         GTS_T=0
-    elif weather_of_the_day['monat'] in [1]:
+    elif weather_of_the_day['month_of_year'] in [1]:
         GTS_T *= LEGRAY_CONSTS['GRUENLAND_TEMP_JAN']
-    elif weather_of_the_day['monat'] in [2]:
+    elif weather_of_the_day['month_of_year'] in [2]:
         GTS_T *= LEGRAY_CONSTS['GRUENLAND_TEMP_FEB']
     
     legray_state['GTS_T_sum'] += GTS_T
@@ -205,8 +234,8 @@ def add_day(weather_of_the_day, legray_state , verbose=True , spring_seeding = F
     if legray_state['HETT'] > cur_cut_HETT_target:
         legray_state['last_cut']+=1
         if verbose :
-            print('cut',legray_state['last_cut'],weather_of_the_day['Datum'], legray_state['cur_growth'])
-        legray_state['cuts'] += [(legray_state['last_cut'],weather_of_the_day['Datum'], legray_state['cur_growth'])]
+            print('cut',legray_state['last_cut'],weather_of_the_day['day_of_year'], legray_state['cur_growth'])
+        legray_state['cuts'] += [(legray_state['last_cut'],weather_of_the_day['day_of_year'], legray_state['cur_growth'])]
         if legray_state['last_cut'] == 4:
             return 
         

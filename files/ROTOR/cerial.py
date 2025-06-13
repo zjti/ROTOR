@@ -81,12 +81,26 @@ class Cerial(Crop ):
             
         return supplies
         
+    def get_N_uptake(self):
+        PpN = self.get_primary_product_nitrogen_kg_per_dt() * self.calc_yield_dt_fm_per_ha() 
+        PpN += self.calc_byproduct_yield_dt_fm_per_ha() * self.crop_data.straw_product.nitrogen_kg_per_dt
+        PpN += self.calc_byproduct_yield_dt_fm_per_ha() * self.crop_data.straw_product.nitrogen_kg_per_dt * 0.3
+        return PpN
+
+    
     def get_removals(self):
         removals = super().get_removals()
         N = self.calc_yield_dt_fm_per_ha() * self.get_primary_product_nitrogen_kg_per_dt()
         P = self.calc_yield_dt_fm_per_ha() * self.crop_data.primary_product.phosphate_oxide_kg_per_dt * 0.4364
         K = self.calc_yield_dt_fm_per_ha() * self.crop_data.primary_product.potassium_oxide_kg_per_dt * 0.83 
         removals.append( {MF.removal_name : MF.primary_harvest_removal, 'N':-N, 'P':-P, 'K':-K , MF.removal_info: "-"})
+
+        if self.get_byproduct_harvest():
+            N = self.calc_byproduct_yield_dt_fm_per_ha() * self.crop_data.straw_product.nitrogen_kg_per_dt
+            P = self.calc_byproduct_yield_dt_fm_per_ha() * self.crop_data.straw_product.phosphate_oxide_kg_per_dt * 0.4364
+            K = self.calc_byproduct_yield_dt_fm_per_ha() * self.crop_data.straw_product.potassium_oxide_kg_per_dt * 0.83 
+            removals.append( {MF.removal_name : "BYPRODUCT_HARVEST", 'N':-N, 'P':-P, 'K':-K , MF.removal_info: "-"})
+            
         return removals
 
     def get_worksteps(self):

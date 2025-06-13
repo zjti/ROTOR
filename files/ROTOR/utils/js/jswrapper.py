@@ -15,6 +15,7 @@ def JSupdateWeather(lat_lon_json):
         print('gno' ,)
     except:
         pass
+    # weather.load_from_lat_lon(lat_lon)
 
 def JSdownload_eco_report():
     return config.pyFolge.ff_economy.write_report()
