@@ -79,6 +79,16 @@ const fu = () => {
                                 <modelvalue v-model="value.MODELVALUES.cropeconomy.price_yield_eur_per_dt_fm" />
                                 <modelvalue v-model="value.MODELVALUES.cropeconomy.yield_leistung_eur_per_ha" />
 
+                                <modelvalue v-model="value.MODELVALUES.cropeconomy.price_yield_grünfutter_eur_per_dt_fm" />
+                                <modelvalue v-model="value.MODELVALUES.cropeconomy.yield_grünfutter_leistung_eur_per_ha" />
+
+                                
+                                <modelvalue v-model="value.MODELVALUES.cropeconomy.price_yield_heu_eur_per_dt_fm" />
+                                <modelvalue v-model="value.MODELVALUES.cropeconomy.yield_heu_leistung_eur_per_ha" />
+                                
+                                <modelvalue v-model="value.MODELVALUES.cropeconomy.price_yield_silage_eur_per_dt_fm" />
+                                <modelvalue v-model="value.MODELVALUES.cropeconomy.yield_silage_leistung_eur_per_ha" />
+                                
                                 <modelvalue v-model="value.MODELVALUES.cropeconomy.other_leistung_eur_per_ha" />
 
                             </v-expansion-panel-text>

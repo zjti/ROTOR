@@ -7,8 +7,16 @@ helpText: {
   },
   step: {
     type: Number,
-    default: 0.1,
+    default: 0.2,
   },
+  max: {
+    type: Number,
+    default: Infinity,
+  },
+  min: {
+    type: Number,
+    default: 0,
+  }
 });
 
 import { computed, ref } from "vue";
@@ -23,7 +31,7 @@ const half_months = [
 </script>
 
 <template>
-    <div v-if="model.visible == true">
+    <div v-if="model && (!('visible' in model) ||  (model.visible == true))">
     <div v-if="'name_corrected' in model">
         
     
@@ -47,6 +55,8 @@ const half_months = [
             : ''"
             :helpText="helpText"
             :step="step"
+            :min="min"
+            :max="max"
             persistent-hint @send-reset="model[model.name_corrected] = model[model.name]" v-else />
 
     

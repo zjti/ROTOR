@@ -28,7 +28,7 @@ def calcLG(old_cuts ,spring_seeding=False):
         wd['day_of_year'] = day_i
         wd['month_of_year'] = datehelper.day_index_to_month(day_i)
         
-        add_day(wd,legray_state)
+        add_day(wd,legray_state,spring_seeding=spring_seeding)
 
     
     start = datehelper.mmdd_to_day_index('0101')
@@ -43,7 +43,7 @@ def calcLG(old_cuts ,spring_seeding=False):
         wd['day_of_year'] = day_i
         wd['month_of_year'] = datehelper.day_index_to_month(day_i)
         
-        add_day(wd,legray_state)
+        add_day(wd,legray_state,spring_seeding=spring_seeding)
     
     # for r in wd['data']:
     #     add_day(r,legray_state, verbose=False,spring_seeding=spring_seeding )
@@ -223,7 +223,7 @@ def add_day(weather_of_the_day, legray_state , verbose=True , spring_seeding = F
         # print('ETT',ETT,'TT',TT)
     
     if spring_seeding:
-        if int( weather_of_the_day['SDAY'] ) > int('0515'):
+        if int( weather_of_the_day['day_of_year'] ) > 165:
             legray_state['HETT'] += ETT
     else:
         legray_state['HETT'] += ETT
@@ -245,7 +245,7 @@ def add_day(weather_of_the_day, legray_state , verbose=True , spring_seeding = F
     
     if legray_state['GTS_W_tag'] and legray_state['last_cut']<4:
         if spring_seeding:
-            if int( weather_of_the_day['SDAY'] ) > int('0515'):
+            if int( weather_of_the_day['day_of_year'] ) > 165: # 15.MAY
                 legray_state['cur_growth'] += abfr_gts_etm * LEGRAY_CONSTS['YIELD_GROWTH_VALUES'][ legray_state['last_cut' ]]
         else:
             legray_state['cur_growth'] += abfr_gts_etm * LEGRAY_CONSTS['YIELD_GROWTH_VALUES'][ legray_state['last_cut' ]]

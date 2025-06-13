@@ -17,7 +17,7 @@
             :step ='1'
             :min="0"
           ></NumberInput> -->
-          <modelvalue v-model="model.num_cuts" :step="1"/>
+          <modelvalue v-model="model.num_cuts" :step="1" :min="0" :max="5"/>
           </v-card-text
       ></v-card>
     </v-col>
