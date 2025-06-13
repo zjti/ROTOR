@@ -30,9 +30,9 @@ class KRN_MAIS(Crop):
                                self.get_reduced_soil_management,
                                type='bool', tab = VF.anbau_tab )
         
-        UserEditableModelValue('byproduct_harvest',
-                               self.get_byproduct_harvest,
-                               type='bool', tab = VF.anbau_tab )
+        # UserEditableModelValue('byproduct_harvest',
+        #                     self.get_byproduct_harvest,
+        #                     type='bool', tab = VF.anbau_tab )
         
         UserEditableModelValue('yield_dt_fm_per_ha',
                                self.calc_yield_dt_fm_per_ha,
