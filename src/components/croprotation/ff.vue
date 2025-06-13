@@ -84,7 +84,9 @@ watch(NJahre, (newValue, oldValue) => {
                 <v-tabs-window-item value="schnitt">
                   <!-- <dung_select v-model:amounts="FF[jahr].MODELVALUES['dung_menge'].dung_menge_corrected" -->
 
-                  <schnitt_select v-model:schnitte="FF[jahr].MODELVALUES['schnitt_menge'].schnitt_menge_corrected" />
+                  <!-- <schnitt_select v-model:schnitte="FF[jahr].MODELVALUES['schnitt_menge'].schnitt_menge_corrected" /> -->
+                  <schnitt_select_mv v-model="FF[jahr].MODELVALUES['cut_select']" />
+                   
                 </v-tabs-window-item>
 
                 <v-tabs-window-item value="ertrag" style="overflow-y: scroll"  v-if="FF[jahr].vis.ertrag_tab">

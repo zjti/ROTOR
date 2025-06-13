@@ -104,6 +104,8 @@ class CropEconomy( ClassWithModelValues ):
         ModelValue('gross_margin_eur_per_ha', self.get_gross_margin_eur_per_ha, tab=VF.eco_tab , unit = '€/ha' )
         ModelValue('gross_margin_per_man_hour_eur_per_h', self.get_gross_margin_per_man_hour_eur_per_h, tab=VF.eco_tab , unit = '€/AKh' )
         
+        ModelValue('fertilizer_cost_eur_per_ha', self.get_fertilizer_cost_eur_per_ha, tab=VF.eco_tab , unit = '€/ha' )
+        
         worksteplist = WorkStepList(model_value_ref=self)
         self.worksteplist = worksteplist
 
@@ -116,15 +118,39 @@ class CropEconomy( ClassWithModelValues ):
             return self.get_gross_margin_eur_per_ha() / self.get_sum_man_hours_per_ha()
         except:
             return 0
+        
+    
+        
+    def get_fertilizer_cost_eur_per_ha(self):
+        M = 0
+        if not hasattr(self.crop,'fertilizer_applications'):
+            return 0
+        
+        fertelizer_application  = self.crop.fertilizer_applications
+        for dung_key,dung_val in fertelizer_application.get_dung_menge().items():
+            dung_param = config.DUNG_DATA[dung_key]
+
+            M += dung_val['menge'] * dung_param['PREIS_EUR_PER_T']
+        return M
+        
+    def get_sum_cost_eur_per_ha(self):
+        S = 0
+        
+        S+= self.get_sum_machine_cost_eur_per_ha()
+        S+= self.get_sum_diesel_cost_eur_per_ha()
+        S+= self.get_seed_cost_eur_per_ha()
+        if self.crop.has_cover_crop():
+            S+= self.cover_crop_economy.get_cover_crop_seed_cost_eur_per_ha()
+        
+        S+= self.get_fertilizer_cost_eur_per_ha() 
+        S+= self.get_extra_cost_eur_per_ha() 
+        
+        return S
     
     def get_gross_margin_eur_per_ha(self):
         M = self.get_sum_leistung_eur_per_ha() 
-        M -= self.get_sum_diesel_cost_eur_per_ha()
-        M -= self.get_extra_cost_eur_per_ha()
-        M -= self.get_sum_machine_cost_eur_per_ha() 
-        M -= self.get_seed_cost_eur_per_ha()
-        if self.crop.has_cover_crop():
-            M -= self.cover_crop_economy.get_cover_crop_seed_cost_eur_per_ha()
+        M -= self.get_sum_cost_eur_per_ha()
+        
         return M
     
     def get_yield_leistung_eur_per_ha(self):
@@ -158,6 +184,7 @@ class CropEconomy( ClassWithModelValues ):
         return self.crop.price_yield_eur_per_dt_fm
       
     def get_seed_cost_eur_per_kg(self):
+        
         return self.seed_cost_eur_per_kg
     
     def get_seed_cost_eur_per_u(self):

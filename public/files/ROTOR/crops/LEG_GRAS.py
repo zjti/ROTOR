@@ -4,12 +4,74 @@ from ROTOR.crop import Crop
 from ROTOR.crops.data import cropdata
 from .legray import calcLG
 
-from ROTOR.utils.modelvalue import ModelValue,UserEditableModelValue
+from ROTOR.utils.modelvalue import ModelValue,UserEditableModelValue,ClassWithModelValues
 from ROTOR.management.workstep import FertilizerStep, PrimaryTilageStep, ReducedPrimaryTilageStep, StriegelStep         
 from ROTOR.management.workstep import  HarvestStep, ByproductHarvestStep, DrillStep,SeedBedPreparationStep,YieldTransportStep
 
 from ROTOR.utils.js.jsmodel import VisFields as VF
 from ROTOR.utils.js.jsmodel import ModelFields as MF
+
+from ROTOR.utils import datehelper
+
+class CutSelect(  ClassWithModelValues ):
+
+    def __init__(self, num_cuts=4, *args, **kwargs):
+        super().__init__( *args, **kwargs,model_value_group_name='cut_select')
+
+        self.cut_amount_fm = [11,12,13,14,15]
+        self.num_cuts = num_cuts
+        UserEditableModelValue('num_cuts',self.get_num_cuts )
+        UserEditableModelValue(f'cut1',self.get_cut1, unit='FM dt/ha' )
+        UserEditableModelValue(f'cut2',self.get_cut2, unit='FM dt/ha' )
+        UserEditableModelValue(f'cut3',self.get_cut3, unit='FM dt/ha' )
+        UserEditableModelValue(f'cut4',self.get_cut4, unit='FM dt/ha' )
+        UserEditableModelValue(f'cut5',self.get_cut5, unit='FM dt/ha' )
+
+        UserEditableModelValue(f'nutz1',self.get_nutz1, type='select', select_opts=['grünfutter','heu','silage','mulch']) 
+        UserEditableModelValue(f'nutz2',self.get_nutz2, type='select', select_opts=['grünfutter','heu','silage','mulch']) 
+        UserEditableModelValue(f'nutz3',self.get_nutz3, type='select', select_opts=['grünfutter','heu','silage','mulch']) 
+        UserEditableModelValue(f'nutz4',self.get_nutz4, type='select', select_opts=['grünfutter','heu','silage','mulch']) 
+        UserEditableModelValue(f'nutz5',self.get_nutz5, type='select', select_opts=['grünfutter','heu','silage','mulch']) 
+        
+    def get_num_cuts(self):
+        return self.num_cuts
+    
+    def get_cut(self,n):
+        if self.get_nutz1()=='mulch':
+            return 0
+        if self.get_nutz1()=='heu':
+            return self.cut_amount_fm[n]  * 0.3 * (0.65)
+        if self.get_nutz1()=='silage':
+            return self.cut_amount_fm[n]  * 0.71 * (0.85)
+        return self.cut_amount_fm[n]
+        
+    
+    def get_cut1(self):
+        return self.get_cut(0)
+        
+    def get_cut2(self):
+        return self.get_cut(1)
+    
+    def get_cut3(self):
+        return self.get_cut(2)
+    
+    def get_cut4(self):
+        return self.get_cut(3)
+    
+    def get_cut5(self):
+        return self.get_cut(4)
+
+    def get_nutz1(self):
+        return 'grünfutter'
+    def get_nutz2(self):
+        return 'grünfutter'
+    def get_nutz3(self):
+        return 'grünfutter'
+    def get_nutz4(self):
+        return 'grünfutter'
+    def get_nutz5(self):
+        return 'grünfutter'
+    
 
 class LEG_GRAS(Crop):
     
@@ -23,16 +85,33 @@ class LEG_GRAS(Crop):
         UserEditableModelValue('schnitt_menge', self.get_schnitt_menge, tab = VF.schnitt_tab, visible=False)
         UserEditableModelValue('seed_kg_per_ha',self.get_seed_kg_per_ha,tab = VF.anbau_tab )
 
+        self.cut_sel = CutSelect(num_cuts=3, model_value_ref = self)
         # ModelValue('dung_herbst', self.autumn_fertelizer_application, tab = VF.dung_tab, visible=False)
 
 
     def get_schnitt_menge(self):
         cuts = calcLG({})
         schnitte = {}
-        for n,date,menge in cuts:
-            schnitte[str(n)] = {'yield': int(100*(menge*10))/100, 'nutz':'grünfutter'}
+
+        self.cut_sel.num_cuts = len(cuts)
+        
+        for i in range(5):
+            self.cut_sel.cut_amount_fm[i] = 0
+            getattr(self.cut_sel, f'get_cut{i+1}').visible = False
+            getattr(self.cut_sel, f'get_nutz{i+1}').visible = False
+        
+        
+        for i in range(self.cut_sel.get_num_cuts()):
+            getattr(self.cut_sel, f'get_cut{i+1}').visible = True
+            getattr(self.cut_sel, f'get_nutz{i+1}').visible = True
+            
+        for i,(n,date,menge) in enumerate(cuts):
+            schnitte[str(n)] = {'yield': int(100*(menge*10))/100, 'nutz':'grünfutter', 'date':datehelper.day_index_to_half_month(date)}
             # if str(n) in old_cuts and 'nutz' in old_cuts[str(n)]:
     #         schnitte[str(n)]['nutz'] = old_cuts[str(n)]['nutz']
+            self.cut_sel.cut_amount_fm[i] = int(100*(menge*10))/100
+            
+
     
         return schnitte
     

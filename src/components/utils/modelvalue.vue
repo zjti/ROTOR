@@ -4,7 +4,11 @@ const props = defineProps({
 helpText: {
     type: String,
     default: '',
-  }
+  },
+  step: {
+    type: Number,
+    default: 0.1,
+  },
 });
 
 import { computed, ref } from "vue";
@@ -19,7 +23,9 @@ const half_months = [
 </script>
 
 <template>
+    <div v-if="model.visible == true">
     <div v-if="'name_corrected' in model">
+        
     
     <v-checkbox :label="model.name" v-model="model[model.name_corrected]" v-if="model.type == 'bool'" />
 
@@ -40,6 +46,7 @@ const half_months = [
             ? 'Wert vom Nutzer verändert '
             : ''"
             :helpText="helpText"
+            :step="step"
             persistent-hint @send-reset="model[model.name_corrected] = model[model.name]" v-else />
 
     
@@ -49,6 +56,7 @@ const half_months = [
         v-model="model[model.name]"  :readonly="true" nobtns/>
         
     </div>
+</div>
         
     
 

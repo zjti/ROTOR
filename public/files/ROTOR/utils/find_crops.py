@@ -21,5 +21,6 @@ def get_crop_dict():
         for name, obj in inspect.getmembers(module):
             if inspect.isclass(obj) and obj.__module__ == module.__name__:
                 print(obj, issubclass(obj,Crop),obj,Crop)
-                crop_dict[name] = obj
+                if  issubclass(obj,Crop):
+                    crop_dict[name] = obj
     return crop_dict

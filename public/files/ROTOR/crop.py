@@ -28,8 +28,6 @@ class Crop( FFElement):
         super().__init__(*args, **kwargs)
         self.crop_data = crop_data
         self.crop_specific_leaching_coefficent = 1.0
-    
-        
          
         self.fertilizer_step = FertilizerStep(crop=self)
         self.primary_tilage_step = PrimaryTilageStep(crop=self)
