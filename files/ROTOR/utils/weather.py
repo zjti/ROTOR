@@ -1,8 +1,5 @@
 import json
 import numpy as np
-from datetime import datetime, timedelta
-
-import numpy as np
 from scipy.interpolate import CubicSpline
 
 with open('grid_lat_lon_data.json') as f:
@@ -12,49 +9,6 @@ with open('grid_data.json') as f:
     grid_data = json.load(f)
 
 daily_weather = {}
-
-def day_index_to_mmdd(day_index, year=2021):
-    """
-    Convert a 0-based day-of-year index to a 'MMDD' string.
-    
-    Parameters:
-        day_index : int  - day of year index (0 = Jan 1)
-        year      : int  - year for leap-year handling (default: 2021)
-    
-    Returns:
-        str - MMDD formatted string
-    """
-    base_date = datetime(year, 1, 1)
-    target_date = base_date + timedelta(days=day_index)
-    return target_date.strftime("%m%d")
-
-
-def day_index_to_month(day_index, year=2021):
-    """
-    Convert a 0-based day-of-year index to the corresponding month (1–12).
-    
-    Parameters:
-        day_index : int    - 0-based day of year (0 = Jan 1)
-        year      : int    - year to resolve leap years (default: 2021)
-        
-    Returns:
-        int - Month number (1–12)
-    """
-    base_date = datetime(year, 1, 1)
-    target_date = base_date + timedelta(days=day_index)
-    return target_date.month
-
-
-def mmdd_to_day_index(mmdd_str):
-    """
-    Convert a 'MMDD' string to day-of-year index (0-based).
-    
-    Example:
-        '0101' → 0
-        '1231' → 364 (or 365 in leap years)
-    """
-    dt = datetime.strptime(mmdd_str, '%m%d')
-    return dt.timetuple().tm_yday - 1  # zero-based
 
 def haversine(lat1, lon1, lat2, lon2):
     """Compute haversine distance between two arrays of points (in degrees)."""

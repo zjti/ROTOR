@@ -52,12 +52,14 @@ class FertilizerApplications(ClassWithModelValues):
         for dung_key,dung_val in self.get_dung_menge().items():
             dung_param = config.DUNG_DATA[dung_key]
 
-            N += dung_val['menge'] * dung_param['N/FM'] * ( 100 - dung_param['Nloss'] ) / 100
+
+            V = dung_val['menge'] * dung_param['N/FM'] * ( 100 - dung_param['Nloss'] ) / 100
             #Navil_spring': 20, 'Navil_autumn': 20
             if dung_val['is_herbst']:
-                N *= dung_param['Navil_autumn'] / 100
-            if dung_val['is_herbst']:
-                N *= dung_param['Navil_spring'] / 100
+                V *= dung_param['Navil_autumn'] / 100
+            else:
+                V *= dung_param['Navil_spring'] / 100
+            V += N
             
         return N
     

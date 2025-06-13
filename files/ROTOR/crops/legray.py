@@ -1,5 +1,7 @@
 from ROTOR.utils import config
 from ROTOR.utils import weather
+from ROTOR.utils import datehelper
+
 
 
 def calcLG(old_cuts ,spring_seeding=False):
@@ -12,8 +14,8 @@ def calcLG(old_cuts ,spring_seeding=False):
     print(legray_state,'LEGRAY')
 
 
-    start = weather.mmdd_to_day_index('1101')
-    end = weather.mmdd_to_day_index('1231')
+    start = datehelper.mmdd_to_day_index('1101')
+    end = datehelper.mmdd_to_day_index('1231')
 
  
     for day_i in range(start,end):
@@ -24,13 +26,13 @@ def calcLG(old_cuts ,spring_seeding=False):
         wd['tmin']  = weather.daily_weather['TEMPERATURE_MIN'][day_i]
         wd['tmax']  = weather.daily_weather['TEMPERATURE_MAX'][day_i]
         wd['day_of_year'] = day_i
-        wd['month_of_year'] = weather.day_index_to_month(day_i)
+        wd['month_of_year'] = datehelper.day_index_to_month(day_i)
         
         add_day(wd,legray_state)
 
     
-    start = weather.mmdd_to_day_index('0101')
-    end = weather.mmdd_to_day_index('1231')
+    start = datehelper.mmdd_to_day_index('0101')
+    end = datehelper.mmdd_to_day_index('1231')
     for day_i in range(start,end):
         wd = {}
         wd['nied'] = weather.daily_weather['PRECIPITATION'][day_i]
@@ -39,7 +41,7 @@ def calcLG(old_cuts ,spring_seeding=False):
         wd['tmin']  = weather.daily_weather['TEMPERATURE_MIN'][day_i]
         wd['tmax']  = weather.daily_weather['TEMPERATURE_MAX'][day_i]
         wd['day_of_year'] = day_i
-        wd['month_of_year'] = weather.day_index_to_month(day_i)
+        wd['month_of_year'] = datehelper.day_index_to_month(day_i)
         
         add_day(wd,legray_state)
     

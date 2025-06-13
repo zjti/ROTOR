@@ -31,7 +31,7 @@ class EconomyReport:
         elements.append(Spacer(1, 12))
 
         pdf = SimpleDocTemplate("/report.pdf", pagesize=A4)
-
+        pdf.title = "ROTOR Ökonomie Report"
 
         data = [
             ["","Wert","Einheit"],
@@ -56,21 +56,26 @@ class EconomyReport:
         elements.append(Spacer(1, 12))
         elements.append(table2)
 
-        elements.append(Paragraph("Leistunge/Kosten", styles["Heading2"]))
+        elements.append(Paragraph("Variablekosten", styles["Heading2"]))
         elements.append(Spacer(1, 12))
-        data = [["Fruchtart","Leistungen","Maschinenkosten","Dieselkosten","Saatgutkosten","Sonstige Kosten"]]
+        data = [["Fruchtart","Maschinen","Diesel","Saatgut","Dünger","Sonstige","Summe"]]
 
         for i,crop in enumerate(self.ffolge.crops):
             if crop:
-                data += [[  f" {i+1} : {crop.crop_data.crop_code}", 
-                            f"{crop.economy.get_sum_leistung_eur_per_ha() :.2f} €/ha",
+                seedcost = crop.economy.get_seed_cost_eur_per_ha()
+                if crop.has_cover_crop():
+                    seedcost+= crop.economy.cover_crop_economy.get_cover_crop_seed_cost_eur_per_ha()
+
+                data += [[  f" {i+1}: {crop.crop_data.crop_code}", 
                             f"{crop.economy.get_sum_machine_cost_eur_per_ha() :.2f} €/ha",
                             f"{crop.economy.get_sum_diesel_cost_eur_per_ha() :.2f} €/ha" ,
-                            f"{crop.economy.get_seed_cost_eur_per_ha() :.2f} €/ha" ,
+                            f"{seedcost :.2f} €/ha" ,
+                            f"{crop.economy.get_fertilizer_cost_eur_per_ha() :.2f} €/ha" ,
                             f"{crop.economy.get_extra_cost_eur_per_ha() :.2f} €/ha" ,
+                            f"{crop.economy.get_sum_cost_eur_per_ha() :.2f} €/ha" ,
                          ]]
                 
-        table3 = Table(data, colWidths=[100, 400/5, 400/5, 400/5, 400/5])
+        table3 = Table(data, colWidths=[100, 400/6, 400/6, 400/6, 400/6, 400/6, 400/6])
         table3.setStyle(table_style)
         elements.append(Spacer(1, 12))
         elements.append(table3)
@@ -82,7 +87,7 @@ class EconomyReport:
 
         for i,crop in enumerate(self.ffolge.crops):
             if crop:
-                data += [[  f" {i+1} : {crop.crop_data.crop_code}", 
+                data += [[  f" {i+1}: {crop.crop_data.crop_code}", 
                             f"{crop.economy.get_price_yield_eur_per_dt_fm() :.2f} €/dt FM",
                             f"{crop.calc_yield_dt_fm_per_ha() :.2f} dt FM/ha",
                             f"{crop.economy.get_yield_leistung_eur_per_ha() :.2f} €/ha" ,
