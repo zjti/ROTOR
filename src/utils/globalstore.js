@@ -39,7 +39,8 @@ const puser = useStorage('PARAMS_USER', userlocation)
 
 const eval_data = useStorage('EVAL_DATA', {})
 
-const location = useStorage('LOCATION_LAT_LONG',{})
+const location = useStorage('LOCATION_LAT_LONG',{'lat':52,'lon':14})
+const climate_data = useStorage('CLIMATE_DATA_MONTLY',{})
 
 export const globalStore = new Map();
 globalStore.set('PARAMS_USER', puser)
@@ -51,6 +52,7 @@ globalStore.set('DUNG_DATA', pdung)
 globalStore.set('FF', ff)
 globalStore.set('EVAL_DATA', eval_data)
 globalStore.set('LOCATION_LAT_LONG', location)
+globalStore.set('CLIMATE_DATA_MONTLY', climate_data)
 
 
 
@@ -94,7 +96,12 @@ const { trigger, ignoreUpdates } = watchTriggerable(
             console.log('write ff')
             ff.value = v;
             writetojupyter('config_data/FFolge.json', ff_json)
-            eval_data.value = JSON.parse(get_eval_data())
+            const eval_data_json = get_eval_data()
+            eval_data.value = JSON.parse(eval_data_json)
+            globalStore.get('EVAL_DATA', eval_data).value =  JSON.parse(eval_data_json)
+
+            writetojupyter('config_data/eval_data.json', eval_data_json)
+
           }
         } catch (error) {
           console.error('Error updating FF:', error);
@@ -109,6 +116,44 @@ const { trigger, ignoreUpdates } = watchTriggerable(
 var FF_initialized_trigger = () => { }
 const FF_trigger = trigger
 
+
+
+const { trigger:trigger_CLIMATE_DATA_MONTLY   } = watchTriggerable(
+  globalStore.get('CLIMATE_DATA_MONTLY'),
+  (newVal) => {
+    ignoreUpdates(() => {
+      console.log('XXX')
+      const updateWeather = runPythonS("jswrapper.JSupdateWeather"); 
+      updateWeather(JSON.stringify(globalStore.get('LOCATION_LAT_LONG').value))
+      
+      runPythonS('config.CLIMATE_DATA_MONTLY = json.loads("""' + JSON.stringify(newVal) + '""")')
+      writetojupyter('config_data/CLIMATE_DATA_MONTLY.json', JSON.stringify(newVal))
+
+      FF_initialized_trigger()
+
+    })
+  }, { deep: true }
+)
+trigger_CLIMATE_DATA_MONTLY()
+
+
+{
+  const { trigger, ignoreUpdates } = watchTriggerable(
+    globalStore.get('LOCATION_LAT_LONG'),
+    (newVal) => {
+      ignoreUpdates(() => {
+        console.log('XXX2222')
+        runPythonS('config.LOCATION_LAT_LONG = json.loads("""' + JSON.stringify(newVal) + '""")')
+        writetojupyter('config_data/LOCATION_LAT_LONG.json', JSON.stringify(newVal))
+
+        trigger_CLIMATE_DATA_MONTLY()
+        // FF_initialized_trigger()
+
+      })
+    }, { deep: true }
+  )
+  trigger()
+}
 
 {
   const { trigger, ignoreUpdates } = watchTriggerable(

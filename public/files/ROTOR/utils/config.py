@@ -8,7 +8,14 @@ PARAMS_USER ={}
 
 import json
 def jupyter_load_config():
-    global FFolge
+    global FFolge, SOIL, DUNG_DATA
 
     with open('/drive/config_data/FFolge.json') as f:
         FFolge = json.load(f)
+
+    
+    with open('/drive/config_data/SOIL.json') as f:
+        SOIL = json.load(f)
+
+    with open('/drive/config_data/DUNG_DATA.json') as f:
+        DUNG_DATA = json.load(f)

@@ -28,6 +28,7 @@ class ClassWithModelValues:
 
         for name,value in self.__dict__.items():
             # if isinstance(value, ClassWithModelValues) :
+            # print(name,value)
             if isinstance_by_name(value, 'ClassWithModelValues') :
             
                 if hasattr(value, '_model_value_ref'):

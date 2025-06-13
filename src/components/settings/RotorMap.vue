@@ -24,6 +24,7 @@ import { ref } from "vue";
 import { langf } from "@/main.js";
 import { globalStore } from '@/utils/globalstore'
 
+ 
 
 
 const wmsLayers = {
@@ -90,6 +91,9 @@ const handleMarkerPlaced = (position) => {
   console.log(position);
   const lat = position.lat;
   const lon = position.lng;
+  const gs_location = globalStore.get('LOCATION_LAT_LONG')
+
+  gs_location.value = {'lat':lat, 'lon':lon}
 
   console.log(
     getFeatureInfoUrl(

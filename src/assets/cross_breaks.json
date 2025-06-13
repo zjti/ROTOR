@@ -1,133 +1,310 @@
 {
     "ACK_BOHNE": {
-        "ACK_BOHNE": {"delay": 4},
-        "FTTR_ERBSE": {"delay": 3},
-        "LUPINE": {"delay": 3},
-        "SOJA": {"delay": 3}
+        "ACK_BOHNE": {
+            "delay": 3
+        },
+        "FTTR_ERBSE": {
+            "delay": 3
+        },
+        "LUPINE": {
+            "delay": 3
+        },
+        "SOJA": {
+            "delay": 3
+        }
     },
     "DINKEL": {
-        "DINKEL": {"delay": 1},
-        "SM_WEIZEN": {"delay": 3},
-        "SM_GERST": {"delay": 3},
-        "TRITICALE": {"delay": 3},
-        "WN_GERSTE": {"delay": 3},
-        "WN_ROGGEN": {"delay": 3},
-        "WN_WEIZEN": {"delay": 3},
-        "KRN_MAIS": {"delay": 2},
-        "SILO_MAIS": {"delay": 2}
+        "DINKEL": {
+            "delay": 1
+        },
+        "SM_WEIZEN": {
+            "delay": 3
+        },
+        "SM_GERST": {
+            "delay": 3
+        },
+        "TRITICALE": {
+            "delay": 3
+        },
+        "WN_GERSTE": {
+            "delay": 3
+        },
+        "WN_ROGGEN": {
+            "delay": 3
+        },
+        "WN_WEIZEN": {
+            "delay": 3
+        },
+        "KRN_MAIS": {
+            "delay": 2
+        },
+        "SILO_MAIS": {
+            "delay": 2
+        }
     },
     "FTTR_ERBSE": {
-        "FTTR_ERBSE": {"delay": 4},
-        "ACK_BOHNE": {"delay": 3},
-        "LUPINE": {"delay": 3},
-        "SOJA": {"delay": 3}
+        "FTTR_ERBSE": {
+            "delay": 5
+        },
+        "ACK_BOHNE": {
+            "delay": 3
+        },
+        "LUPINE": {
+            "delay": 3
+        },
+        "SOJA": {
+            "delay": 3
+        }
     },
     "FTTR_RUEBE": {
-        "FTTR_RUEBE": {"delay": 4},
-        
-        "ZUCKER_RUEBE": {"delay": 4},
-        "STECK_RUEBE": {"delay": 4}
+        "FTTR_RUEBE": {
+            "delay": 4
+        },
+        "ZUCKER_RUEBE": {
+            "delay": 4
+        },
+        "STECK_RUEBE": {
+            "delay": 4
+        }
     },
     "HAFER": {
-        "HAFER": {"delay": 2},
-
-        "SM_WEIZEN": {"delay": 2},
-        "SM_GERST": {"delay": 2},
-        "WN_WEIZEN": {"delay": 2},
-        "WN_GERSTE": {"delay": 2}
+        "HAFER": {
+            "delay": 3
+        },
+        "SM_WEIZEN": {
+            "delay": 2
+        },
+        "SM_GERST": {
+            "delay": 2
+        },
+        "WN_WEIZEN": {
+            "delay": 2
+        },
+        "WN_GERSTE": {
+            "delay": 2
+        }
     },
     "KRN_MAIS": {
-        "KRN_MAIS": {"delay": 2},
-        "SILO_MAIS": {"delay": 2},
-        "WN_WEIZEN": {"delay": 2},
-        "WN_GERSTE": {"delay": 2}
+        "KRN_MAIS": {
+            "delay": 1
+        },
+        "SILO_MAIS": {
+            "delay": 1
+        },
+        "WN_WEIZEN": {
+            "delay": 2
+        },
+        "WN_GERSTE": {
+            "delay": 2
+        }
     },
     "LEG_GRAS": {
-        "ACK_BOHNE": {"delay": 3},
-        "FTTR_ERBSE": {"delay": 3},
-        "LUPINE": {"delay": 3}
+        "ACK_BOHNE": {
+            "delay": 3
+        },
+        "FTTR_ERBSE": {
+            "delay": 3
+        },
+        "LUPINE": {
+            "delay": 3
+        }
     },
     "LUPINE": {
-        "LUPINE":{"delay": 5},
-        "ACK_BOHNE": {"delay": 3},
-        "FTTR_ERBSE": {"delay": 3},
-        "SOJA": {"delay": 3}
+        "LUPINE": {
+            "delay": 5
+        },
+        "ACK_BOHNE": {
+            "delay": 3
+        },
+        "FTTR_ERBSE": {
+            "delay": 3
+        },
+        "SOJA": {
+            "delay": 3
+        }
     },
     "SILO_MAIS": {
-        "SILO_MAIS": {"delay": 2},
-        "KRN_MAIS": {"delay": 2},
-        "WN_WEIZEN": {"delay": 2},
-        "WN_GERSTE": {"delay": 2}
+        "SILO_MAIS": {
+            "delay": 1
+        },
+        "KRN_MAIS": {
+            "delay": 1
+        },
+        "WN_WEIZEN": {
+            "delay": 2
+        },
+        "WN_GERSTE": {
+            "delay": 2
+        }
     },
     "SOJA": {
-        "ACK_BOHNE": {"delay": 3},
-        "FTTR_ERBSE": {"delay": 3},
-        "LUPINE": {"delay": 3}
+        "ACK_BOHNE": {
+            "delay": 3
+        },
+        "FTTR_ERBSE": {
+            "delay": 3
+        },
+        "LUPINE": {
+            "delay": 3
+        }
     },
     "SM_WEIZEN": {
-        "DINKEL": {"delay": 2},
-        "TRITICALE": {"delay": 2},
-        "WN_WEIZEN": {"delay": 2},
-        "SM_WEIZEN": {"delay": 2},
-        "WN_GERSTE": {"delay": 2},
-        "WN_ROGGEN": {"delay": 2}
+        "DINKEL": {
+            "delay": 2
+        },
+        "TRITICALE": {
+            "delay": 2
+        },
+        "WN_WEIZEN": {
+            "delay": 2
+        },
+        "SM_WEIZEN": {
+            "delay": 2
+        },
+        "WN_GERSTE": {
+            "delay": 2
+        },
+        "WN_ROGGEN": {
+            "delay": 2
+        }
     },
     "SM_GERST": {
-        "DINKEL": {"delay": 2},
-        "SM_GERST": {"delay": 2},
-        "WN_GERSTE": {"delay": 2},
-        "WN_WEIZEN": {"delay": 2}
+        "DINKEL": {
+            "delay": 2
+        },
+        "SM_GERST": {
+            "delay": 2
+        },
+        "WN_GERSTE": {
+            "delay": 2
+        },
+        "WN_WEIZEN": {
+            "delay": 2
+        },
+        "TRITICALE": {
+            "delay": 2
+        }
     },
     "SP_KART": {
-        "SP_KART": {"delay": 4},
-
-        "ZUCKER_RUEBE": {"delay": 4},
-        "STECK_RUEBE": {"delay": 4}
+        "SP_KART": {
+            "delay": 3
+        },
+        "ZUCKER_RUEBE": {
+            "delay": 4
+        },
+        "STECK_RUEBE": {
+            "delay": 4
+        }
     },
     "SP_MOEHR": {
-        "SP_MOHR": {"delay": 4},
-        "ZUCKER_RUEBE": {"delay": 4},
-        "STECK_RUEBE": {"delay": 4}
+        "SP_MOHR": {
+            "delay": 4
+        },
+        "ZUCKER_RUEBE": {
+            "delay": 4
+        },
+        "STECK_RUEBE": {
+            "delay": 4
+        }
     },
     "STECK_RUEBE": {
-        "STECK_RUEBE": {"delay": 4},
-        "ZUCKER_RUEBE": {"delay": 4},
-        "SP_KART": {"delay": 4},
-        "SP_MOEHR": {"delay": 4}
+        "STECK_RUEBE": {
+            "delay": 4
+        },
+        "ZUCKER_RUEBE": {
+            "delay": 4
+        },
+        "SP_KART": {
+            "delay": 4
+        },
+        "SP_MOEHR": {
+            "delay": 4
+        }
     },
     "TRITICALE": {
-        "TRITICALE": {"delay": 2},
-        "DINKEL": {"delay": 2},
-        "SM_WEIZEN": {"delay": 2},
-        "WN_WEIZEN": {"delay": 2}
+        "TRITICALE": {
+            "delay": 2
+        },
+        "DINKEL": {
+            "delay": 2
+        },
+        "SM_WEIZEN": {
+            "delay": 2
+        },
+        "WN_WEIZEN": {
+            "delay": 2
+        }
     },
     "WN_GERSTE": {
-        "WN_GERSTE": {"delay": 2},
-        "DINKEL": {"delay": 2},
-        "SM_WEIZEN": {"delay": 2},
-        "WN_WEIZEN": {"delay": 2}
+        "WN_GERSTE": {
+            "delay": 2
+        },
+        "DINKEL": {
+            "delay": 2
+        },
+        "SM_WEIZEN": {
+            "delay": 2
+        },
+        "WN_WEIZEN": {
+            "delay": 2
+        },
+        "SM_GERST": {
+            "delay": 2
+        }
     },
     "WN_RAPS": {
-        "WN_RAPS": {"delay": 4}
+        "WN_RAPS": {
+            "delay": 4
+        },
+        "ZUCKER_RUEBE": {
+            "delay": 2
+        }
     },
     "WN_ROGGEN": {
-        "WN_ROGGEN": {"delay": 2},
-        "DINKEL": {"delay": 2},
-        "SM_WEIZEN": {"delay": 2},
-        "WN_WEIZEN": {"delay": 2}
+        "WN_ROGGEN": {
+            "delay": 2
+        },
+        "DINKEL": {
+            "delay": 2
+        },
+        "SM_WEIZEN": {
+            "delay": 2
+        },
+        "WN_WEIZEN": {
+            "delay": 2
+        }
     },
     "WN_WEIZEN": {
-        "DINKEL": {"delay": 2},
-        "SM_WEIZEN": {"delay": 2},
-        "WN_WEIZEN": {"delay": 2}
+        "DINKEL": {
+            "delay": 2
+        },
+        "SM_WEIZEN": {
+            "delay": 2
+        },
+        "WN_WEIZEN": {
+            "delay": 2
+        }
     },
     "ZUCKER_RUEBE": {
-        "ZUCKER_RUEBE": {"delay": 3},
-        "STECK_RUEBE": {"delay": 4},
-        "SP_KART": {"delay": 4},
-        "SP_MOEHR": {"delay": 4}
+        "ZUCKER_RUEBE": {
+            "delay": 3
+        },
+        "STECK_RUEBE": {
+            "delay": 4
+        },
+        "SP_KART": {
+            "delay": 4
+        },
+        "SP_MOEHR": {
+            "delay": 4
+        },
+        "WN_RAPS": {
+            "delay": 2
+        }
     },
     "ZWIBELN": {
-        "ZWIBELN": {"delay": 4}
+        "ZWIBELN": {
+            "delay": 4
+        }
     }
 }

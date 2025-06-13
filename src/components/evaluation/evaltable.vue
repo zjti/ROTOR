@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue'
+import { langf } from "@/main.js";
 
 // Props
 const props = defineProps({
@@ -80,7 +81,7 @@ const getGrandTotal = (key) => {
                 :rowspan="(crop.supplies?.length || 0) + (crop.removals?.length || 0)"
                 class="crop-name"
               >
-               <l>{{ crop.crop }}</l> 
+               {{ langf(crop.crop) }}
               </td>
             </template>
             <td>{{ (crop.supplies ?? []).includes(item) ? 'Supply' : 'Removal' }}</td>

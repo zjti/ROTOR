@@ -13,6 +13,7 @@ const { pyodide, runPythonS, runPython } = usePyodide();
 
 const FF = globalStore.get("FF")
 const  panel = ref(0)
+const  panel2 = ref(0)
 
 
 const fu = () => {
@@ -35,11 +36,31 @@ const fu = () => {
             <v-expansion-panel title="Ökonomie">
                 <v-expansion-panel-text >
 
-                    <modelvalue v-model="FF['1'].MODELVALUES.economy.diesel_eur_per_l" />
-                    <modelvalue v-model="FF['1'].MODELVALUES.economy.extra_cost_eur_per_ha" helpText="Dieser wert kann in jedem Anbaujahr angepasst werden. Kann Kosten für Versicherungen etc. beinhalten. "/>
-                    <modelvalue v-model="FF['1'].MODELVALUES.economy.sesssion_labour_eur_per_h" />
-                    <v-btn @click="fu()">Download</v-btn>  
+                    <v-expansion-panels variant="accordion" multiple v-model="panel2">
+                        <v-expansion-panel title="FF-DB">
+                            <v-expansion-panel-text >
+
+                                <modelvalue v-model="FF['1'].MODELVALUES.economy.ff_gross_margin_eur_per_ha" />
+                                <!-- <modelvalue v-model="FF['1'].MODELVALUES.economy.f" /> -->
+                                
                     
+
+                            </v-expansion-panel-text>
+                        </v-expansion-panel>
+                        <v-expansion-panel title="Sonstiges">
+                            <v-expansion-panel-text >
+
+                                <modelvalue v-model="FF['1'].MODELVALUES.economy.diesel_eur_per_l" />
+                                <modelvalue v-model="FF['1'].MODELVALUES.economy.extra_cost_eur_per_ha" helpText="Dieser wert kann in jedem Anbaujahr angepasst werden. Kann Kosten für Versicherungen etc. beinhalten. "/>
+                                <modelvalue v-model="FF['1'].MODELVALUES.economy.sesssion_labour_eur_per_h" />
+                    
+
+                            </v-expansion-panel-text>
+                        </v-expansion-panel>
+                    </v-expansion-panels>
+
+                    <v-btn @click="fu()">Download</v-btn>  
+
 
                 </v-expansion-panel-text>
             </v-expansion-panel>
@@ -48,7 +69,7 @@ const fu = () => {
 
         <v-expansion-panels variant="accordion" multiple>
             <v-expansion-panel v-for="(value, key, index) in FF" :key="index"
-                :title="'Anbaujahr ' + key + ' ' + L(value.crop)">
+                :title="'Fruchtfolgefeld ' + key + ' ' + L(value.crop)">
                 <v-expansion-panel-text>
 
                     <v-expansion-panels variant="accordion">

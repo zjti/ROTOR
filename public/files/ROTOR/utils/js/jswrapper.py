@@ -1,8 +1,21 @@
 import json
 from ROTOR.utils import config 
+from ROTOR.utils import weather
+
 from pyodide.ffi import to_js
 from ROTOR.ff import update
 from ROTOR.ff import restrictions
+
+def JSupdateWeather(lat_lon_json):
+    print('aaa')
+    print('Upda te weather', lat_lon_json)
+    lat_lon = json.loads(lat_lon_json)
+    try:
+        weather.load_from_lat_lon(lat_lon)
+        print('gno' ,)
+    except:
+        pass
+    # weather.load_from_lat_lon(lat_lon)
 
 def JSdownload_eco_report():
     return config.pyFolge.ff_economy.write_report()

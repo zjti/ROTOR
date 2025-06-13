@@ -97,7 +97,7 @@ const props = defineProps({
   },
   step: {
     type: Number,
-    default: 1,
+    default: 0.1,
   },
   rules: {
     type: Array,

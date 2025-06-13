@@ -23,7 +23,7 @@ class SP_KART(Crop):
         super().__init__(cropdata.SP_KART,*args,**kwargs)
          
         self.fertilizer_applications = FertilizerApplications( model_value_ref = self )
-        UserEditableModelValue('seed_u_per_ha',self.get_seed_u_per_ha,tab = VF.anbau_tab )
+        UserEditableModelValue('seed_kg_per_ha',self.get_seed_kg_per_ha,tab = VF.anbau_tab )
 
         ModelValue('dung_herbst', self.autumn_fertelizer_application, tab = VF.dung_tab, visible=False)
         UserEditableModelValue('reduced_soil_management',
@@ -51,8 +51,8 @@ class SP_KART(Crop):
     def autumn_fertelizer_application(self):
         return True
     
-    def get_seed_u_per_ha(self) :
-        return self.seed_u_per_ha
+    def get_seed_kg_per_ha(self) :
+        return self.seed_kg_per_ha
 
 
     def supports_undersowing(self):

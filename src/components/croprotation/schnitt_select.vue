@@ -14,6 +14,8 @@
             label="Anzahl der Schnitte"
             style="width: 100%"
             hide-details="auto"
+            :step ='1'
+            :min="0"
           ></NumberInput></v-card-text
       ></v-card>
     </v-col>

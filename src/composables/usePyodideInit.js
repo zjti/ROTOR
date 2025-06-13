@@ -21,7 +21,11 @@ export function usePyodideInit() {
     await pyodide.value.runPythonAsync("import micropip")
     // await pyodide.value.runPythonAsync("micropip.install('reportlab')")
     await pyodide.value.runPythonAsync("micropip.install('./reportlab-4.4.1-py3-none-any.whl')")
-      
+    await pyodide.value.runPythonAsync("micropip.install('numpy')")
+    await pyodide.value.runPythonAsync("micropip.install('scipy')")
+    
+
+  
     
 
     // 1. Download missing files

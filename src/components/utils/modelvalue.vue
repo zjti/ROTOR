@@ -37,7 +37,7 @@ const half_months = [
     
     <NumberInput class="custom-label-color pa-0 ma-0" resetbtn :label="model.name" :suffix="model.unit"
         v-model="model[model.name_corrected]" :hint="Math.abs(model[model.name_corrected] - model[model.name])>0.1
-            ? 'Wert vom benutzer Modifiziert'
+            ? 'Wert vom Nutzer verändert '
             : ''"
             :helpText="helpText"
             persistent-hint @send-reset="model[model.name_corrected] = model[model.name]" v-else />
