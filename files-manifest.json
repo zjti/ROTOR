@@ -209,6 +209,22 @@
         "url": "/ROTOR/files/ROTOR/management/fertilizer.py"
     },
     {
+        "path": "ROTOR/humus/__init__.py",
+        "url": "/ROTOR/files/ROTOR/humus/__init__.py"
+    },
+    {
+        "path": "ROTOR/humus/repro_dyn/__init__.py",
+        "url": "/ROTOR/files/ROTOR/humus/repro_dyn/__init__.py"
+    },
+    {
+        "path": "ROTOR/humus/repro_dyn/repro_base.py",
+        "url": "/ROTOR/files/ROTOR/humus/repro_dyn/repro_base.py"
+    },
+    {
+        "path": "ROTOR/humus/repro_dyn/WN_WEIZEN.py",
+        "url": "/ROTOR/files/ROTOR/humus/repro_dyn/WN_WEIZEN.py"
+    },
+    {
         "path": "ROTOR/management/restrictions.py",
         "url": "/ROTOR/files/ROTOR/management/restrictions.py"
     },   {

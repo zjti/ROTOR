@@ -139,6 +139,11 @@ class KRN_MAIS(Crop):
             if self.next_crop.cover_crop.get_cultivation() == 'UNTER_SAAT':
                 unter_saat_date = 'APR1'
                 worksteps.append( WorkStep(name='Zwischenfruchtansaat (Untersaat)'  ,date=unter_saat_date ,crop=self))
+            if self.next_crop.crop_data.crop_code == 'LEG_GRAS':
+                if self.next_crop.get_cultivation() == 'UNTER_SAAT':
+                    unter_saat_date = 'APR2'
+                    worksteps.append( WorkStep(name='Leguminosengrasansaat (Untersaat)'  ,date=unter_saat_date ,crop=self))
+   
 
         
         worksteps.append(WorkStep ('Mähdrusch',date='OKT2',

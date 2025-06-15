@@ -11,7 +11,7 @@ def jahr_key(i):
 def updateFFlength(ffolge, NJahre):
     print(ffolge,NJahre)
     
-    valid_keys = []
+    valid_keys = ['FF_META']
     for i in range(NJahre):
         k = jahr_key(i)
         valid_keys.append(k)
@@ -75,9 +75,13 @@ def updateFF(ffolge):
     if not has_changes(ffolge):
         return old_ffolge_json
     
-    new_pyFolge = FFolge( len(ffolge) )
+    try:
+        new_pyFolge = FFolge( len(ffolge) - 1 , model_values = ffolge['FF_META'] ) #  "len(ffolge) - 1" bcause'FF_META' in ffolge 
+    except:
+        new_pyFolge = FFolge( len(ffolge) - 1 ) #  "len(ffolge) - 1" bcause'FF_META' in ffolge 
     
-    for J,val in enumerate(ffolge.values()):
+    for J,val in enumerate([ffolge[key] for key in ffolge.keys() if key!='FF_META']):
+        
         if MF.crop not in val:
             new_pyFolge.add_crop(None)
             continue
@@ -101,9 +105,19 @@ def updateFF(ffolge):
     new_ffolge = pyFolge.serialize()
     
     for key in new_ffolge.keys():
-        
-            new_ffolge[key][MF.restr_select_phyto] = ffolge[key][MF.restr_select_phyto]
-            new_ffolge[key][MF.restr_select_time] = ffolge[key][MF.restr_select_time]
+            if key == 'FF_META':
+                continue
+            
+            try:
+                new_ffolge[key][MF.restr_select_phyto] = ffolge[key][MF.restr_select_phyto]
+            except:
+                new_ffolge[key][MF.restr_select_phyto] = True
+                
+            try:
+                new_ffolge[key][MF.restr_select_time] = ffolge[key][MF.restr_select_time]
+            except:
+                new_ffolge[key][MF.restr_select_time] = True
+                
         
     ffolge = json.dumps(new_ffolge)
     

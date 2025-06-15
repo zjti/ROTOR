@@ -20,11 +20,11 @@ def calcLG(old_cuts ,spring_seeding=False):
  
     for day_i in range(start,end):
         wd = {}
-        wd['nied'] = weather.daily_weather['PRECIPITATION'][day_i]
-        wd['stra'] = weather.daily_weather['RADIATION'][day_i]   * 0.0864 
-        wd['tmit']  = weather.daily_weather['TEMPERATURE_AVG'][day_i]
-        wd['tmin']  = weather.daily_weather['TEMPERATURE_MIN'][day_i]
-        wd['tmax']  = weather.daily_weather['TEMPERATURE_MAX'][day_i]
+        wd['nied'] = weather.daily_weather['PRECIPITATION'].get_day(day_i)
+        wd['stra'] = weather.daily_weather['RADIATION'].get_day(day_i)   * 0.0864 
+        wd['tmit']  = weather.daily_weather['TEMPERATURE_AVG'].get_day(day_i)
+        wd['tmin']  = weather.daily_weather['TEMPERATURE_MIN'].get_day(day_i)
+        wd['tmax']  = weather.daily_weather['TEMPERATURE_MAX'].get_day(day_i)
         wd['day_of_year'] = day_i
         wd['month_of_year'] = datehelper.day_index_to_month(day_i)
         
@@ -35,11 +35,11 @@ def calcLG(old_cuts ,spring_seeding=False):
     end = datehelper.mmdd_to_day_index('1231')
     for day_i in range(start,end):
         wd = {}
-        wd['nied'] = weather.daily_weather['PRECIPITATION'][day_i]
-        wd['stra'] = weather.daily_weather['RADIATION'][day_i]   * 0.0864 
-        wd['tmit']  = weather.daily_weather['TEMPERATURE_AVG'][day_i]
-        wd['tmin']  = weather.daily_weather['TEMPERATURE_MIN'][day_i]
-        wd['tmax']  = weather.daily_weather['TEMPERATURE_MAX'][day_i]
+        wd['nied'] = weather.daily_weather['PRECIPITATION'].get_day(day_i)
+        wd['stra'] = weather.daily_weather['RADIATION'].get_day(day_i)   * 0.0864 
+        wd['tmit']  = weather.daily_weather['TEMPERATURE_AVG'].get_day(day_i)
+        wd['tmin']  = weather.daily_weather['TEMPERATURE_MIN'].get_day(day_i)
+        wd['tmax']  = weather.daily_weather['TEMPERATURE_MAX'].get_day(day_i)
         wd['day_of_year'] = day_i
         wd['month_of_year'] = datehelper.day_index_to_month(day_i)
         

@@ -59,7 +59,7 @@ class FertilizerApplications(ClassWithModelValues):
                 V *= dung_param['Navil_autumn'] / 100
             else:
                 V *= dung_param['Navil_spring'] / 100
-            V += N
+            N += V
             
         return N
     

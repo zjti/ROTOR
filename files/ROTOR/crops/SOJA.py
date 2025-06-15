@@ -7,6 +7,7 @@ from ROTOR.utils.js.jsmodel import VisFields as VF
 from ROTOR.utils.modelvalue import ModelValue,UserEditableModelValue
 from ROTOR.management.workstep import FertilizerStep, PrimaryTilageStep, ReducedPrimaryTilageStep, StriegelStep         
 
+from ROTOR.utils import weather
 
 
 class SOJA(SummerGrainLegum):
@@ -26,7 +27,7 @@ class SOJA(SummerGrainLegum):
         
     
     def supports_undersowing(self):
-        return True
+        return False
     
     def get_crop_opts(self):
         return ["ZW_VOR","US_NACH","US_VOR"]
@@ -107,18 +108,18 @@ class SOJA(SummerGrainLegum):
         
         try:    
             # Calculate weather metrics
-            W = config.weather_data
+            W = weather.monthly_weather_obj
             # Temperature calculations
-            mean_temp_VE = (W[5]["TEMPERATURE_AVG"] + W[6]["TEMPERATURE_AVG"]) / 2
-            mean_temp_BL = W[7]["TEMPERATURE_AVG"]
-            mean_temp_PF = (W[8]["TEMPERATURE_AVG"] + W[9]["TEMPERATURE_AVG"]) / 2
-            mean_temp_GS = sum(W[m]["TEMPERATURE_AVG"] for m in [5, 6, 7, 8, 9]) / 5
+            mean_temp_VE = (W["TEMPERATURE_AVG"].get_monthly_mean(5) + W["TEMPERATURE_AVG"].get_monthly_mean(6)) / 2
+            mean_temp_BL = W["TEMPERATURE_AVG"].get_monthly_mean(7)
+            mean_temp_PF = (W["TEMPERATURE_AVG"].get_monthly_mean(8) + W["TEMPERATURE_AVG"].get_monthly_mean(9)) / 2
+            mean_temp_GS = sum(W["TEMPERATURE_AVG"].get_monthly_mean(m) for m in [5, 6, 7,8, 9]) / 5
             
             # Precipitation calculations (converted to monthly sums)
-            sum_precipitation_VE = (W[5]["PRECIPITATION"] + W[6]["PRECIPITATION"]) / 2 * 30
-            sum_precipitation_BL = W[7]["PRECIPITATION"] * 30
-            sum_precipitation_PF = (W[8]["PRECIPITATION"] + W[9]["PRECIPITATION"]) / 2 * 30
-            sum_precipitation_GS = sum(W[m]["PRECIPITATION"] for m in [5, 6, 7, 8, 9]) * 30
+            sum_precipitation_VE = (W["PRECIPITATION"].get_monthly_mean(5) + W["PRECIPITATION"].get_monthly_mean(6)) / 2 * 30
+            sum_precipitation_BL = W["PRECIPITATION"].get_monthly_mean(7) * 30
+            sum_precipitation_PF = (W["PRECIPITATION"].get_monthly_mean(8) + W["PRECIPITATION"].get_monthly_mean(9)) / 2 * 30
+            sum_precipitation_GS = sum(W["PRECIPITATION"].get_monthly_mean(m) for m in [5, 6, 7, 8, 9]) * 30
             
             # Apply weather corrections
             yield_value += -0.440908682626817 * mean_temp_BL
@@ -129,7 +130,8 @@ class SOJA(SummerGrainLegum):
             yield_value += -0.018089703757958 * sum_precipitation_BL
             yield_value += -0.01519144520379 * sum_precipitation_VE
             yield_value += 0.0133513650708437 * sum_precipitation_PF
-        except :
+        except Exception as ex:
+            print(ex)
             print(f"Missing required weather data for month:")
         
         return yield_value
