@@ -23,12 +23,28 @@ export default defineConfig({
     // https://github.com/vuetifyjs/vuetify-loader/tree/master/packages/vite-plugin#readme
     Vuetify(),
     Components(),
+    // ViteFonts({
+    //   google: {
+    //     families: [{
+    //       name: 'Roboto',
+    //       styles: 'wght@100;300;400;500;700;900',
+    //     }],
+    //   },
+    // }),
     ViteFonts({
       google: {
-        families: [{
-          name: 'Roboto',
-          styles: 'wght@100;300;400;500;700;900',
-        }],
+        families: [
+          {
+            name: 'Roboto',
+            styles: 'wght@100;300;400;500;700;900',
+            defer: false,             // Optional: inject in <head> immediately
+            display: 'swap',          // Prevent invisible text during load
+            preconnect: false,        // Don't try to preconnect to fonts.googleapis.com
+          },
+        ],
+        // Self-host the fonts!
+        download: true,
+        injectTo: 'head',            // Inject <style> into <head>
       },
     }),
   ],

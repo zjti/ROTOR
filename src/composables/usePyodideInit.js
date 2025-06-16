@@ -19,9 +19,21 @@ export function usePyodideInit() {
 
     await pyodide.value.loadPackage('micropip')
     await pyodide.value.runPythonAsync("import micropip")
-    // await pyodide.value.runPythonAsync("micropip.install('reportlab')")
+    // // await pyodide.value.runPythonAsync("micropip.install('reportlab')")
+    await pyodide.value.runPythonAsync("micropip.install('./chardet-5.2.0-py3-none-any.whl')")
+
+    await pyodide.value.runPythonAsync("micropip.install('./numpy-2.0.2-cp312-cp312-pyodide_2024_0_wasm32.whl')")
+
+    await pyodide.value.runPythonAsync("micropip.install('./pillow-10.2.0-cp312-cp312-pyodide_2024_0_wasm32.whl')")
     await pyodide.value.runPythonAsync("micropip.install('./reportlab-4.4.1-py3-none-any.whl')")
-    await pyodide.value.runPythonAsync("micropip.install('numpy')")
+    // https://files.pythonhosted.org/packages/38/6f/f5fbc992a329ee4e0f288c1fe0e2ad9485ed064cac731ed2fe47dcc38cbf/chardet-5.2.0-py3-none-any.whl
+    // await pyodide.value.runPythonAsync("micropip.install('./scipy-1.14.1-cp312-cp312-pyodide_2024_0_wasm32.whl')")
+    
+    
+    // ROTOR/public/
+    // await pyodide.value.runPythonAsync("micropip.install('./reportlab-4.4.1-py3-none-any.whl')")
+
+    // await pyodide.value.runPythonAsync("micropip.install('numpy')")
     await pyodide.value.runPythonAsync("micropip.install('scipy')")
     
 

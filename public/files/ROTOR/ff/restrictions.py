@@ -13,6 +13,8 @@ def get_avail_crops_for_jahr(ffolge, jahr ):
     # print(ff_comp['restr_select_phyto'] ,ff_comp['restr_select_time'])
     FORBIDEN_CROPS = set()
     for k,val in ffolge.items():
+        if k == 'FF_META':
+            continue
         kint = int(k)
         if kint==jahr:
             continue

@@ -30,6 +30,7 @@ await initializePyodide();
 await runPython('config.WEATHER_DATA = json.loads("""' + JSON.stringify(weather_data) + '""")');
 
 const verkraut = useStorage('VERKRAUTUNG', verkrautung)
+const krautkey = useStorage('KRAUT_KEY', 'Region Nord-Ost')
 const psoil = useStorage('PARAMS_SOIL', params_soil)
 const pdt = useStorage('PHYTO_DELAY_TIME', CdelayData_time)
 const pd = useStorage('PHYTO_DELAY', CdelayData)
@@ -41,12 +42,15 @@ const eval_data = useStorage('EVAL_DATA', {})
 
 const location = useStorage('LOCATION_LAT_LONG',{'lat':52,'lon':14})
 const climate_data = useStorage('CLIMATE_DATA_MONTLY',{})
+const NJahre = useStorage('FFOLGE_NJAHRE', 5)
 
 export const globalStore = new Map();
+globalStore.set('FFOLGE_NJAHRE', NJahre)
 globalStore.set('PARAMS_USER', puser)
 globalStore.set('SOIL', psoil)
 globalStore.set('PHYTO_DELAY_TIME', pdt)
 globalStore.set('PHYTO_DELAY', pd)
+globalStore.set('KRAUT_KEY', krautkey)
 globalStore.set('VERKRAUTUNG', verkraut)
 globalStore.set('DUNG_DATA', pdung)
 globalStore.set('FF', ff)
@@ -143,6 +147,10 @@ trigger_CLIMATE_DATA_MONTLY()
     (newVal) => {
       ignoreUpdates(() => {
         console.log('XXX2222')
+        const updateWeather = runPythonS("jswrapper.JSupdateWeather"); 
+        // updateWeather(JSON.stringify(globalStore.get('LOCATION_LAT_LONG').value))
+        updateWeather(JSON.stringify(newVal))
+  
         runPythonS('config.LOCATION_LAT_LONG = json.loads("""' + JSON.stringify(newVal) + '""")')
         writetojupyter('config_data/LOCATION_LAT_LONG.json', JSON.stringify(newVal))
 

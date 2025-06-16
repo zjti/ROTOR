@@ -2,6 +2,7 @@ from ROTOR.utils.js.jsmodel import  ModelFields as MF
 from ROTOR.utils.js.jsmodel import  VisFields as VF
 from ROTOR.utils.modelvalue import ModelValue,ClassWithModelValues
 from ROTOR.economy.economy import FFEconomy
+from ROTOR.utils.weather import monthly_weather_obj, MonthlyWeather
 
 class FFElement( ClassWithModelValues):
     def __init__(self, *args, **kwargs):
@@ -60,11 +61,24 @@ class FFElement( ClassWithModelValues):
                 'removals':self.get_removals()}
         
 
-class FFolge:
-    def __init__(self,length):
+class FFolge(ClassWithModelValues):
+    def __init__(self,length,*args, **kwargs):
+        super().__init__(*args, **kwargs)
+
         self.length = length
         self.crops = []
-
+        
+        # if not hasattr(self,'ff_economy'):
+        self.ff_economy = FFEconomy(ffolge=self, model_value_ref = self )
+        
+        self.mweather = MonthlyWeather('PRECIPITATION' , model_value_ref = self , model_value_group_name='PRECIPITATION' )
+        monthly_weather_obj['PRECIPITATION'] = self.mweather
+        
+        self.mweather = MonthlyWeather('TEMPERATURE_AVG' , model_value_ref = self , model_value_group_name='TEMPERATURE_AVG' )
+        monthly_weather_obj['TEMPERATURE_AVG'] = self.mweather
+            
+        self.mweather = MonthlyWeather('ET0' , model_value_ref = self , model_value_group_name='ET0' )
+        monthly_weather_obj['ET0'] = self.mweather
 
     def add_crop(self,ffelement):
         self.crops.append(ffelement)
@@ -80,10 +94,9 @@ class FFolge:
             if self.crops[0]:
                 self.crops[0].pre_crop = self.crops[-1]
         if ffelement:
-            if not hasattr(self,'ff_economy'):
-                self.ff_economy = FFEconomy(ffolge=self, model_value_ref = ffelement )
-
+                
             ffelement.ff_economy = self.ff_economy
+            
         
     def post_init(self):
         for crop in self.crops:
@@ -99,6 +112,8 @@ class FFolge:
             else:
                 ffolge[str(i+1)] = {MF.vis :{}}
                 
+        ffolge['FF_META'] = self.serialize_model_values()
+                
         return ffolge
     
     def get_eval_data(self):
@@ -110,6 +125,4 @@ class FFolge:
                 eval_data.append( crop.get_eval_data() )
         return eval_data
     
-    def get_eval_table_hight_detail(self):
-        pass
  

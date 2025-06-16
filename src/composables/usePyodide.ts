@@ -1,5 +1,7 @@
 import { ref } from 'vue';
-import { loadPyodide } from 'pyodide';
+// import { loadPyodide } from 'pyodide';
+// import { loadPyodide } from './pyodide/pyodide.mjs?url';
+
 import { usePyodideSync } from './usePyodideSync';
 import { usePyodideInit } from './usePyodideInit';
 
@@ -37,16 +39,17 @@ export default function usePyodide() {
     isLoading.value = true;
     try {
       
-      // const loadPyodide = await loadLocalPyodide();
+      const loadPyodide = await loadLocalPyodide();
 
       pyodideInstance.value = await loadPyodide({
-        indexURL: "https://cdn.jsdelivr.net/pyodide/v0.27.7/full/"
-        // indexURL: "./pyodide/"
+        // indexURL: "https://cdn.jsdelivr.net/pyodide/v0.27.7/full/"
+        indexURL: "./pyodide/"
       });
  
         
       const { initialize } = usePyodideInit();
       await initialize('/ROTOR/files-manifest.json');  
+      await pyodideInstance.value.loadPackage("micropip") 
 
       return pyodideInstance.value;
       

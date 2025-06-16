@@ -1,8 +1,9 @@
+import json
 from ROTOR.utils.modelvalue import ClassWithModelValues
 from ROTOR.economy.covercropeconomy import CoverCropEconomy
 
 from ROTOR.utils.modelvalue import ModelValue,UserEditableModelValue
-from ROTOR.management.workstep import WorkStep, WorkStepList
+from ROTOR.management.workstep import WorkStep, WorkStepList, date_to_num
 from ROTOR.utils.js.jsmodel import VisFields as VF
 from ROTOR.utils import config
  
@@ -21,9 +22,45 @@ class FFEconomy( ClassWithModelValues ):
 
         ModelValue('ff_gross_margin_eur_per_ha', self.get_ff_gross_margin_eur_per_ha, unit = '€/ha')
         
+        ModelValue('arbeits_spitzen_plot', self.get_arbeits_spitzen_plot)
+        ModelValue('half_months',self.get_half_months)
+        
         self.ffolge=ffolge
         
+    def get_half_months(self):
+        return [
+            'JAN1','JAN2','FEB01','FEB2','MRZ1','MRZ2',
+            'APR1','APR2','MAI1','MAI2','JUN1','JUN2',
+            'JUL1','JUL2','AUG1','AUG2','SEP1','SEP2',
+            'OKT1','OKT2','NOV1','NOV2','DEZ1','DEZ2',
+        ] 
         
+    def get_arbeits_spitzen_plot(self):
+        baseColors = [
+            '#1abc9c', '#3498db', '#e67e22', '#e74c3c',
+            '#9b59b6', '#f1c40f', '#2ecc71', '#34495e'
+        ]
+        plts = []
+        for i,crop in enumerate(self.ffolge.crops):
+            if crop:
+                if hasattr(crop,'economy'):
+                    data = [0 for i in range(24)]
+                    descr = ["" for i in range(24)]
+                    for ws in crop.economy.worksteplist.worksteps:
+                        print('x1x',ws)
+                        data[date_to_num[ws.get_date()]] += ws.get_man_hours_h_per_ha()
+                        descr[date_to_num[ws.get_date()] ] += ws.get_name() + ", "
+                    plt = {
+                        'label': crop.crop_data.crop_code,
+                        'data': data,
+                        'backgroundColor': baseColors[i % len(baseColors)],
+                        'stack': 'stack-0',
+                        'customTooltips': descr
+
+                    }
+                    plts+=[plt]
+        
+        return plts
         
     def get_ff_gross_margin_eur_per_ha(self):
         S,N=0,0
@@ -32,7 +69,10 @@ class FFEconomy( ClassWithModelValues ):
                 if hasattr(crop,'economy'):
                     S += crop.economy.get_gross_margin_eur_per_ha()
                     N += 1
-        return S/N
+        try:
+            return S/N
+        except:
+            return 0
         
     def get_diesel_eur_per_l(self):
         return 1.7

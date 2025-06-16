@@ -1,0 +1,326 @@
+[
+    {
+        "path": "grid_lat_lon_data.json",
+        "url": "/ROTOR/files/grid_lat_lon_data.json"
+    },
+    {
+        "path": "grid_data.json",
+        "url": "/ROTOR/files/grid_data.json"
+    },
+    {
+        "path": "ROTOR/cerial.py",
+        "url": "/ROTOR/files/ROTOR/cerial.py"
+    },
+    {
+        "path": "ROTOR/grainlegum.py",
+        "url": "/ROTOR/files/ROTOR/grainlegum.py"
+    },
+    {
+        "path": "ROTOR/covercrop.py",
+        "url": "/ROTOR/files/ROTOR/covercrop.py"
+    },
+    {
+        "path": "ROTOR/crop.py",
+        "url": "/ROTOR/files/ROTOR/crop.py"
+    },
+    {
+        "path": "ROTOR/__init__.py",
+        "url": "/ROTOR/files/ROTOR/__init__.py"
+    },
+    {
+        "path": "ROTOR/humus/__init__.py",
+        "url": "/ROTOR/files/ROTOR/humus/__init__.py"
+    },
+    {
+        "path": "ROTOR/humus/repro_dyn/repro_base.py",
+        "url": "/ROTOR/files/ROTOR/humus/repro_dyn/repro_base.py"
+    },
+    {
+        "path": "ROTOR/humus/repro_dyn/KRN_MAIS.py",
+        "url": "/ROTOR/files/ROTOR/humus/repro_dyn/KRN_MAIS.py"
+    },
+    {
+        "path": "ROTOR/humus/repro_dyn/SOJA.py",
+        "url": "/ROTOR/files/ROTOR/humus/repro_dyn/SOJA.py"
+    },
+    {
+        "path": "ROTOR/humus/repro_dyn/WN_ROGGEN.py",
+        "url": "/ROTOR/files/ROTOR/humus/repro_dyn/WN_ROGGEN.py"
+    },
+    {
+        "path": "ROTOR/humus/repro_dyn/FTTR_RUEBE.py",
+        "url": "/ROTOR/files/ROTOR/humus/repro_dyn/FTTR_RUEBE.py"
+    },
+    {
+        "path": "ROTOR/humus/repro_dyn/TRITICALE.py",
+        "url": "/ROTOR/files/ROTOR/humus/repro_dyn/TRITICALE.py"
+    },
+    {
+        "path": "ROTOR/humus/repro_dyn/FTTR_ERBSE.py",
+        "url": "/ROTOR/files/ROTOR/humus/repro_dyn/FTTR_ERBSE.py"
+    },
+    {
+        "path": "ROTOR/humus/repro_dyn/DINKEL.py",
+        "url": "/ROTOR/files/ROTOR/humus/repro_dyn/DINKEL.py"
+    },
+    {
+        "path": "ROTOR/humus/repro_dyn/ZWIBELN.py",
+        "url": "/ROTOR/files/ROTOR/humus/repro_dyn/ZWIBELN.py"
+    },
+    {
+        "path": "ROTOR/humus/repro_dyn/WN_GERSTE.py",
+        "url": "/ROTOR/files/ROTOR/humus/repro_dyn/WN_GERSTE.py"
+    },
+    {
+        "path": "ROTOR/humus/repro_dyn/HAFER.py",
+        "url": "/ROTOR/files/ROTOR/humus/repro_dyn/HAFER.py"
+    },
+    {
+        "path": "ROTOR/humus/repro_dyn/LUPINE.py",
+        "url": "/ROTOR/files/ROTOR/humus/repro_dyn/LUPINE.py"
+    },
+    {
+        "path": "ROTOR/humus/repro_dyn/SM_WEIZEN.py",
+        "url": "/ROTOR/files/ROTOR/humus/repro_dyn/SM_WEIZEN.py"
+    },
+    {
+        "path": "ROTOR/humus/repro_dyn/ZUCKER_RUEBE.py",
+        "url": "/ROTOR/files/ROTOR/humus/repro_dyn/ZUCKER_RUEBE.py"
+    },
+    {
+        "path": "ROTOR/humus/repro_dyn/SP_KART.py",
+        "url": "/ROTOR/files/ROTOR/humus/repro_dyn/SP_KART.py"
+    },
+    {
+        "path": "ROTOR/humus/repro_dyn/ZWFRU.py",
+        "url": "/ROTOR/files/ROTOR/humus/repro_dyn/ZWFRU.py"
+    },
+    {
+        "path": "ROTOR/humus/repro_dyn/WN_WEIZEN.py",
+        "url": "/ROTOR/files/ROTOR/humus/repro_dyn/WN_WEIZEN.py"
+    },
+    {
+        "path": "ROTOR/humus/repro_dyn/SM_GERST.py",
+        "url": "/ROTOR/files/ROTOR/humus/repro_dyn/SM_GERST.py"
+    },
+    {
+        "path": "ROTOR/humus/repro_dyn/ACK_BOHNE.py",
+        "url": "/ROTOR/files/ROTOR/humus/repro_dyn/ACK_BOHNE.py"
+    },
+    {
+        "path": "ROTOR/humus/repro_dyn/LEG_GRAS.py",
+        "url": "/ROTOR/files/ROTOR/humus/repro_dyn/LEG_GRAS.py"
+    },
+    {
+        "path": "ROTOR/humus/repro_dyn/__init__.py",
+        "url": "/ROTOR/files/ROTOR/humus/repro_dyn/__init__.py"
+    },
+    {
+        "path": "ROTOR/humus/vdlufa04/vdlufa.py",
+        "url": "/ROTOR/files/ROTOR/humus/vdlufa04/vdlufa.py"
+    },
+    {
+        "path": "ROTOR/humus/vdlufa04/zwfru.py",
+        "url": "/ROTOR/files/ROTOR/humus/vdlufa04/zwfru.py"
+    },
+    {
+        "path": "ROTOR/humus/vdlufa04/leg.py",
+        "url": "/ROTOR/files/ROTOR/humus/vdlufa04/leg.py"
+    },
+    {
+        "path": "ROTOR/humus/vdlufa04/root_crops.py",
+        "url": "/ROTOR/files/ROTOR/humus/vdlufa04/root_crops.py"
+    },
+    {
+        "path": "ROTOR/humus/vdlufa04/group520.py",
+        "url": "/ROTOR/files/ROTOR/humus/vdlufa04/group520.py"
+    },
+    {
+        "path": "ROTOR/humus/vdlufa04/__init__.py",
+        "url": "/ROTOR/files/ROTOR/humus/vdlufa04/__init__.py"
+    },
+    {
+        "path": "ROTOR/ff/ffolge.py",
+        "url": "/ROTOR/files/ROTOR/ff/ffolge.py"
+    },
+    {
+        "path": "ROTOR/ff/restrictions.py",
+        "url": "/ROTOR/files/ROTOR/ff/restrictions.py"
+    },
+    {
+        "path": "ROTOR/ff/update.py",
+        "url": "/ROTOR/files/ROTOR/ff/update.py"
+    },
+    {
+        "path": "ROTOR/ff/__init__.py",
+        "url": "/ROTOR/files/ROTOR/ff/__init__.py"
+    },
+    {
+        "path": "ROTOR/utils/datehelper.py",
+        "url": "/ROTOR/files/ROTOR/utils/datehelper.py"
+    },
+    {
+        "path": "ROTOR/utils/isinstance_by_name.py",
+        "url": "/ROTOR/files/ROTOR/utils/isinstance_by_name.py"
+    },
+    {
+        "path": "ROTOR/utils/modelvalue.py",
+        "url": "/ROTOR/files/ROTOR/utils/modelvalue.py"
+    },
+    {
+        "path": "ROTOR/utils/find_crops.py",
+        "url": "/ROTOR/files/ROTOR/utils/find_crops.py"
+    },
+    {
+        "path": "ROTOR/utils/config.py",
+        "url": "/ROTOR/files/ROTOR/utils/config.py"
+    },
+    {
+        "path": "ROTOR/utils/create_edit_ipynb.py",
+        "url": "/ROTOR/files/ROTOR/utils/create_edit_ipynb.py"
+    },
+    {
+        "path": "ROTOR/utils/autoreload.py",
+        "url": "/ROTOR/files/ROTOR/utils/autoreload.py"
+    },
+    {
+        "path": "ROTOR/utils/weather.py",
+        "url": "/ROTOR/files/ROTOR/utils/weather.py"
+    },
+    {
+        "path": "ROTOR/utils/patch_crop.py",
+        "url": "/ROTOR/files/ROTOR/utils/patch_crop.py"
+    },
+    {
+        "path": "ROTOR/utils/__init__.py",
+        "url": "/ROTOR/files/ROTOR/utils/__init__.py"
+    },
+    {
+        "path": "ROTOR/utils/js/jswrapper.py",
+        "url": "/ROTOR/files/ROTOR/utils/js/jswrapper.py"
+    },
+    {
+        "path": "ROTOR/utils/js/jsmodel.py",
+        "url": "/ROTOR/files/ROTOR/utils/js/jsmodel.py"
+    },
+    {
+        "path": "ROTOR/economy/covercropeconomy.py",
+        "url": "/ROTOR/files/ROTOR/economy/covercropeconomy.py"
+    },
+    {
+        "path": "ROTOR/economy/economy.py",
+        "url": "/ROTOR/files/ROTOR/economy/economy.py"
+    },
+    {
+        "path": "ROTOR/economy/economy_report.py",
+        "url": "/ROTOR/files/ROTOR/economy/economy_report.py"
+    },
+    {
+        "path": "ROTOR/crops/KRN_MAIS.py",
+        "url": "/ROTOR/files/ROTOR/crops/KRN_MAIS.py"
+    },
+    {
+        "path": "ROTOR/crops/SOJA.py",
+        "url": "/ROTOR/files/ROTOR/crops/SOJA.py"
+    },
+    {
+        "path": "ROTOR/crops/WN_ROGGEN.py",
+        "url": "/ROTOR/files/ROTOR/crops/WN_ROGGEN.py"
+    },
+    {
+        "path": "ROTOR/crops/FTTR_RUEBE.py",
+        "url": "/ROTOR/files/ROTOR/crops/FTTR_RUEBE.py"
+    },
+    {
+        "path": "ROTOR/crops/TRITICALE.py",
+        "url": "/ROTOR/files/ROTOR/crops/TRITICALE.py"
+    },
+    {
+        "path": "ROTOR/crops/FTTR_ERBSE.py",
+        "url": "/ROTOR/files/ROTOR/crops/FTTR_ERBSE.py"
+    },
+    {
+        "path": "ROTOR/crops/legray.py",
+        "url": "/ROTOR/files/ROTOR/crops/legray.py"
+    },
+    {
+        "path": "ROTOR/crops/DINKEL.py",
+        "url": "/ROTOR/files/ROTOR/crops/DINKEL.py"
+    },
+    {
+        "path": "ROTOR/crops/ZWIBELN.py",
+        "url": "/ROTOR/files/ROTOR/crops/ZWIBELN.py"
+    },
+    {
+        "path": "ROTOR/crops/WN_GERSTE.py",
+        "url": "/ROTOR/files/ROTOR/crops/WN_GERSTE.py"
+    },
+    {
+        "path": "ROTOR/crops/HAFER.py",
+        "url": "/ROTOR/files/ROTOR/crops/HAFER.py"
+    },
+    {
+        "path": "ROTOR/crops/LUPINE.py",
+        "url": "/ROTOR/files/ROTOR/crops/LUPINE.py"
+    },
+    {
+        "path": "ROTOR/crops/SM_WEIZEN.py",
+        "url": "/ROTOR/files/ROTOR/crops/SM_WEIZEN.py"
+    },
+    {
+        "path": "ROTOR/crops/ZUCKER_RUEBE.py",
+        "url": "/ROTOR/files/ROTOR/crops/ZUCKER_RUEBE.py"
+    },
+    {
+        "path": "ROTOR/crops/SP_KART.py",
+        "url": "/ROTOR/files/ROTOR/crops/SP_KART.py"
+    },
+    {
+        "path": "ROTOR/crops/WN_WEIZEN.py",
+        "url": "/ROTOR/files/ROTOR/crops/WN_WEIZEN.py"
+    },
+    {
+        "path": "ROTOR/crops/SM_GERST.py",
+        "url": "/ROTOR/files/ROTOR/crops/SM_GERST.py"
+    },
+    {
+        "path": "ROTOR/crops/ACK_BOHNE.py",
+        "url": "/ROTOR/files/ROTOR/crops/ACK_BOHNE.py"
+    },
+    {
+        "path": "ROTOR/crops/LEG_GRAS.py",
+        "url": "/ROTOR/files/ROTOR/crops/LEG_GRAS.py"
+    },
+    {
+        "path": "ROTOR/crops/__init__.py",
+        "url": "/ROTOR/files/ROTOR/crops/__init__.py"
+    },
+    {
+        "path": "ROTOR/crops/data/cropdata.py",
+        "url": "/ROTOR/files/ROTOR/crops/data/cropdata.py"
+    },
+    {
+        "path": "ROTOR/crops/data/cropopts.py",
+        "url": "/ROTOR/files/ROTOR/crops/data/cropopts.py"
+    },
+    {
+        "path": "ROTOR/crops/data/__init__.py",
+        "url": "/ROTOR/files/ROTOR/crops/data/__init__.py"
+    },
+    {
+        "path": "ROTOR/management/fertilizer.py",
+        "url": "/ROTOR/files/ROTOR/management/fertilizer.py"
+    },
+    {
+        "path": "ROTOR/management/restrictions.py",
+        "url": "/ROTOR/files/ROTOR/management/restrictions.py"
+    },
+    {
+        "path": "ROTOR/management/workstep.py",
+        "url": "/ROTOR/files/ROTOR/management/workstep.py"
+    },
+    {
+        "path": "ROTOR/management/__init__.py",
+        "url": "/ROTOR/files/ROTOR/management/__init__.py"
+    }
+]

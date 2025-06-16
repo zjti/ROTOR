@@ -75,10 +75,13 @@ class WorkStep( ClassWithModelValues ):
         UserEditableModelValue('get_man_hours_h_per_ha', self.get_man_hours_h_per_ha )
         UserEditableModelValue('get_diesel_l_per_ha', self.get_diesel_l_per_ha )
         UserEditableModelValue('get_machine_cost_eur_per_ha', self.get_machine_cost_eur_per_ha )
+        UserEditableModelValue('get_name', self.get_name, type='string' )
 
         ModelValue('get_diesel_eur_per_ha', self.get_diesel_eur_per_ha, unit = '€/l' )
 
         
+    def get_name(self):
+        return self.name
 
 
     def get_date_options(self):

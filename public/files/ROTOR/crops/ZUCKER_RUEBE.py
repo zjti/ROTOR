@@ -34,6 +34,11 @@ class ZUCKER_RUEBE(Crop):
                                self.calc_yield_dt_fm_per_ha,
                                tab = VF.ertrag_tab, unit='FM dt/ha' )
 
+        UserEditableModelValue('1. Hacke',self.do_hacken_1 ,tab=VF.anbau_tab,visible=True, type='bool')
+        UserEditableModelValue('2. Hacke',self.do_hacken_2 ,tab=VF.anbau_tab,visible=True, type='bool')
+        UserEditableModelValue('3. Hacke',self.do_hacken_3 ,tab=VF.anbau_tab,visible=True, type='bool')
+
+
         UserEditableModelValue('has_cover_crop',self.has_cover_crop ,tab=VF.anbau_tab,visible=True, type='bool')
     
     def post_init(self):
@@ -43,7 +48,13 @@ class ZUCKER_RUEBE(Crop):
             self.cover_crop = CoverCrop( ffelement = self , model_value_ref=self )
         
         super().post_init()
-        
+    
+    def do_hacken_1(self):
+        return True
+    def do_hacken_2(self):
+        return True
+    def do_hacken_3(self):
+        return True
 
     def calc_yield_dt_fm_per_ha(self,EF=2):
         return 500
@@ -104,18 +115,20 @@ class ZUCKER_RUEBE(Crop):
         worksteps.append(WorkStep ('Einzelkornsaat',date='APR1',
                                    machine_cost_eur_per_ha=14, diesel_l_per_ha=4,
                                    man_hours_h_per_ha=0.6,crop=self))
+        if self.do_hacken_1():
+            worksteps.append(WorkStep ('Hacken 1',date='APR2',
+                                    machine_cost_eur_per_ha=9, diesel_l_per_ha=5.4,
+                                    man_hours_h_per_ha=1.3,crop=self))
         
-        worksteps.append(WorkStep ('Hacken 1',date='APR2',
-                                   machine_cost_eur_per_ha=9, diesel_l_per_ha=5.4,
-                                   man_hours_h_per_ha=1.3,crop=self))
-        
-        worksteps.append(WorkStep ('Hacken 2',date='MAI1',
-                                   machine_cost_eur_per_ha=9, diesel_l_per_ha=5.4,
-                                   man_hours_h_per_ha=1.4,crop=self))
+        if self.do_hacken_2():
+            worksteps.append(WorkStep ('Hacken 2',date='MAI1',
+                                    machine_cost_eur_per_ha=9, diesel_l_per_ha=5.4,
+                                    man_hours_h_per_ha=1.4,crop=self))
        
-        worksteps.append(WorkStep ('Hacken 3',date='JUN1',
-                                   machine_cost_eur_per_ha=9, diesel_l_per_ha=5.4,
-                                   man_hours_h_per_ha=1.5,crop=self))
+        if self.do_hacken_3():
+            worksteps.append(WorkStep ('Hacken 3',date='JUN1',
+                                    machine_cost_eur_per_ha=9, diesel_l_per_ha=5.4,
+                                    man_hours_h_per_ha=1.5,crop=self))
         
         worksteps.append(WorkStep ('Roden',date='SEP2',
                                    machine_cost_eur_per_ha=94, diesel_l_per_ha=90,

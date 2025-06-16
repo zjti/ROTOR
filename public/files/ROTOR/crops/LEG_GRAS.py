@@ -15,6 +15,9 @@ from ROTOR.utils.js.jsmodel import ModelFields as MF
 
 from ROTOR.utils import datehelper
 from ROTOR.economy.economy import CropEconomy
+from ROTOR.management import workstep
+from ROTOR.management.workstep import WorkStep, WorkStepList
+
 
 class CutSelect(  ClassWithModelValues ):
 
@@ -39,9 +42,11 @@ class CutSelect(  ClassWithModelValues ):
     def get_num_cuts(self):
         return self.num_cuts
     
+    def get_nutz(self,n):
+        return getattr(self, f"get_nutz{n+1}").__call__()
+    
     def get_cut(self,n):
-        if self.get_nutz1()=='mulch':
-            return 0
+        
         if self.get_nutz1()=='heu':
             return self.cut_amount_fm[n]  * 0.3 * (0.65)
         if self.get_nutz1()=='silage':
@@ -125,6 +130,13 @@ class LGCropEconomy(CropEconomy):
             print(self.crop.cut_sel.all_nutz(),'22')
             UserEditableModelValue('price_yield_silage_eur_per_dt_fm', self.get_price_yield_silage_eur_per_dt_fm, tab=VF.eco_tab , unit = '€/dt')
             ModelValue('yield_silage_leistung_eur_per_ha', self.get_yield_silage_leistung_eur_per_ha, tab=VF.eco_tab , unit = '€/ha')
+            
+        # worksteplist = WorkStepList(model_value_ref=self)
+        # self.worksteplist = worksteplist
+
+        
+        # worksteplist.add(workstep.DrillStep(crop=self.crop))
+
     
     def get_price_yield_grünfutter_eur_per_dt_fm(self):
         return 5
@@ -136,13 +148,13 @@ class LGCropEconomy(CropEconomy):
         return 7
     
     def get_yield_silage_leistung_eur_per_ha(self):
-        return self.get_price_yield_silage_eur_per_dt_fm() * self.crop.cut_sel.get_yield_silage_dt_fm_per_ha()
+        return self.get_price_yield_silage_eur_per_dt_fm() * self.crop.cut_sel.get_yield_silage_dt_fm_per_ha() 
     
     def get_yield_heu_leistung_eur_per_ha(self):
-        return self.get_price_yield_heu_eur_per_dt_fm() * self.crop.cut_sel.get_yield_heu_dt_fm_per_ha()
+        return self.get_price_yield_heu_eur_per_dt_fm() * self.crop.cut_sel.get_yield_heu_dt_fm_per_ha() 
     
     def get_yield_grünfutter_leistung_eur_per_ha(self):
-        return self.get_price_yield_grünfutter_eur_per_dt_fm() * self.crop.cut_sel.get_yield_grünfutter_dt_fm_per_ha()
+        return self.get_price_yield_grünfutter_eur_per_dt_fm() * self.crop.cut_sel.get_yield_grünfutter_dt_fm_per_ha() 
     
     
     # pass
@@ -167,20 +179,39 @@ class LEG_GRAS(Crop):
                                self.get_reduced_soil_management,
                                type='bool', tab = VF.anbau_tab )
         
-        UserEditableModelValue('spring_sowing',
-                               self.get_spring_sowing,
-                               type='bool', tab = VF.anbau_tab )
-        
-        
+        UserEditableModelValue('get_cultivation',self.get_cultivation ,
+                               tab=VF.anbau_tab,visible=True, type='select', 
+                               select_opts=self.get_cultivation_options )
+
+        UserEditableModelValue('get_leguminosen_percentage',self.get_leguminosen_percentage ,tab=VF.anbau_tab,visible=True)
 
         self.cut_sel = CutSelect(num_cuts=3, model_value_ref = self)
-        # ModelValue('dung_herbst', self.autumn_fertelizer_application, tab = VF.dung_tab, visible=False)
+        
+    def get_leguminosen_percentage(self):
+        return 39
+    
+    def get_cultivation(self):
+        if self.pre_crop:
+            if self.pre_crop.crop_data.crop_code == 'LEG_GRAS':
+                return 'VORJAHR'
+        return 'HERBST'
+    
+    def get_cultivation_options(self):
+        opts = ['FRÜHJAHR','HERBST']
+        if self.pre_crop:
+            if self.pre_crop.supports_undersowing():
+                opts += ['UNTER_SAAT']
+            
+            if self.pre_crop.crop_data.crop_code == 'LEG_GRAS':
+                opts = ['VORJAHR']
+        return opts
 
     def autumn_fertelizer_application(self):
-        return not self.get_spring_sowing()
+        return True
+        # return not self.get_spring_sowing()
     
     def get_spring_sowing(self):
-        return False
+        return self.get_cultivation() == "FRÜHJAHR"
 
     def get_schnitt_menge(self):
         cuts = calcLG({},spring_seeding= self.get_spring_sowing())
@@ -229,6 +260,60 @@ class LEG_GRAS(Crop):
         return calcLG( {}, spring_seeding=spring_seeding)
     
     
+    def get_worksteps(self):
+        worksteps = []
+        
+        fertilizer_automn_t_per_ha = self.fertilizer_applications.get_amount_t_per_ha(for_autumn=True, for_spring=False)
+        fertilizer_spring_t_per_ha = self.fertilizer_applications.get_amount_t_per_ha(for_autumn=False, for_spring=True)
+    
+        if fertilizer_automn_t_per_ha > 0:
+            worksteps.append( FertilizerStep(date='OKT1' ,crop=self) ) 
+        if fertilizer_spring_t_per_ha > 0:
+            worksteps.append( FertilizerStep(date='MRZ2' ,crop=self) )
+
+        
+        if (self.pre_crop is None) or (self.pre_crop.crop_data.crop_code != 'LEG_GRAS'): 
+            if self.get_reduced_soil_management():
+                self.reduced_primary_tilage_step.date = self.primary_tilage_step.date
+                worksteps.append( workstep.ReducedPrimaryTilageStep(date='SEP1',crop=self))
+            else:
+                worksteps.append( workstep.PrimaryTilageStep(date='SEP1',crop=self))
+
+            worksteps.append( workstep.SeedBedPreparationStep(date='SEP2',crop=self))
+            worksteps.append( workstep.DrillStep(date='SEP2',crop=self))
+        
+        
+        # try:
+        schnitte = self.get_schnitt_menge()
+        print(schnitte)
+        for i,S in enumerate(schnitte.values()):          
+            # worksteps.append( workstep.HarvestStep(date=S['date'],crop=self))
+            if self.cut_sel.get_nutz(i) == 'grünfutter':
+                worksteps.append( workstep.WorkStep(name="Mähen und bergen",
+                                                    machine_cost_eur_per_ha=30,
+                                                    man_hours_h_per_ha=3,
+                                                    diesel_l_per_ha=16, date=S['date'],crop=self))
+            if self.cut_sel.get_nutz(i) == 'heu':
+                worksteps.append( workstep.WorkStep(name="Mähen, schwaden, wenden und bergen",
+                                                    machine_cost_eur_per_ha=40,
+                                                    man_hours_h_per_ha=5,
+                                                    diesel_l_per_ha=23, date=S['date'],crop=self))
+            
+            if self.cut_sel.get_nutz(i) == 'silage':
+                worksteps.append( workstep.WorkStep(name="Mähen, schwaden, wenden, bergen und silieren",
+                                                    machine_cost_eur_per_ha=35,
+                                                    man_hours_h_per_ha=4,
+                                                    diesel_l_per_ha=19, date=S['date'],crop=self))
+            if self.cut_sel.get_nutz(i) == 'mulch':
+                worksteps.append( workstep.WorkStep(name="Mähen",
+                                                    machine_cost_eur_per_ha=5,
+                                                    man_hours_h_per_ha=0.7,
+                                                    diesel_l_per_ha=3, date=S['date'],crop=self))
+        # except:
+        #     pass
+         
+        return worksteps
+        
     
     def get_vis(self):
         return {'schnitt_tab':True,'anbau_tab':True,'leg_ansaat':True}

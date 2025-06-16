@@ -4,6 +4,8 @@
       :model-value="displayValue"
       :label="label"
       :rules="rules"
+      :readonly="readonly"
+
       :hint="hint"
       persistent-hint
       type="text"
@@ -17,7 +19,9 @@
       <!-- Use append-inner slot for the buttons -->
       <template v-slot:append-inner>
         <div v-if="!nobtns" class="button-group">
-          
+          <v-btn v-if='resetbtn' icon @click="reset" class="arrow-button">
+            <v-icon>mdi-reload</v-icon>
+          </v-btn>
           <v-btn
             v-if="helpText"
             icon
@@ -48,11 +52,13 @@
 
 <script setup>
 import { ref, watch } from 'vue';
+const emit = defineEmits(['send-reset']);
+
 
 // Define the model for v-model binding
 const modelValue = defineModel({
-  type: Number,
-  default: 0,
+  type: String,
+  default: '',
 });
 
 const props = defineProps({
@@ -62,7 +68,15 @@ const props = defineProps({
   },
   label: {
     type: String,
-    default: 'Number Input',
+    default: 'String Input',
+  },
+  resetbtn: {
+    type: Boolean,
+    default: false,
+  },
+  readonly: {
+    type: Boolean,
+    default: false,
   },
   min: {
     type: Number,
@@ -144,6 +158,11 @@ const decrement = () => {
   modelValue.value = newValue;
 };
 
+const reset = () => {
+  emit('send-reset');
+
+};
+
 // Watch for changes to modelValue and format it for display
 const displayValue = ref(formatValue(modelValue.value));
 watch(modelValue, (newValue) => {
@@ -161,7 +180,14 @@ watch(modelValue, (newValue) => {
   align-items: center;
   gap: 4px; /* Space between the buttons */
 }
+ 
 
+.arrow-button {
+  margin: 0;
+  padding: 0;
+  background-color: transparent !important; /* Make buttons transparent */
+  box-shadow: none !important; /* Remove shadow */
+}
  
 
 .help-button {

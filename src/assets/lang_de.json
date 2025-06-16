@@ -158,7 +158,11 @@
     "AUTUMN":"Herbst",
     "PREV_YEAR":"Vorjahr",
 
-    "UNDERSAWN": "Als Untersaat"
+    "UNDERSAWN": "Als Untersaat",
 
+    "TEMPERATURE_AVG": "Mittlere Temperatur (°C)",
+    "ET0": "Mittlere Gesamtverdunstung (mm/Tag)",
+    "PRECIPITATION" : "Mittlerer Niederschlag (mm/Monat)",
+    "WETTER" : "Klimadaten"
 
 }

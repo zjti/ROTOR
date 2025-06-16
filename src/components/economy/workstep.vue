@@ -6,6 +6,7 @@ const model = defineModel();
 
 <template>
     <div>
+        <modelvalue v-model="model.get_name"/>
 
         <modelvalue v-model="model.get_date"/>
         <modelvalue v-model="model.get_man_hours_h_per_ha"/>

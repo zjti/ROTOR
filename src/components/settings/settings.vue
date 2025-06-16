@@ -28,6 +28,12 @@
           <verkraut />
         </v-expansion-panel-text>
       </v-expansion-panel>
+
+      <v-expansion-panel :title="L('WETTER')" class="custom-expansion-panel">
+        <v-expansion-panel-text>
+          <weather />
+        </v-expansion-panel-text>
+      </v-expansion-panel>
     </v-expansion-panels>
   </v-container>
 </template>

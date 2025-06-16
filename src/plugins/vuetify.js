@@ -89,5 +89,12 @@ export default createVuetify({
       mdi,
     },
   },
+  defaults: {
+    global: {
+      style: {
+        fontFamily: 'Roboto, sans-serif',
+      },
+    },
+  },
 })
 

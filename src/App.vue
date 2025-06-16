@@ -12,11 +12,14 @@
 .v-tab {
   font-size: 19px !important;
 }
-</style>
+
+html, body {
+  font-family: 'Roboto', sans-serif;
+}</style>
 
 
 <script setup>
-import { getCurrentInstance ,onMounted ,ref,watch} from "vue";
+import { getCurrentInstance ,onMounted ,ref ,watch} from "vue";
 import { useStorage } from '@vueuse/core'
 
 import usePyodide from '@/composables/usePyodide';

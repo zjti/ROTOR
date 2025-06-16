@@ -34,7 +34,22 @@ class SP_KART(Crop):
                                self.calc_yield_dt_fm_per_ha,
                                tab = VF.ertrag_tab, unit='FM dt/ha' )
 
+        UserEditableModelValue('Hacken und Striegeln',self.do_hacken_und_striegeln ,tab=VF.anbau_tab,visible=True, type='bool')
+        UserEditableModelValue('1. Häufeln',self.do_häufeln_1 ,tab=VF.anbau_tab,visible=True, type='bool')
+        UserEditableModelValue('2. Häufeln',self.do_häufeln_2 ,tab=VF.anbau_tab,visible=True, type='bool')
+        UserEditableModelValue('3. Häufeln',self.do_häufeln_3 ,tab=VF.anbau_tab,visible=True, type='bool')
+
         UserEditableModelValue('has_cover_crop',self.has_cover_crop ,tab=VF.anbau_tab,visible=True, type='bool')
+    
+    
+    def do_hacken_und_striegeln(self):
+        return True
+    def do_häufeln_1(self):
+        return True
+    def do_häufeln_2(self):
+        return True
+    def do_häufeln_3(self):
+        return True
     
     def post_init(self):
         """ should be called after __init__ and when ffolge is complete """
@@ -104,22 +119,22 @@ class SP_KART(Crop):
         worksteps.append(WorkStep ('Kartoffeln legen',date='APR1',
                                    machine_cost_eur_per_ha=23, diesel_l_per_ha=10,
                                    man_hours_h_per_ha=1.1,crop=self))
-        
-        worksteps.append(WorkStep ('Hacken und Striegeln',date='APR2',
-                                   machine_cost_eur_per_ha=9, diesel_l_per_ha=5.4,
-                                   man_hours_h_per_ha=1.3,crop=self))
-        
-        worksteps.append(WorkStep ('Häufeln 1',date='MAI1',
-                                   machine_cost_eur_per_ha=9, diesel_l_per_ha=5.4,
-                                   man_hours_h_per_ha=1.4,crop=self))
-       
-        worksteps.append(WorkStep ('Häufeln 2',date='MAI2',
-                                   machine_cost_eur_per_ha=9, diesel_l_per_ha=5.4,
-                                   man_hours_h_per_ha=1.5,crop=self))
-        
-        worksteps.append(WorkStep ('Häufeln 3',date='JUN2',
-                                   machine_cost_eur_per_ha=9, diesel_l_per_ha=5.4,
-                                   man_hours_h_per_ha=1.5,crop=self))
+        if self.do_hacken_und_striegeln():
+            worksteps.append(WorkStep ('Hacken und Striegeln',date='APR2',
+                                    machine_cost_eur_per_ha=9, diesel_l_per_ha=5.4,
+                                    man_hours_h_per_ha=1.3,crop=self))
+        if self.do_häufeln_1():
+            worksteps.append(WorkStep ('Häufeln 1',date='MAI1',
+                                    machine_cost_eur_per_ha=9, diesel_l_per_ha=5.4,
+                                    man_hours_h_per_ha=1.4,crop=self))
+        if self.do_häufeln_2():
+            worksteps.append(WorkStep ('Häufeln 2',date='MAI2',
+                                    machine_cost_eur_per_ha=9, diesel_l_per_ha=5.4,
+                                    man_hours_h_per_ha=1.5,crop=self))
+        if self.do_häufeln_3():
+            worksteps.append(WorkStep ('Häufeln 3',date='JUN2',
+                                    machine_cost_eur_per_ha=9, diesel_l_per_ha=5.4,
+                                    man_hours_h_per_ha=1.5,crop=self))
         
         
         worksteps.append(WorkStep ('Roden',date='SEP2',

@@ -4,6 +4,7 @@
  * Bootstraps Vuetify and other plugins then mounts the App`
  */
 import 'leaflet/dist/leaflet.css';
+import './assets/fonts/roboto/roboto.css';
 
 
 

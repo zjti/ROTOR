@@ -12,7 +12,7 @@ const updateFFlength = runPythonS("jswrapper.JSupdateFFlength"); // get Python f
 
 const FF = globalStore.get("FF")
 
-const NJahre = useStorage('FFOLGE_NJAHRE', 5)
+const NJahre = globalStore.get("FFOLGE_NJAHRE")
 // const NJahre = ref(5);
 
 FF.value = JSON.parse(updateFFlength(FF.value, NJahre.value));
@@ -59,7 +59,7 @@ watch(NJahre, (newValue, oldValue) => {
             <v-col cols="3">
               <NumberInput v-model="jahr" class="custom-label-color" :label="L('ANBAU_JAHR') +
                 (Object.hasOwn(FF[jahr], 'crop') && FF[jahr].crop ? '  (' + L(FF[jahr].crop) + ')' : '')
-                " style="width: 100%" hide-details="auto" @update:model-value="tab = 'auswahl'"></NumberInput>
+                " style="width: 100%" hide-details="auto" @update:model-value="tab = 'auswahl'" :step="1"></NumberInput>
 
               <v-tabs v-model="tab" direction="vertical">
                 <v-tab value="auswahl">

@@ -45,7 +45,10 @@ class KRN_MAIS(Crop):
         # UserEditableModelValue('byproduct_yield_dt_fm_per_ha',
         #                        self.calc_byproduct_yield_dt_fm_per_ha,
         #                        tab = VF.ertrag_tab,unit='FM dt/ha' )
-
+        UserEditableModelValue('Striegeln',self.do_striegeln ,tab=VF.anbau_tab,visible=True, type='bool')
+        UserEditableModelValue('1. Hacke',self.do_hacken_1 ,tab=VF.anbau_tab,visible=True, type='bool')
+        UserEditableModelValue('2. Hacke',self.do_hacken_2 ,tab=VF.anbau_tab,visible=True, type='bool')
+        
         UserEditableModelValue('has_cover_crop',self.has_cover_crop ,tab=VF.anbau_tab,visible=True, type='bool')
     
     def post_init(self):
@@ -55,6 +58,13 @@ class KRN_MAIS(Crop):
             self.cover_crop = CoverCrop( ffelement = self , model_value_ref=self )
         
         super().post_init()
+    
+    def do_striegeln(self):
+        return True    
+    def do_hacken_1(self):
+        return True
+    def do_hacken_2(self):
+        return True
         
     def calc_yield_dt_fm_per_ha(self):
         EF= 2
@@ -88,11 +98,6 @@ class KRN_MAIS(Crop):
             worksteps.append( FertilizerStep(date='OKT1' ,crop=self) ) 
             
         
-        if self.get_reduced_soil_management():
-            worksteps.append( ReducedPrimaryTilageStep(date='OKT2',crop=self) )
-        else:
-            worksteps.append( PrimaryTilageStep(date='OKT2',crop=self))
-        
         if self.has_cover_crop():
  
             
@@ -107,14 +112,19 @@ class KRN_MAIS(Crop):
 
      
             if self.get_reduced_soil_management():
-                worksteps.append( ReducedPrimaryTilageStep('MRZ2',crop=self) )
+                worksteps.append( ReducedPrimaryTilageStep(date='MRZ2',crop=self) )
             else:
-                worksteps.append( PrimaryTilageStep('MRZ2',crop=self))
-
+                worksteps.append( PrimaryTilageStep(date='MRZ2',crop=self))
+        else:
+            if self.get_reduced_soil_management():
+                worksteps.append( ReducedPrimaryTilageStep(date='OKT2',crop=self) )
+            else:
+                worksteps.append( PrimaryTilageStep(date='OKT2',crop=self))
+            
                 
 
         if fertilizer_spring_t_per_ha > 0:
-            worksteps.append( FertilizerStep(date='MRZ2' ,crop=self) )
+            worksteps.append( FertilizerStep(date='APR1' ,crop=self) )
             
             
         worksteps.append(SeedBedPreparationStep(date = 'APR2', diesel_l_per_ha=13.4,
@@ -125,20 +135,30 @@ class KRN_MAIS(Crop):
                                    machine_cost_eur_per_ha=14, diesel_l_per_ha=4,
                                    man_hours_h_per_ha=0.6,crop=self))
         
-        worksteps.append(StriegelStep ('Strigeln',date='APR2',crop=self))
+        if self.do_striegeln():
+            worksteps.append(StriegelStep ('Strigeln',date='APR2',crop=self))
         
-        worksteps.append(WorkStep ('Hacken 1',date='MAI1',
-                                   machine_cost_eur_per_ha=9, diesel_l_per_ha=5.4,
-                                   man_hours_h_per_ha=1.4,crop=self))
-       
-        worksteps.append(WorkStep ('Hacken 2',date='JUN1',
-                                   machine_cost_eur_per_ha=9, diesel_l_per_ha=5.4,
-                                   man_hours_h_per_ha=1.5,crop=self))
+        if self.do_hacken_1():
+            worksteps.append(WorkStep ('Hacken 1',date='MAI1',
+                                    machine_cost_eur_per_ha=9, diesel_l_per_ha=5.4,
+                                    man_hours_h_per_ha=1.4,crop=self))
         
-        if self.next_crop and  self.next_crop.has_cover_crop():
-            if self.next_crop.cover_crop.get_cultivation() == 'UNTER_SAAT':
-                unter_saat_date = 'APR1'
-                worksteps.append( WorkStep(name='Zwischenfruchtansaat (Untersaat)'  ,date=unter_saat_date ,crop=self))
+        if self.do_hacken_2():
+            worksteps.append(WorkStep ('Hacken 2',date='JUN1',
+                                    machine_cost_eur_per_ha=9, diesel_l_per_ha=5.4,
+                                    man_hours_h_per_ha=1.5,crop=self))
+        
+        if self.next_crop:
+            if self.next_crop.has_cover_crop() and hasattr(self.next_crop,'cover_crop'):
+            
+                if self.next_crop.cover_crop.get_cultivation() == 'UNTER_SAAT':
+                    unter_saat_date = 'APR1'
+                    worksteps.append( WorkStep(name='Zwischenfruchtansaat (Untersaat)'  ,date=unter_saat_date ,crop=self))
+            if self.next_crop.crop_data.crop_code == 'LEG_GRAS':
+                if self.next_crop.get_cultivation() == 'UNTER_SAAT':
+                    unter_saat_date = 'APR2'
+                    worksteps.append( WorkStep(name='Leguminosengrasansaat (Untersaat)'  ,date=unter_saat_date ,crop=self))
+   
 
         
         worksteps.append(WorkStep ('Mähdrusch',date='OKT2',
