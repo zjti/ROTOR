@@ -13,14 +13,14 @@ from ROTOR.management.workstep import WorkStep,WorkStepList,num_to_date,date_to_
 from ROTOR.covercrop import CoverCrop
 
 
-class KRN_MAIS(Crop):
+class SILO_MAIS(Crop):
 
-    price_yield_eur_per_dt_fm = 56.00
+    price_yield_eur_per_dt_fm = 6.00
     seed_cost_eur_per_u = 140
     seed_u_per_ha = 2
 
     def __init__(self,*args,**kwargs):
-        super().__init__(cropdata.KRN_MAIS,*args,**kwargs)
+        super().__init__(cropdata.SILO_MAIS,*args,**kwargs)
          
         self.fertilizer_applications = FertilizerApplications( model_value_ref = self )
         UserEditableModelValue('seed_u_per_ha',self.get_seed_u_per_ha,tab = VF.anbau_tab )
@@ -71,11 +71,11 @@ class KRN_MAIS(Crop):
         AZ = config.SOIL['ACKERZAHL']['default']
       
         if EF == 3:
-            E = ((-0.024 * AZ ** 2 + 3.98 * AZ - 7) - 70 * 0.3)
+            E = ((-0.024 * AZ ** 2 + 3.98 * AZ - 7) - 70 * 0.3) * 5
         elif EF == 2:
-            E = ((-0.02 * AZ ** 2 + 3.5 * AZ - 12) - 70 * 0.3) 
+            E = ((-0.02 * AZ ** 2 + 3.5 * AZ - 12) - 70 * 0.3) * 5
         elif EF == 1:
-            E = ((-0.016 * AZ ** 2 + 3 * AZ - 17) - 70 * 0.3)   
+            E = ((-0.016 * AZ ** 2 + 3 * AZ - 17) - 70 * 0.3)   * 5
             
         
         
@@ -164,13 +164,13 @@ class KRN_MAIS(Crop):
    
 
         
-        worksteps.append(WorkStep ('Mähdrusch',date='OKT2',
-                                   machine_cost_eur_per_ha=30, diesel_l_per_ha=18,
-                                   man_hours_h_per_ha=1.5,crop=self))
+        worksteps.append(WorkStep ('Häckseln, transportieren und festfahren',date='SEP2',
+                                   machine_cost_eur_per_ha=34, diesel_l_per_ha=21,
+                                   man_hours_h_per_ha=3.9,crop=self))
         
        
        
-        worksteps.append(YieldTransportStep(date='OKT2',crop=self))
+        # worksteps.append(YieldTransportStep(date='SEP2',crop=self))
 
 
         
