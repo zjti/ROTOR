@@ -68,7 +68,7 @@ const generateStackedDatasets = (values) => {
                 <v-expansion-panel-text>
 
                     <v-expansion-panels variant="accordion" multiple v-model="panel2">
-                        <v-expansion-panel title="FF-DB">
+                        <v-expansion-panel title="Deckungsbeitrag für Fruchtfolge">
                             <v-expansion-panel-text>
                                 <modelvalue v-model="FF['FF_META'].economy.ff_gross_margin_eur_per_ha" />
 
@@ -91,8 +91,8 @@ const generateStackedDatasets = (values) => {
                             </v-expansion-panel-text>
                         </v-expansion-panel>
                     </v-expansion-panels>
-
-                    <v-btn @click="fu()">Download</v-btn>
+                    <download_eco_report />
+                   
 
 
                 </v-expansion-panel-text>

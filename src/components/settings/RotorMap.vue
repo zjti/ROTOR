@@ -28,6 +28,13 @@ import { globalStore } from '@/utils/globalstore'
 
 
 const wmsLayers = {
+  BKR: {
+    name: langf("BKR"),
+    type: "wms",
+    url: "https://geoservices.julius-kuehn.de/geoserver/bkr/wms?",
+    layer: "Bodenklimaraum",
+    version: "1.3.0",
+  },
   N_DEPO: {
     name: langf("N_DEPO"),
     type: "wms",
@@ -55,13 +62,7 @@ const wmsLayers = {
     legend:
     '<div style="background-color:#fff;">   <img src="./map/nfkw.png">',
   },
-  BKR: {
-    name: langf("BKR"),
-    type: "wms",
-    url: "https://geoservices.julius-kuehn.de/geoserver/bkr/wms?",
-    layer: "Bodenklimaraum",
-    version: "1.3.0",
-  },
+  
   HUMUSOB: {
     name: langf("HUMUSOB"),
     type: "wms",

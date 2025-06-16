@@ -63,9 +63,8 @@
   </template>
   
   <script setup>
-  import { ref } from 'vue';
+  import { ref, watch } from 'vue';
   import { globalStore } from '@/utils/globalstore'
-
   
   const dialog = ref(false);
   const file = ref(null);
@@ -74,6 +73,23 @@
   const uploading = ref(false);
   const foundKeys = ref([]);
   const updatedKeys = ref([]);
+  
+  // Add this watcher to reset state when dialog opens/closes
+  watch(dialog, (newVal) => {
+    if (newVal) {
+      // Dialog is opening - reset state
+      resetDialogState();
+    }
+  });
+  
+  const resetDialogState = () => {
+    file.value = null;
+    error.value = '';
+    uploadSuccess.value = false;
+    uploading.value = false;
+    foundKeys.value = [];
+    updatedKeys.value = [];
+  };
   
   const onFileChange = () => {
     error.value = '';
@@ -103,7 +119,6 @@
       }
   
       // Process each key in the uploaded JSON
-
       for (const key of foundKeys.value) {
         if (jsonData[key] !== undefined) {
           console.log('LK',key)
@@ -111,38 +126,24 @@
         }
       }
       await new Promise(r => setTimeout(r,500))
-
-
+  
       for (const key of foundKeys.value) {
         if (jsonData[key] !== undefined) {
           console.log('LK',key)
-          // localStorage.setItem(key, JSON.stringify(jsonData[key]));
           globalStore.get(key).value = jsonData[key]
           console.log('LK',key , 'set')
-
+  
           await new Promise(r => setTimeout(r,100))
-
+  
           window.ff_initialized_trigger()
           updatedKeys.value.push(key);
-          // await new Promise(r => setTimeout(r,1000))
         }
         await new Promise(r => setTimeout(r,500))
         globalStore.get('FF').value = jsonData['FF']
         await new Promise(r => setTimeout(r,500))
         globalStore.get('FF').value = jsonData['FF']
-
-
       }
-      // for (const key of foundKeys.value) {
-      //   if (jsonData[key] !== undefined) {
-          
-      //     localStorage.setItem(key, JSON.stringify(jsonData[key]));
-      //     globalStore.get(key).value = jsonData[key]
-
-      //     updatedKeys.value.push(key);
-      //   }
-
-      // }
+  
       uploadSuccess.value = true;
       file.value = null;
       

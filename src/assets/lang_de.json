@@ -163,6 +163,48 @@
     "TEMPERATURE_AVG": "Mittlere Temperatur (°C)",
     "ET0": "Mittlere Gesamtverdunstung (mm/Tag)",
     "PRECIPITATION" : "Mittlerer Niederschlag (mm/Monat)",
-    "WETTER" : "Klimadaten"
+    "WETTER" : "Klimadaten",
+
+    "seed_kg_per_ha": "Aussaatmenge",
+    "reduced_soil_management": "reduzierte Bodenbearbeitung",
+    "byproduct_harvest" : "Strohernte",
+    "yield_dt_fm_per_ha" : "Ertrag",
+    "calc_yield_from_fertilizer_dt_fm_per_ha" : "Ertragsanteil aus Düngergaben",
+    "byproduct_yield_dt_fm_per_ha" : "Ertrag Nebenprodukt",
+    "spring_striegeln" : "Strigeln (Frühjahr)",
+
+    "autumn_striegeln" : "Strigeln (Herbst)",
+    "has_cover_crop" : "Zwischenfrucht vor Hauptfrucht",
+    "get_leguminosen_percentage" : "Leguminosenanteil im Aufwuchs",
+    "get_cultivation" : "Ansaatmethode",
+    "BLANK_SAAT" : "Blanksaat",
+    "STOPPEL_SAAT" : "Stoppelsaat",
+    "UNTER_SAAT" : "Untersaat",
+    "HERBST": "Herbst",
+    "FRÜHJAHR"  : "Frühjahr",
+    "VORJAHR"  : "aus Vorjahr",
+
+    "cut1": "Schnittmenge 1. Schnitt",
+    "nutz1": "Nutzung 1. Schnitt", 
+    "cut2": "Schnittmenge 2. Schnitt",
+    "nutz2": "Nutzung 2. Schnitt", 
+    "cut3": "Schnittmenge 3. Schnitt",
+    "nutz3": "Nutzung 3. Schnitt",
+    "cut4": "Schnittmenge 4. Schnitt",
+    "nutz4": "Nutzung 4. Schnitt",
+    "cut5": "Schnittmenge 5. Schnitt",
+    "nutz5": "Nutzung 5. Schnitt",
+
+    "ff_gross_margin_eur_per_ha" : "Deckungsbetrag der Fruchtfolge" ,
+    "diesel_eur_per_l" : "Dieselpreis pro Lieter",
+    "seesion_labour_eur_per_h" : "Stundenlohn Sessionarbeitskräfte",
+
+    "PREIS_EUR_PER_T" : "Preis",
+    "do_hacken" : "Hacken",
+
+    "get_winterhardines": "Winterhärte",
+    "HARD" : "frosthart",
+    "NOT_HARD" : "abfrierend"
+    
 
 }

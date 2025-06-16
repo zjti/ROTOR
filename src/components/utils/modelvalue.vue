@@ -39,27 +39,27 @@ const half_months = [
     <div v-if="'name_corrected' in model">
         
     
-    <v-checkbox :label="model.name" v-model="model[model.name_corrected]" v-if="model.type == 'bool'" />
+    <v-checkbox :label="L(model.name)" v-model="model[model.name_corrected]" v-if="model.type == 'bool'" />
 
 
-    <v-select v-else-if="model.type == 'select'" class="custom-label-color w-100" :label="model.name" :items="model.select_opts.map((key) => ({
+    <v-select v-else-if="model.type == 'select'" class="custom-label-color w-100" :label="L(model.name)" :items="model.select_opts.map((key) => ({
         value: key,
         title: L(key),
     }))" v-model="model[model.name_corrected]"></v-select>
 
-    <v-select v-else-if="model.type == 'date'" class="custom-label-color w-100" :label="model.name" :items="half_months.map((key) => ({
+    <v-select v-else-if="model.type == 'date'" class="custom-label-color w-100" :label="L(model.name)" :items="half_months.map((key) => ({
         value: key,
         title: L(key),
     }))" v-model="model[model.name_corrected]"></v-select>
 
     <StringInput v-else-if="model.type == 'string'"
-        class="custom-label-color pa-0 ma-0" resetbtn :label="title || model.name" :suffix="model.unit"
+        class="custom-label-color pa-0 ma-0" resetbtn :label="title || L(model.name)" :suffix="model.unit"
         v-model="model[model.name_corrected]" 
             :helpText="helpText" 
             persistent-hint @send-reset="model[model.name_corrected] = model[model.name]" />
 
     
-    <NumberInput class="custom-label-color pa-0 ma-0" resetbtn :label="title || model.name" :suffix="model.unit"
+    <NumberInput class="custom-label-color pa-0 ma-0" resetbtn :label="title || L(model.name)" :suffix="model.unit"
         v-model="model[model.name_corrected]" :hint="Math.abs(model[model.name_corrected] - model[model.name])>0.1
             ? 'Wert vom Nutzer verändert '
             : ''"
@@ -72,7 +72,7 @@ const half_months = [
     
     </div>
     <div v-else>
-        <NumberInput class="custom-label-color pa-0 ma-0" :label="model.name" :suffix="model.unit"
+        <NumberInput class="custom-label-color pa-0 ma-0" :label="title || L(model.name)" :suffix="model.unit"
         v-model="model[model.name]"  :readonly="true" nobtns/>
         
     </div>

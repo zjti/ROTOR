@@ -48,7 +48,7 @@ class Cerial(Crop ):
 
         self.primary_tilage_step = PrimaryTilageStep(crop=self, date='OKT1')
         self.reduced_primary_tilage_step =  ReducedPrimaryTilageStep(crop=self ,date='OKT1')
-        self.spring_striegel_step = StriegelStep(name='Striegeln (Frühjahr)', crop=self, date = 'MRZ1' )
+        self.spring_striegel_step = StriegelStep(name='Striegeln (Frühjahr)', crop=self, date = 'APR1' )
         self.autumn_striegel_step = StriegelStep(name='Striegeln (Herbst)', crop=self, date = 'OKT2' )
 
         self.harvest_step = HarvestStep (crop=self , date='JUL2')
@@ -116,7 +116,7 @@ class Cerial(Crop ):
 
         if self.has_cover_crop():
 
-            self.primary_tilage_step.date='MRZ2'
+            self.primary_tilage_step.date='APR2'
 
             
             if self.cover_crop.get_cultivation() == 'BLANK_SAAT':
@@ -126,7 +126,7 @@ class Cerial(Crop ):
                 worksteps.append( WorkStep(name='Zwischenfruchtansaat (Stoppel)'  ,date='SEP2',crop=self))
                 
             if self.cover_crop.get_cover_crop_harvest():
-                worksteps.append( WorkStep(name='Zwischenfruchtabfuhr' ,date='MRZ2',crop=self))
+                worksteps.append( WorkStep(name='Zwischenfruchtabfuhr' ,date='APR2',crop=self))
 
         
         if self.get_reduced_soil_management():

@@ -162,7 +162,7 @@ const next_lang = (lang)=>{
           <v-tabs-window-item value="3">
             <ff />
           </v-tabs-window-item>
-          <v-tabs-window-item value="4"> 4 
+          <v-tabs-window-item value="4"> 
               <economy/>
 
           </v-tabs-window-item>

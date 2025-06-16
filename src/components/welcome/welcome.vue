@@ -1,4 +1,5 @@
 <template>
+  <div> 
   <div class="static-text">
     <h2>ROTOR</h2>
     <p>
@@ -19,16 +20,17 @@
       Arbeitszeitspitzen in Anlehnung an KTBL (2011) LELF (2016)</p>
   </div>
   <v-row justify="center" align="center">
-  <v-col cols="auto" class="px-2">
-    <v-img src="../../assets/imgs/zalf.jpg" height="100" width='100' contain></v-img>
-  </v-col>
-  <v-col cols="auto" class="px-2">
-    <v-img src="../../assets/imgs/bol.jpg" height="100" width='100' contain></v-img>
-  </v-col>
-  <v-col cols="auto" class="px-2">
-    <v-img src="../../assets/imgs/wm_logo.png" height="100" width='190' contain></v-img>
-  </v-col>
-</v-row>
+    <v-col cols="auto" class="px-2">
+      <v-img src="../../assets/imgs/zalf.jpg" height="200" width='200' contain></v-img>
+    </v-col>
+    <v-col cols="auto" class="px-2">
+      <v-img src="../../assets/imgs/logo_bol_bmleh.png" height="200" width='370' contain></v-img>
+    </v-col>
+    <v-col cols="auto" class="px-2">
+      <v-img src="../../assets/imgs/wm_logo.png" height="200" width='290' contain></v-img>
+    </v-col>
+  </v-row>
+  </div>
 </template>
 
 <style scoped>
