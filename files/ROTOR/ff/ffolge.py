@@ -96,6 +96,7 @@ class FFolge(ClassWithModelValues):
         if ffelement:
                 
             ffelement.ff_economy = self.ff_economy
+            
         
     def post_init(self):
         for crop in self.crops:

@@ -1,0 +1,17 @@
+[
+   {
+        "path": "grid_lat_lon_data.json",
+        "url": "/ROTOR/files/grid_lat_lon_data.json"
+    },    {
+        "path": "grid_data.json",
+        "url": "/ROTOR/files/grid_data.json"
+    },  {
+        "path": "test_config.ipynb",
+        "url": "/ROTOR/files/test_config.ipynb"
+    },{
+        "path": "config_data/test_config.ipynb",
+        "url": "/ROTOR/files/test_config.ipynb"
+    }
+ 
+]
+

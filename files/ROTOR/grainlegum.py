@@ -38,6 +38,8 @@ class GrainLegum(Crop ):
                                tab = VF.ertrag_tab,unit='FM dt/ha' )
         
         UserEditableModelValue('spring_striegeln',self.spring_striegeln ,tab=VF.anbau_tab,visible=True, type='bool')
+        UserEditableModelValue('do_hacken',self.do_hacken ,tab=VF.anbau_tab,visible=True, type='bool')
+
 
 
         self.primary_tilage_step = PrimaryTilageStep(crop=self, date='OKT1')
@@ -56,6 +58,9 @@ class GrainLegum(Crop ):
         
         self.yield_transport_step = YieldTransportStep(crop=self,date='AUG2')
       
+    def do_hacken(self):
+        return True
+    
     def calc_yield_dt_fm_per_ha(self):
         return 30 #  
       
@@ -136,13 +141,18 @@ class GrainLegum(Crop ):
         if self.spring_striegeln():
             worksteps.append( self.spring_striegel_step)
             
+            
         if hasattr(self, 'hack_step'):
-            worksteps.append(self.hack_step)
+            
+            if self.do_hacken():
+                worksteps.append(self.hack_step)
 
-        if self.next_crop and  self.next_crop.has_cover_crop():
-            if self.next_crop.cover_crop.get_cultivation() == 'UNTER_SAAT':
-                unter_saat_date = 'APR1'
-                worksteps.append( WorkStep(name='Zwischenfruchtansaat (Untersaat)'  ,date=unter_saat_date ,crop=self))
+        if self.next_crop:
+            self.next_crop.post_init()
+            if self.next_crop.has_cover_crop():
+                if self.next_crop.cover_crop.get_cultivation() == 'UNTER_SAAT':
+                    unter_saat_date = 'APR1'
+                    worksteps.append( WorkStep(name='Zwischenfruchtansaat (Untersaat)'  ,date=unter_saat_date ,crop=self))
             if self.next_crop.crop_data.crop_code == 'LEG_GRAS':
                 if self.next_crop.get_cultivation() == 'UNTER_SAAT':
                     unter_saat_date = 'APR2'

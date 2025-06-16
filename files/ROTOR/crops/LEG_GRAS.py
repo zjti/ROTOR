@@ -42,6 +42,9 @@ class CutSelect(  ClassWithModelValues ):
     def get_num_cuts(self):
         return self.num_cuts
     
+    def get_nutz(self,n):
+        return getattr(self, f"get_nutz{n+1}").__call__()
+    
     def get_cut(self,n):
         
         if self.get_nutz1()=='heu':
@@ -268,27 +271,44 @@ class LEG_GRAS(Crop):
         if fertilizer_spring_t_per_ha > 0:
             worksteps.append( FertilizerStep(date='MRZ2' ,crop=self) )
 
-         
-        if self.get_reduced_soil_management():
-            self.reduced_primary_tilage_step.date = self.primary_tilage_step.date
-            worksteps.append( workstep.ReducedPrimaryTilageStep(date='SEP1',crop=self))
-        else:
-            worksteps.append( workstep.PrimaryTilageStep(date='SEP1',crop=self))
+        
+        if (self.pre_crop is None) or (self.pre_crop.crop_data.crop_code != 'LEG_GRAS'): 
+            if self.get_reduced_soil_management():
+                self.reduced_primary_tilage_step.date = self.primary_tilage_step.date
+                worksteps.append( workstep.ReducedPrimaryTilageStep(date='SEP1',crop=self))
+            else:
+                worksteps.append( workstep.PrimaryTilageStep(date='SEP1',crop=self))
 
-        if self.pre_crop:    
-            if self.pre_crop.crop_data.crop_code != 'LEG_GRAS':
-                worksteps.append( workstep.SeedBedPreparationStep(date='SEP2',crop=self))
-                worksteps.append( workstep.DrillStep(date='SEP2',crop=self))
-        else:
             worksteps.append( workstep.SeedBedPreparationStep(date='SEP2',crop=self))
             worksteps.append( workstep.DrillStep(date='SEP2',crop=self))
+        
         
         # try:
         schnitte = self.get_schnitt_menge()
         print(schnitte)
-        for S in schnitte.values():          
-            worksteps.append( workstep.HarvestStep(date=S['date'],crop=self))
-            # worksteps.append( self.yield_transport_step)
+        for i,S in enumerate(schnitte.values()):          
+            # worksteps.append( workstep.HarvestStep(date=S['date'],crop=self))
+            if self.cut_sel.get_nutz(i) == 'grünfutter':
+                worksteps.append( workstep.WorkStep(name="Mähen und bergen",
+                                                    machine_cost_eur_per_ha=30,
+                                                    man_hours_h_per_ha=3,
+                                                    diesel_l_per_ha=16, date=S['date'],crop=self))
+            if self.cut_sel.get_nutz(i) == 'heu':
+                worksteps.append( workstep.WorkStep(name="Mähen, schwaden, wenden und bergen",
+                                                    machine_cost_eur_per_ha=40,
+                                                    man_hours_h_per_ha=5,
+                                                    diesel_l_per_ha=23, date=S['date'],crop=self))
+            
+            if self.cut_sel.get_nutz(i) == 'silage':
+                worksteps.append( workstep.WorkStep(name="Mähen, schwaden, wenden, bergen und silieren",
+                                                    machine_cost_eur_per_ha=35,
+                                                    man_hours_h_per_ha=4,
+                                                    diesel_l_per_ha=19, date=S['date'],crop=self))
+            if self.cut_sel.get_nutz(i) == 'mulch':
+                worksteps.append( workstep.WorkStep(name="Mähen",
+                                                    machine_cost_eur_per_ha=5,
+                                                    man_hours_h_per_ha=0.7,
+                                                    diesel_l_per_ha=3, date=S['date'],crop=self))
         # except:
         #     pass
          

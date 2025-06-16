@@ -45,15 +45,18 @@ class FFEconomy( ClassWithModelValues ):
             if crop:
                 if hasattr(crop,'economy'):
                     data = [0 for i in range(24)]
+                    descr = ["" for i in range(24)]
                     for ws in crop.economy.worksteplist.worksteps:
                         print('x1x',ws)
                         data[date_to_num[ws.get_date()]] += ws.get_man_hours_h_per_ha()
-                        
+                        descr[date_to_num[ws.get_date()] ] += ws.get_name() + ", "
                     plt = {
                         'label': crop.crop_data.crop_code,
                         'data': data,
                         'backgroundColor': baseColors[i % len(baseColors)],
-                        'stack': 'stack-0'
+                        'stack': 'stack-0',
+                        'customTooltips': descr
+
                     }
                     plts+=[plt]
         

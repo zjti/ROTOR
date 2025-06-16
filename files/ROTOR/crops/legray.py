@@ -237,7 +237,7 @@ def add_day(weather_of_the_day, legray_state , verbose=True , spring_seeding = F
         legray_state['last_cut']+=1
         if verbose :
             print('cut',legray_state['last_cut'],weather_of_the_day['day_of_year'], legray_state['cur_growth'])
-        legray_state['cuts'] += [(legray_state['last_cut'],weather_of_the_day['day_of_year'], legray_state['cur_growth'])]
+        legray_state['cuts'] += [(legray_state['last_cut'],weather_of_the_day['day_of_year'], legray_state['cur_growth']*2)]
         if legray_state['last_cut'] == 4:
             return 
         

@@ -147,10 +147,13 @@ class Cerial(Crop ):
         if self.spring_striegeln():
             worksteps.append( self.spring_striegel_step)
 
-        if self.next_crop and  self.next_crop.has_cover_crop():
-            if self.next_crop.cover_crop.get_cultivation() == 'UNTER_SAAT':
-                unter_saat_date = 'APR1'
-                worksteps.append( WorkStep(name='Zwischenfruchtansaat (Untersaat)'  ,date=unter_saat_date ,crop=self))
+        if self.next_crop:
+            
+            if self.next_crop.has_cover_crop() and hasattr(self.next_crop,'cover_crop'):
+                
+                if self.next_crop.cover_crop.get_cultivation() == 'UNTER_SAAT':
+                    unter_saat_date = 'APR1'
+                    worksteps.append( WorkStep(name='Zwischenfruchtansaat (Untersaat)'  ,date=unter_saat_date ,crop=self))
             if self.next_crop.crop_data.crop_code == 'LEG_GRAS':
                 if self.next_crop.get_cultivation() == 'UNTER_SAAT':
                     unter_saat_date = 'APR2'
