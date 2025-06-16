@@ -12,11 +12,11 @@ class FFEconomy( ClassWithModelValues ):
     def __init__(self, ffolge, *args,**kwargs):
         
         super().__init__(*args,**kwargs,model_value_group_name='economy')
-        UserEditableModelValue('diesel_eur_per_l',self.get_diesel_eur_per_l ,tab=VF.eco_tab )
-        UserEditableModelValue('sesssion_labour_eur_per_h',self.get_sesssion_labour_eur_per_h ,tab=VF.eco_tab )
-        UserEditableModelValue('extra_cost_eur_per_ha',self.get_extra_cost_eur_per_ha ,tab=VF.eco_tab )
+        UserEditableModelValue('diesel_eur_per_l',self.get_diesel_eur_per_l ,tab=VF.eco_tab , unit='€/l')
+        UserEditableModelValue('sesssion_labour_eur_per_h',self.get_sesssion_labour_eur_per_h ,tab=VF.eco_tab, unit='€/h' )
+        UserEditableModelValue('extra_cost_eur_per_ha',self.get_extra_cost_eur_per_ha ,tab=VF.eco_tab , unit='€/ha')
         
-        UserEditableModelValue('diesel_faktor',self.get_diesel_faktor ,tab=VF.eco_tab )
+        UserEditableModelValue('diesel_faktor',self.get_diesel_faktor ,tab=VF.eco_tab  )
         UserEditableModelValue('manhour_faktor',self.get_manhour_faktor ,tab=VF.eco_tab )
         UserEditableModelValue('machinecost_faktor',self.get_machinecost_faktor ,tab=VF.eco_tab )
 
