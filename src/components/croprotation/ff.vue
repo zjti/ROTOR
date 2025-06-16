@@ -58,23 +58,23 @@ watch(NJahre, (newValue, oldValue) => {
           <v-row>
             <v-col cols="3">
               <NumberInput v-model="jahr" class="custom-label-color" :label="L('ANBAU_JAHR') +
-                (Object.hasOwn(FF[jahr], 'crop') && FF[jahr].crop ? '  (' + L(FF[jahr].crop) + ')' : '')
+                (jahr in FF && Object.hasOwn(FF[jahr], 'crop') && FF[jahr].crop ? '  (' + L(FF[jahr].crop) + ')' : '')
                 " style="width: 100%" hide-details="auto" @update:model-value="tab = 'auswahl'" :step="1"></NumberInput>
 
               <v-tabs v-model="tab" direction="vertical">
                 <v-tab value="auswahl">
                   <l>Auswahl</l>
                 </v-tab>
-                <v-tab value="anbau" v-if="FF[jahr].vis.anbau_tab">
+                <v-tab value="anbau" v-if="FF[jahr].vis && FF[jahr].vis.anbau_tab">
                   <l>Anbau</l>
                 </v-tab>
-                <v-tab value="dung" v-if="FF[jahr].vis.dung_tab">
+                <v-tab value="dung" v-if="FF[jahr].vis && FF[jahr].vis.dung_tab">
                   <l>Dünger</l>
                 </v-tab>
-                <v-tab value="schnitt" v-if="FF[jahr].vis.schnitt_tab">
+                <v-tab value="schnitt" v-if="FF[jahr].vis && FF[jahr].vis.schnitt_tab">
                   <l>Schnittnutzung</l>
                 </v-tab>
-                <v-tab value="ertrag" v-if="FF[jahr].vis.ertrag_tab">
+                <v-tab value="ertrag" v-if="FF[jahr].vis && FF[jahr].vis.ertrag_tab">
                   <l>Ertrag</l>
                 </v-tab>
               </v-tabs>

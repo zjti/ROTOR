@@ -103,17 +103,46 @@
       }
   
       // Process each key in the uploaded JSON
+
       for (const key of foundKeys.value) {
         if (jsonData[key] !== undefined) {
-          
+          console.log('LK',key)
           localStorage.setItem(key, JSON.stringify(jsonData[key]));
-          globalStore.get(key).value = jsonData[key]
-
-          updatedKeys.value.push(key);
         }
+      }
+      await new Promise(r => setTimeout(r,500))
+
+
+      for (const key of foundKeys.value) {
+        if (jsonData[key] !== undefined) {
+          console.log('LK',key)
+          // localStorage.setItem(key, JSON.stringify(jsonData[key]));
+          globalStore.get(key).value = jsonData[key]
+          console.log('LK',key , 'set')
+
+          await new Promise(r => setTimeout(r,100))
+
+          window.ff_initialized_trigger()
+          updatedKeys.value.push(key);
+          // await new Promise(r => setTimeout(r,1000))
+        }
+        await new Promise(r => setTimeout(r,500))
+        globalStore.get('FF').value = jsonData['FF']
+        await new Promise(r => setTimeout(r,500))
+        globalStore.get('FF').value = jsonData['FF']
+
 
       }
-  
+      // for (const key of foundKeys.value) {
+      //   if (jsonData[key] !== undefined) {
+          
+      //     localStorage.setItem(key, JSON.stringify(jsonData[key]));
+      //     globalStore.get(key).value = jsonData[key]
+
+      //     updatedKeys.value.push(key);
+      //   }
+
+      // }
       uploadSuccess.value = true;
       file.value = null;
       

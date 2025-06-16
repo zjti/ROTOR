@@ -162,14 +162,14 @@ const generateStackedDatasets = (values) => {
 
 
                     <cover_crop_economy v-model="FF[n].MODELVALUES.cropeconomy.covercropeconomy"
-                        v-if="'covercropeconomy' in FF[n].MODELVALUES.cropeconomy" />
+                        v-if="FF[n].MODELVALUES && FF[n].MODELVALUES.cropeconomy && 'covercropeconomy' in FF[n].MODELVALUES.cropeconomy" />
 
 
-                    <worksteplist v-model="FF[n].MODELVALUES.cropeconomy" />
+                    <worksteplist v-model="FF[n].MODELVALUES.cropeconomy" v-if="FF[n].MODELVALUES && FF[n].MODELVALUES.cropeconomy"/>
 
 
-                    <modelvalue v-model="FF[n].MODELVALUES.cropeconomy.gross_margin_eur_per_ha" />
-                    <modelvalue v-model="FF[n].MODELVALUES.cropeconomy.gross_margin_per_man_hour_eur_per_h" />
+                    <modelvalue v-model="FF[n].MODELVALUES.cropeconomy.gross_margin_eur_per_ha" v-if="FF[n].MODELVALUES && FF[n].MODELVALUES.cropeconomy"/>
+                    <modelvalue v-model="FF[n].MODELVALUES.cropeconomy.gross_margin_per_man_hour_eur_per_h" v-if="FF[n].MODELVALUES && FF[n].MODELVALUES.cropeconomy"/>
 
 
                 </v-expansion-panel-text>

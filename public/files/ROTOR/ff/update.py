@@ -90,7 +90,7 @@ def updateFF(ffolge):
             new_pyFolge.add_crop(None)
             continue
         
-        if pyFolge and pyFolge.crops[J] and  pyFolge.crops[J].crop_data.crop_code == val[MF.crop]:
+        if pyFolge and (len(pyFolge.crops) > J) and pyFolge.crops[J] and  pyFolge.crops[J].crop_data.crop_code == val[MF.crop]:
             new_crop = crop_dict[val[MF.crop]](model_values = val.get('MODELVALUES',None))
         else:
             new_crop = crop_dict[val[MF.crop]]()
