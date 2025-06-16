@@ -148,8 +148,7 @@ class GrainLegum(Crop ):
                 worksteps.append(self.hack_step)
 
         if self.next_crop:
-            self.next_crop.post_init()
-            if self.next_crop.has_cover_crop():
+            if self.next_crop.has_cover_crop() and hasattr(self.next_crop,'cover_crop'):
                 if self.next_crop.cover_crop.get_cultivation() == 'UNTER_SAAT':
                     unter_saat_date = 'APR1'
                     worksteps.append( WorkStep(name='Zwischenfruchtansaat (Untersaat)'  ,date=unter_saat_date ,crop=self))
