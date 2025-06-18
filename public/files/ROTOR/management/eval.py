@@ -80,7 +80,7 @@ class FFEval(ClassWithModelValues):
             return X/N
         return 0     
 
-    def mean_kraut_mj(self):
+    def mean_kraut_s(self):
         X=0
         N=0
         for crop in self.ffolge.crops:
