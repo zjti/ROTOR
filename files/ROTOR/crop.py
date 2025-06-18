@@ -15,7 +15,8 @@ from ROTOR.management.workstep import WorkStep, WorkStepList
 
 from ROTOR.economy.economy import CropEconomy
 from ROTOR.management.workstep import FertilizerStep, PrimaryTilageStep, ReducedPrimaryTilageStep, HarvestStep, ByproductHarvestStep, DrillStep,SeedBedPreparationStep,YieldTransportStep
-
+from ROTOR.covercrop import CoverCrop
+from ROTOR.management.eval import CropEval
 
 class Crop( FFElement):
 
@@ -26,6 +27,8 @@ class Crop( FFElement):
     
     def __init__(self, crop_data: CropData, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.cover_crop = CoverCrop( ffelement = self , model_value_ref=self )
+
         self.crop_data = crop_data
         self.crop_specific_leaching_coefficent = 1.0
          
@@ -37,6 +40,44 @@ class Crop( FFElement):
         self.drill_step = DrillStep(crop=self)
         self.seed_bed_preparation_step = SeedBedPreparationStep(crop=self)
         self.yield_transport_step = YieldTransportStep(crop=self)
+        
+        self.cropeval = CropEval(crop = self, model_value_ref=self)
+        
+        ModelValue('P_balance',self.get_P_balance)
+        ModelValue('K_balance',self.get_K_balance)
+        ModelValue('N_leach',self.calc_N_leaching_kg_per_ha)
+        
+        ModelValue('N_fix',self.calc_N_total_fixation_kg_per_ha)
+        ModelValue('N_from_fert',self.get_N_from_fert)
+        ModelValue('N_removal',self.get_N_removal)
+        
+        ModelValue('N_uptake',self.get_N_uptake)
+        ModelValue('N_balance',self.get_N_balance)
+        ModelValue('kraut_mj',self.kraut_mj)
+        ModelValue('kraut_w',self.kraut_w)
+        ModelValue('kraut_s',self.kraut_s)
+        
+    def kraut_mj(self):
+        t = config.VERKRAUTUNG[config.KRAUT_KEY][self.crop_data.crop_code]
+        # {'PEREN_VK': {'value': 1}, 'WINTER_VK': {'value': 3}, 'SOMMER_VK': {'value': -1}}
+        return t['PEREN_VK']["value"]
+        
+    def kraut_w(self):
+        t = config.VERKRAUTUNG[config.KRAUT_KEY][self.crop_data.crop_code]
+        # {'PEREN_VK': {'value': 1}, 'WINTER_VK': {'value': 3}, 'SOMMER_VK': {'value': -1}}
+        return t['WINTER_VK']["value"]
+    
+    def kraut_s(self):
+        t = config.VERKRAUTUNG[config.KRAUT_KEY][self.crop_data.crop_code]
+        # {'PEREN_VK': {'value': 1}, 'WINTER_VK': {'value': 3}, 'SOMMER_VK': {'value': -1}}
+        return t['SOMMER_VK']["value"]
+        
+    def get_N_balance(self):
+        N=  self.calc_N_total_fixation_kg_per_ha()
+        N+= self.get_N_from_fert()
+        N-= self.calc_N_leaching_kg_per_ha()
+        N-= self.get_N_removal()
+        return N
         
 
     def get_eco_data(self, eco_param_name):
@@ -78,12 +119,70 @@ class Crop( FFElement):
         except:
             pass    
         return 0
+    
+    
 
     def get_primary_product_phosphate_kg_per_dt(self):
         return self.crop_data.primary_product.phosphate_oxide_kg_per_dt * 0.4364
 
     def get_primary_product_potassium_kg_per_dt(self):
         return self.crop_data.primary_product.potassium_oxide_kg_per_dt * 0.83
+
+    def get_by_product_phosphate_kg_per_dt(self):
+        return self.crop_data.straw_product.phosphate_oxide_kg_per_dt * 0.4364
+    
+    def get_by_product_potassium_kg_per_dt(self):
+        return self.crop_data.straw_product.potassium_oxide_kg_per_dt * 0.83
+    
+    def get_P_balance(self):
+        P = 0
+        if hasattr(self,'fertilizer_applications'):
+            n,p,k = self.fertilizer_applications.get_NPK_from_fert_kg_per_ha()
+            P += p
+            
+        if self.get_byproduct_harvest():
+            P -= self.calc_byproduct_yield_dt_fm_per_ha() * self.get_by_product_phosphate_kg_per_dt()
+        
+        P -= self.calc_yield_dt_fm_per_ha() * self.get_primary_product_phosphate_kg_per_dt()
+            
+        return P
+    
+    def get_N_removal(self):
+        N = 0
+        
+        N += self.get_primary_product_nitrogen_kg_per_dt() * self.calc_yield_dt_fm_per_ha() 
+        if self.get_byproduct_harvest():
+            N += self.crop_data.straw_product.nitrogen_kg_per_dt * self.calc_byproduct_yield_dt_fm_per_ha() 
+        return N
+    
+    def get_N_from_fert(self):
+        N=0
+        if hasattr(self,'fertilizer_applications'):
+            n,p,k = self.fertilizer_applications.get_NPK_from_fert_kg_per_ha()
+            N+=n
+        return N
+    
+    def get_K_balance(self):
+        K = 0
+        if hasattr(self,'fertilizer_applications'):
+            n,p,k = self.fertilizer_applications.get_NPK_from_fert_kg_per_ha()
+            K += k
+            
+        if self.get_byproduct_harvest():
+            K -= self.calc_byproduct_yield_dt_fm_per_ha() * self.get_by_product_potassium_kg_per_dt()
+        
+        K -= self.calc_yield_dt_fm_per_ha() * self.get_primary_product_potassium_kg_per_dt()
+            
+        return K
+    
+    def calc_N_total_fixation_kg_per_ha(self):
+        F = 0
+        if hasattr(self.crop_data, 'n_fix_kg_per_dt') and self.crop_data.n_fix_kg_per_dt:
+            F += self.crop_data.n_fix_kg_per_dt * self.calc_yield_dt_fm_per_ha()
+        
+        if self.has_cover_crop():
+            F += self.cover_crop.calc_N_fixation_kg_per_ha()    
+        return F
 
     
     def get_supplies(self):
@@ -101,7 +200,7 @@ class Crop( FFElement):
     def get_N_uptake(self):
         
         PpN = self.get_primary_product_nitrogen_kg_per_dt() * self.calc_yield_dt_fm_per_ha() 
-        PpN += PpN * 0.1
+        PpN -= PpN * 0.1
         return PpN
 
 
@@ -112,6 +211,13 @@ class Crop( FFElement):
         # (kg/ha) / (kg/dt) = (kg/ha) * (dt/kg) = (dt/ha)
         return N_extra / self.get_primary_product_nitrogen_kg_per_dt()
         
+    
+    
+    def calc_N_fixation_kg_per_ha(self) -> float:
+        try:
+            return self.crop_data.n_fix_kg_per_dt * self.calc_yield_dt_fm_per_ha()
+        except:
+            return 0
     
     def calc_N_leaching_kg_per_ha(self):
         N_manure_p = 0
@@ -128,12 +234,13 @@ class Crop( FFElement):
         
         N_dfs = self.get_N_uptake() 
         if hasattr(self,'calc_N_fixation_kg_per_ha'):
-            N_dfs -= self.calc_N_fixation_kg_per_ha()
+            N_dfs += self.calc_N_fixation_kg_per_ha() * 0.5
         
         N_surplus = N_manure_p + N_from_mineralization - N_dfs
-
-        if hasattr(self,'cover_crop'):
-            N_surplus -= (self.cover_crop.calc_total_N_uptake_kg_per_ha() - self.cover_crop.calc_N_fixation_kg_per_ha())
+        Kcor = 0.08
+        if self.has_cover_crop():
+            Kcor = 0.05
+            N_surplus -= (self.cover_crop.calc_total_N_uptake_kg_per_ha() )
 
         N_surplus = max(0, N_surplus)
         
@@ -143,14 +250,16 @@ class Crop( FFElement):
         N_leaching = N_surplus * N_leaching_prob
         N_leaching *= self.crop_specific_leaching_coefficent
         
-        return N_leaching, f"leachingprob {N_leaching_prob:.2f} ndfs{N_dfs:.2f} surpl{N_surplus:.2f} n_from_mineralization {N_from_mineralization:.2f}"
+        
+        N_leaching = max(N_leaching, self.get_N_uptake() * Kcor)
+        return N_leaching
     
     def get_removals(self):
         removals = []
         # //n_leaching_removal
-        N,ninfo = self.calc_N_leaching_kg_per_ha()
+        # N,ninfo = self.calc_N_leaching_kg_per_ha()
         
-        removals.append( {MF.removal_name : MF.n_leaching_removal, 'N':-N, MF.removal_info: ninfo})
+        # removals.append( {MF.removal_name : MF.n_leaching_removal, 'N':-N, MF.removal_info: ninfo})
 
         return removals
     

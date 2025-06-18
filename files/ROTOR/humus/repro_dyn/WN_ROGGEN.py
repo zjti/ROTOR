@@ -1,6 +1,6 @@
 from ROTOR.humus.repro_dyn.repro_base import  ReproHumusZehrer
 
-class WN_GERSTE( ReproHumusZehrer):
+class WN_ROGGEN( ReproHumusZehrer):
     
     std_bilanz_coefficent = -1.05
     

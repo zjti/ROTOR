@@ -10,7 +10,7 @@ class EconomyReport:
     def __init__(self, ffolge : FFolge):
         self.ffolge= ffolge
     
-    def get_report_bytes(self):
+    def get_report_bytes(self, name=None):
         table_style = TableStyle([
             ('BACKGROUND', (0, 0), (-1, 0), colors.lightgrey),  # Header background
             ('TEXTCOLOR', (0, 0), (-1, 0), colors.black),       # Header text color
@@ -25,14 +25,20 @@ class EconomyReport:
         
         print('xxx')
         styles = getSampleStyleSheet()
+        pdf = SimpleDocTemplate("/report.pdf", pagesize=A4)
 
         elements = []
-        elements.append(Paragraph("ROTOR Ökonomie", styles["Heading1"]))
+        if name is None:
+            pdf.title = "ROTOR Ökonomie Report"
+            elements.append(Paragraph("ROTOR Ökonomie", styles["Heading1"]))
+        else:
+            pdf.title = name
+            elements.append(Paragraph(name, styles["Heading1"]))
         elements.append(Spacer(1, 12))
 
-        pdf = SimpleDocTemplate("/report.pdf", pagesize=A4)
-        pdf.title = "ROTOR Ökonomie Report"
-
+       
+       
+            
         data = [
             ["","Wert","Einheit"],
             ["Dieselpreis",  f"{self.ffolge.ff_economy.get_diesel_eur_per_l()}","eur/l"],
@@ -58,7 +64,7 @@ class EconomyReport:
 
         elements.append(Paragraph("Variablekosten", styles["Heading2"]))
         elements.append(Spacer(1, 12))
-        data = [["Fruchtart","Maschinen","Diesel","Saatgut","Dünger","Sonstige","Summe"]]
+        data = [["Fruchtart","Maschinen","Diesel","Saatgut","Dünger","Sonstige","Saisonarbeits-kräfte","Summe"]]
 
         for i,crop in enumerate(self.ffolge.crops):
             if crop:
@@ -72,6 +78,7 @@ class EconomyReport:
                             f"{seedcost :.2f} €/ha" ,
                             f"{crop.economy.get_fertilizer_cost_eur_per_ha() :.2f} €/ha" ,
                             f"{crop.economy.get_extra_cost_eur_per_ha() :.2f} €/ha" ,
+                            f"{crop.economy.get_sum_session_labour_cost_eur_per_ha() :.2f} €/ha" ,
                             f"{crop.economy.get_sum_cost_eur_per_ha() :.2f} €/ha" ,
                          ]]
                 

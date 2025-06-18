@@ -17,8 +17,8 @@ def JSupdateWeather(lat_lon_json):
         pass
     # weather.load_from_lat_lon(lat_lon)
 
-def JSdownload_eco_report():
-    return config.pyFolge.ff_economy.write_report()
+def JSdownload_eco_report(name):
+    return config.pyFolge.ff_economy.write_report(name)
 
 def JSupdateFF(f):
     return update.updateFF(f.to_py())

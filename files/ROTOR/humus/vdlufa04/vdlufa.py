@@ -32,8 +32,9 @@ class VDLUFA:
         return self.NP_HÄ_per_ha * self.by_product_yield_dt_fm_per_ha * self.by_product_residual_fraction
 
 
-    def get_DUNG_humus_equivalent_hä_per_ha(self):
-        pass
-
+    def get_DUNG_humus_equivalent_hä_per_ha(self, dung_menge_t_per_ha, dung_ts, dung_HE):
+        
+        
+        return dung_menge_t_per_ha * dung_ts * dung_HE
         
         

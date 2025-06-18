@@ -1,17 +1,17 @@
 from ROTOR.humus.repro_dyn.repro_base import  ReproHumusZehrer
 
-class KRN_MAIS( ReproHumusZehrer):
+class HAFER( ReproHumusZehrer):
     
     std_bilanz_coefficent = -1.05
     
-    pp_bp_ratio = 0.8
+    pp_bp_ratio = 1
     bp_pp_ratio = 1 / pp_bp_ratio #  by_product_yield_dt_fm / primary_product_yield_dt_fm 
-    N_content_seed_kg_per_kg = 0.0135
-    N_content_by_product_kg_per_dt_FM = 1 * 0.86
-    N_content_primary_product_kg_per_dt_FM = 1.35 * 0.86
+    N_content_seed_kg_per_kg = 0.02
+    N_content_by_product_kg_per_dt_FM = 0.41* 0.86
+    N_content_primary_product_kg_per_dt_FM = 1.9 * 0.86
     legum_fraction = 0
     EWR_N_fraction_FM = 0
 
-    humus_coefficent_stroh = 0.16 * 0.86
+    humus_coefficent_stroh = 0.14 * 0.86
     humus_coefficent_gründung = 0
    

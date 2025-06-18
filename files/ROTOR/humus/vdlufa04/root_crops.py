@@ -1,4 +1,4 @@
-from .vdflufa import VDLUFA
+from .vdlufa import VDLUFA
 
 class FTTR_RUEBE(VDLUFA):
     HP_HÄ_per_ha = -1840

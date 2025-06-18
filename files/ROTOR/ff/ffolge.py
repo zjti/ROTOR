@@ -3,6 +3,7 @@ from ROTOR.utils.js.jsmodel import  VisFields as VF
 from ROTOR.utils.modelvalue import ModelValue,ClassWithModelValues
 from ROTOR.economy.economy import FFEconomy
 from ROTOR.utils.weather import monthly_weather_obj, MonthlyWeather
+from ROTOR.management.eval import FFEval
 
 class FFElement( ClassWithModelValues):
     def __init__(self, *args, **kwargs):
@@ -70,6 +71,7 @@ class FFolge(ClassWithModelValues):
         
         # if not hasattr(self,'ff_economy'):
         self.ff_economy = FFEconomy(ffolge=self, model_value_ref = self )
+        self.ff_eval = FFEval(ffolge=self, model_value_ref=self)
         
         self.mweather = MonthlyWeather('PRECIPITATION' , model_value_ref = self , model_value_group_name='PRECIPITATION' )
         monthly_weather_obj['PRECIPITATION'] = self.mweather
@@ -96,7 +98,7 @@ class FFolge(ClassWithModelValues):
         if ffelement:
                 
             ffelement.ff_economy = self.ff_economy
-            
+            ffelement.ff_eval = self.ff_eval
         
     def post_init(self):
         for crop in self.crops:

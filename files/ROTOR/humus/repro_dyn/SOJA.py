@@ -1,6 +1,6 @@
 from ROTOR.humus.repro_dyn.repro_base import  ReproHumusMehrer
 
-class ACK_BOHNE( ReproHumusMehrer):
+class SOJA( ReproHumusMehrer):
     
     std_bilanz_coefficent = 0.15
     

@@ -21,12 +21,15 @@ class ClassWithModelValues:
         # print(' serialize_model_values(self)',self)
         model_values = {} 
         # model_data = {value : value.get_model() for name, value in self.__dict__.items() if isinstance(value, ModelValue)}
-        model_data = {value : value.get_model() for name, value in self.__dict__.items() if isinstance_by_name(value, "ModelValue")}
+        model_data = {self.__dict__[name] : self.__dict__[name].get_model() for name in list(self.__dict__.keys()) 
+                      if isinstance_by_name(self.__dict__[name], "ModelValue")}
         # print(' len(model_data)', len(model_data))
         for value, model in model_data.items():
             model_values[value.name] = model 
 
-        for name,value in self.__dict__.items():
+        for name in list(self.__dict__.keys()):
+            value = self.__dict__[name]
+        
             # if isinstance(value, ClassWithModelValues) :
             # print(name,value)
             if isinstance_by_name(value, 'ClassWithModelValues') :
