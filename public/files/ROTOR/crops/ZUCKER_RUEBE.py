@@ -127,8 +127,11 @@ class ZUCKER_RUEBE(Crop):
        
         if self.do_hacken_3():
             worksteps.append(WorkStep ('Hacken 3',date='JUN1',
-                                    machine_cost_eur_per_ha=9, diesel_l_per_ha=5.4,
-                                    man_hours_h_per_ha=1.5,crop=self))
+                                    machine_cost_eur_per_ha=9,
+                                    diesel_l_per_ha=5.4,
+                                    man_hours_h_per_ha=1.5,
+                                    session_labour_h_per_ha= 50,
+                                    crop=self))
         
         worksteps.append(WorkStep ('Roden',date='SEP2',
                                    machine_cost_eur_per_ha=94, diesel_l_per_ha=90,

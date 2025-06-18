@@ -92,21 +92,37 @@ const { trigger, ignoreUpdates } = watchTriggerable(
         try {
           const updateFF = runPythonS("jswrapper.JSupdateFF"); // get Python func
           const get_eval_data = runPythonS("jswrapper.JSget_eval_data"); // get Python func
-          console.log('update ff ')
+          
+          runPythonS('config.KRAUT_KEY = json.loads(""" ' + JSON.stringify(krautkey.value) + ' """)')
+          runPythonS('config.VERKRAUTUNG = json.loads(""" ' + JSON.stringify(verkraut.value) + ' """)')
 
-          const ff_json = updateFF(ff.value)
-          const v = JSON.parse(ff_json);
-          if (v) {
-            console.log('write ff')
+
+          // const ff_json = updateFF(ff.value)
+          // const v = JSON.parse(ff_json);
+          // if (v) {
+          //   console.log('write ff')
+          //   ff.value = v;
+          //   writetojupyter('config_data/FFolge.json', ff_json)
+          //   const eval_data_json = get_eval_data()
+          //   eval_data.value = JSON.parse(eval_data_json)
+          //   globalStore.get('EVAL_DATA', eval_data).value =  JSON.parse(eval_data_json)
+
+          //   writetojupyter('config_data/eval_data.json', eval_data_json)
+          // }
+          for (var i = 0; i < 1; i++){
+            var ff_json = updateFF(ff.value)
+            var v = JSON.parse(ff_json);
             ff.value = v;
-            writetojupyter('config_data/FFolge.json', ff_json)
-            const eval_data_json = get_eval_data()
-            eval_data.value = JSON.parse(eval_data_json)
-            globalStore.get('EVAL_DATA', eval_data).value =  JSON.parse(eval_data_json)
-
-            writetojupyter('config_data/eval_data.json', eval_data_json)
-
+            
           }
+          
+          writetojupyter('config_data/FFolge.json', ff_json)
+          const eval_data_json = get_eval_data()
+          eval_data.value = JSON.parse(eval_data_json)
+          globalStore.get('EVAL_DATA', eval_data).value =  JSON.parse(eval_data_json)
+
+          writetojupyter('config_data/eval_data.json', eval_data_json)
+
         } catch (error) {
           console.error('Error updating FF:', error);
         }
@@ -126,7 +142,6 @@ const { trigger:trigger_CLIMATE_DATA_MONTLY   } = watchTriggerable(
   globalStore.get('CLIMATE_DATA_MONTLY'),
   (newVal) => {
     ignoreUpdates(() => {
-      console.log('XXX')
       const updateWeather = runPythonS("jswrapper.JSupdateWeather"); 
       updateWeather(JSON.stringify(globalStore.get('LOCATION_LAT_LONG').value))
       
@@ -146,7 +161,6 @@ trigger_CLIMATE_DATA_MONTLY()
     globalStore.get('LOCATION_LAT_LONG'),
     (newVal) => {
       ignoreUpdates(() => {
-        console.log('XXX2222')
         const updateWeather = runPythonS("jswrapper.JSupdateWeather"); 
         // updateWeather(JSON.stringify(globalStore.get('LOCATION_LAT_LONG').value))
         updateWeather(JSON.stringify(newVal))

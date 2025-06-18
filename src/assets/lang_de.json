@@ -26,6 +26,7 @@
     "FRUCHTFOLGE_TAB":"Fruchtfolge",
     "EVAL_TAB":"Auswertung",
     "ECO_TAB":"Ökonomie",
+    "HANDBUCH_TAB": "Handbuch",
 
     "MAP_SETTINGS":"Standort- und Kartenauswahl",
     "SOIL_SETTINGS":"Bodeneinstellungen",
@@ -204,7 +205,28 @@
 
     "get_winterhardines": "Winterhärte",
     "HARD" : "frosthart",
-    "NOT_HARD" : "abfrierend"
-    
+    "NOT_HARD" : "abfrierend",
+
+    "heu":"heu",
+    "grünfutter":"grünfutter",
+    "silage":"silage",
+
+    "other_leistung_eur_per_ha" : "Andere markfähige Leistungen",
+    "price_yield_grünfutter_eur_per_dt_fm" : "Preis Grünfutter",
+    "price_yield_silage_eur_per_dt_fm" : "Preis Silage",
+    "price_yield_heu_eur_per_dt_fm" : "Preis Heu",
+
+    "yield_grünfutter_leistung_eur_per_ha" : "Leistung Grünfutter",
+    "yield_heu_leistung_eur_per_ha" : "Leistung Heu",
+    "yield_silage_leistung_eur_per_ha" : "Leistung Silage",
+
+    "seed_cost_eur_per_kg": "Preis Saatgut",
+    "seed_cost_eur_per_ha": "Saatgutkosten",
+
+    "humus_method" : "Humusbilanzmethode",
+    "REPRO":"REPRO",
+    "VDLUFA":"VDLUFA"
+
+
 
 }

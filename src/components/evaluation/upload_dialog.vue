@@ -1,7 +1,7 @@
 <template>
     <v-dialog v-model="dialog" max-width="600">
       <template v-slot:activator="{ props }">
-        <v-btn color="primary" v-bind="props">
+        <v-btn color="primary" v-bind="props" style="width:100%" >
           Fruchfolge laden
         </v-btn>
       </template>

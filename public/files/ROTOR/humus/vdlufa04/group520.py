@@ -14,7 +14,7 @@ class DINKEL(VDLUFA):
 
 class HAFER(VDLUFA):
     HP_HÄ_per_ha = -520
-    NP_HÄ_per_ha = 1.1
+    NP_HÄ_per_ha = 7
     pp_bp_ratio = 0.8
 
 class SM_GERST(VDLUFA):

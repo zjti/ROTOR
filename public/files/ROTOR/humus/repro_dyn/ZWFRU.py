@@ -1,6 +1,6 @@
 from ROTOR.humus.repro_dyn.repro_base import  ReproHumusMehrer
 
-class LEG_GRAS( ReproHumusMehrer):
+class ZWFRU( ReproHumusMehrer):
     
     std_bilanz_coefficent = 0.3
     

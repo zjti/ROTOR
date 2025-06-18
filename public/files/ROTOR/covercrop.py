@@ -16,16 +16,16 @@ class CoverCrop (ClassWithModelValues):
         UserEditableModelValue('get_winterhardines',self.get_winterhardines ,tab=VF.anbau_tab,visible=True, 
                                type='select', select_opts=self.get_winterhardines_options )
 
-        if self.get_winterhardines() == 'HIGH' :
+        if self.get_winterhardines() == 'HARD' :
             UserEditableModelValue('get_cover_crop_harvest',self.get_cover_crop_harvest ,tab=VF.anbau_tab,visible=True, type='bool' )
 
 
 
     def calc_total_N_uptake_kg_per_ha(self):
-        return 30
+        return self.get_leguminosen_percentage()/100 * 80 + 50
         
     def calc_N_fixation_kg_per_ha(self):
-        return 10
+        return self.get_leguminosen_percentage()/100 * 80
     
     def get_cultivation_options(self):
         opts = ['BLANK_SAAT','STOPPEL_SAAT']

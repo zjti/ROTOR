@@ -63,6 +63,36 @@ class FertilizerApplications(ClassWithModelValues):
             
         return N
     
+    def get_N_total_from_fert_kg_per_ha(self):
+        N=0
+
+        if not self.get_dung_menge():
+            return N
+
+        # {'fest frisch rind': {'menge': 4, 'is_herbst': False}}...
+        for dung_key,dung_val in self.get_dung_menge().items():
+            dung_param = config.DUNG_DATA[dung_key]
+
+            V = dung_val['menge'] * dung_param['N/FM'] 
+            N += V
+
+        return N
+        
+    def get_humus_kg_per_ha(self):
+        N=0
+
+        if not self.get_dung_menge():
+            return N
+
+        for dung_key,dung_val in self.get_dung_menge().items():
+            dung_param = config.DUNG_DATA[dung_key]
+
+            V = dung_val['menge'] * ( dung_param['TM'] / 100 ) * dung_param['HUMUS_HE'] * 580
+            N += V
+
+        return N        
+
+    
     def get_NPK_from_fert_kg_per_ha(self):
         N,P,K = 0,0,0
         

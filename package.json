@@ -11,10 +11,12 @@
     "@vue-leaflet/vue-leaflet": "^0.10.1",
     "chart.js": "^4.5.0",
     "material-design-icons-iconfont": "^6.7.0",
+    "pdfjs-dist": "^2.16.105",
     "roboto-fontface": "*",
     "util": "^0.12.5",
     "vue": "^3.4.31",
     "vue-chartjs": "^5.3.2",
+    "vue-pdf-embed": "^2.1.2",
     "vuedraggable": "^4.1.0",
     "vuetify": "^3.6.11"
   },

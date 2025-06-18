@@ -43,7 +43,7 @@ class WorkStepList ( ClassWithModelValues ):
         #     setattr(self, '_model_child_'+str(id(workstep)), workstep)
 
         new_workstep = WorkStep( workstep.name, workstep.date, workstep.machine_cost_eur_per_ha,
-                                 workstep.man_hours_h_per_ha, workstep.diesel_l_per_ha, workstep.crop, model_value_ref =self  )
+                                 workstep.man_hours_h_per_ha, workstep.diesel_l_per_ha, workstep.session_labour_h_per_ha, workstep.crop, model_value_ref =self  )
 
         self.worksteps.append(new_workstep)
     
@@ -56,12 +56,12 @@ class WorkStepList ( ClassWithModelValues ):
                 work_step.min_date = work_steps[i-1].get_date()
             if i < len(work_steps)-1:
                 work_step.max_date = work_steps[i+1].get_date()
-                
-            
+         
 
 class WorkStep( ClassWithModelValues ):
 
-    def __init__(self, name, date = 'JAN1', machine_cost_eur_per_ha=12 , man_hours_h_per_ha=0.6, diesel_l_per_ha= 4.5, crop = None, *args, **kwargs):
+    def __init__(self, name, date = 'JAN1', machine_cost_eur_per_ha=12 , man_hours_h_per_ha=0.6,
+                 diesel_l_per_ha= 4.5 ,session_labour_h_per_ha=0, crop = None, *args, **kwargs):
         super().__init__(*args, **kwargs,  model_value_group_name=name)
         
         self.name = name
@@ -70,12 +70,15 @@ class WorkStep( ClassWithModelValues ):
         self.machine_cost_eur_per_ha = machine_cost_eur_per_ha
         self.man_hours_h_per_ha = man_hours_h_per_ha
         self.crop = crop
+        self.session_labour_h_per_ha = session_labour_h_per_ha
         # UserEditableModelValue(name +'_get_date', self.get_date, tab=VF.eco_workstep_tab, type='date' )
         UserEditableModelValue('get_date', self.get_date, type='select', select_opts = self.get_date_options )
         UserEditableModelValue('get_man_hours_h_per_ha', self.get_man_hours_h_per_ha )
         UserEditableModelValue('get_diesel_l_per_ha', self.get_diesel_l_per_ha )
         UserEditableModelValue('get_machine_cost_eur_per_ha', self.get_machine_cost_eur_per_ha )
+        UserEditableModelValue('get_session_labour_h_per_ha', self.get_session_labour_h_per_ha )
         UserEditableModelValue('get_name', self.get_name, type='string' )
+        
 
         ModelValue('get_diesel_eur_per_ha', self.get_diesel_eur_per_ha, unit = '€/l' )
 
@@ -91,6 +94,9 @@ class WorkStep( ClassWithModelValues ):
             return get_date_range(self.min_date,self.max_date)
         return all_dates
         
+    def get_session_labour_h_per_ha(self):
+        return self.session_labour_h_per_ha
+        
     def get_date(self):
         return self.date
 
@@ -100,6 +106,7 @@ class WorkStep( ClassWithModelValues ):
     def get_diesel_l_per_ha(self):
         return self.diesel_l_per_ha * self.crop.ff_economy.get_diesel_faktor()
 
+    
     
     def get_diesel_eur_per_ha(self):
         return self.get_diesel_l_per_ha() * self.crop.ff_economy.get_diesel_eur_per_l()

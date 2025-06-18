@@ -320,6 +320,10 @@
         "url": "/ROTOR/files/ROTOR/crops/data/__init__.py"
     },
     {
+        "path": "ROTOR/management/eval.py",
+        "url": "/ROTOR/files/ROTOR/management/eval.py"
+    },
+    {
         "path": "ROTOR/management/fertilizer.py",
         "url": "/ROTOR/files/ROTOR/management/fertilizer.py"
     },

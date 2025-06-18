@@ -85,7 +85,7 @@ const generateStackedDatasets = (values) => {
                                 <modelvalue v-model="FF['FF_META'].economy.diesel_eur_per_l" />
                                 <modelvalue v-model="FF['FF_META'].economy.extra_cost_eur_per_ha"
                                     helpText="Dieser wert kann in jedem Anbaujahr angepasst werden. Kann Kosten für Versicherungen etc. beinhalten. " />
-                                <modelvalue v-model="FF['FF_META'].economy.sesssion_labour_eur_per_h" />
+                                <modelvalue v-model="FF['FF_META'].economy.session_labour_eur_per_h" />
 
 
                             </v-expansion-panel-text>

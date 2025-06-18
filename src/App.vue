@@ -21,6 +21,7 @@ html, body {
 <script setup>
 import { getCurrentInstance ,onMounted ,ref ,watch} from "vue";
 import { useStorage } from '@vueuse/core'
+import VuePdfEmbed from 'vue-pdf-embed'
 
 import usePyodide from '@/composables/usePyodide';
  
@@ -129,6 +130,10 @@ const next_lang = (lang)=>{
           <v-tab value="5">
             <l>EVAL_TAB</l>
           </v-tab>
+          
+          <v-tab value="6">
+            <l>HANDBUCH_TAB</l>
+          </v-tab>
         </v-tabs>
 
         <v-spacer></v-spacer>
@@ -168,9 +173,23 @@ const next_lang = (lang)=>{
           </v-tabs-window-item>
 
           <v-tabs-window-item value="5">
-             
             <eval />
           </v-tabs-window-item>
+
+          <v-tabs-window-item value="6">
+            <center>
+            <div style="width: 900px;" v-for="page in 7" :key="page">
+        
+            <vue-pdf-embed
+              source="Handbuch_ROTOR_40.pdf"
+              :page="page"
+              :text-layer="false"
+              
+            />  <hr>
+          </div>
+            </center>
+          </v-tabs-window-item>
+
         </v-tabs-window>
       </v-main>
         

@@ -13,6 +13,7 @@ const model = defineModel();
         <modelvalue v-model="model.get_machine_cost_eur_per_ha"/>
         <modelvalue v-model="model.get_diesel_l_per_ha"/>
         <modelvalue v-model="model.get_diesel_eur_per_ha"/>
+        <modelvalue v-model="model.get_session_labour_h_per_ha"/>
         
     </div>
 </template>

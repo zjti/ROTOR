@@ -70,6 +70,7 @@ def updateFF(ffolge):
         ffolge : nested dict
         returns : Json
     """
+    
     global old_ffolge_json, pyFolge
  
     if not has_changes(ffolge):
@@ -79,6 +80,7 @@ def updateFF(ffolge):
         new_pyFolge = FFolge( len(ffolge) - 1 , model_values = ffolge['FF_META'] ) #  "len(ffolge) - 1" bcause'FF_META' in ffolge 
     except:
         new_pyFolge = FFolge( len(ffolge) - 1 ) #  "len(ffolge) - 1" bcause'FF_META' in ffolge 
+        
     
     for J,val in enumerate([ffolge[key] for key in ffolge.keys() if key!='FF_META']):
         
@@ -90,10 +92,13 @@ def updateFF(ffolge):
             new_pyFolge.add_crop(None)
             continue
         
-        if pyFolge and (len(pyFolge.crops) > J) and pyFolge.crops[J] and  pyFolge.crops[J].crop_data.crop_code == val[MF.crop]:
-            new_crop = crop_dict[val[MF.crop]](model_values = val.get('MODELVALUES',None))
+        if (pyFolge and (len(pyFolge.crops) > J) 
+            and pyFolge.crops[J] 
+            and  pyFolge.crops[J].crop_data.crop_code != val[MF.crop]) :
+            new_crop = crop_dict[val[MF.crop]]()    
         else:
-            new_crop = crop_dict[val[MF.crop]]()
+            new_crop = crop_dict[val[MF.crop]](model_values = val.get('MODELVALUES',None))
+            
             
         # new_crop.deserialize( val )
         new_pyFolge.add_crop( new_crop )

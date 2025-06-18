@@ -41,7 +41,7 @@
 
   const { pyodide, runPythonS, runPython } = usePyodide();
   const dialog = ref(false);
-  const filename = ref('eco_report');
+  const filename = ref('ROTOR Ökonomie Report');
   const downloading = ref(false);
   
   const startDownload = async () => {
@@ -49,7 +49,7 @@
     
     downloading.value = true;
     try {
-      await downloadPdf();
+      await downloadPdf(filename.value);
       dialog.value = false;
     } catch (error) {
       console.error('Download failed:', error);
@@ -58,8 +58,8 @@
     }
   };
   
-  const downloadPdf = async () => {
-    const file_bytes = await runPythonS(`jswrapper.JSdownload_eco_report()`);
+  const downloadPdf = async (name) => {
+    const file_bytes = await runPythonS(`jswrapper.JSdownload_eco_report("${name}")`);
     console.log(file_bytes);
     
     const uint8Array = new Uint8Array(file_bytes);

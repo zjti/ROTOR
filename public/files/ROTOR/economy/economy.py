@@ -13,7 +13,7 @@ class FFEconomy( ClassWithModelValues ):
         
         super().__init__(*args,**kwargs,model_value_group_name='economy')
         UserEditableModelValue('diesel_eur_per_l',self.get_diesel_eur_per_l ,tab=VF.eco_tab , unit='€/l')
-        UserEditableModelValue('sesssion_labour_eur_per_h',self.get_sesssion_labour_eur_per_h ,tab=VF.eco_tab, unit='€/h' )
+        UserEditableModelValue('session_labour_eur_per_h',self.get_session_labour_eur_per_h ,tab=VF.eco_tab, unit='€/h' )
         UserEditableModelValue('extra_cost_eur_per_ha',self.get_extra_cost_eur_per_ha ,tab=VF.eco_tab , unit='€/ha')
         
         UserEditableModelValue('diesel_faktor',self.get_diesel_faktor ,tab=VF.eco_tab  )
@@ -80,7 +80,7 @@ class FFEconomy( ClassWithModelValues ):
     def get_extra_cost_eur_per_ha(self):
         return 50
     
-    def get_sesssion_labour_eur_per_h(self):
+    def get_session_labour_eur_per_h(self):
         return 13
     
     def get_diesel_faktor(self):
@@ -105,9 +105,9 @@ class FFEconomy( ClassWithModelValues ):
             return 0.9
         return 1
     
-    def write_report(self):
+    def write_report(self,name):
         from ROTOR.economy.economy_report import EconomyReport
-        report = EconomyReport(self.ffolge).get_report_bytes()
+        report = EconomyReport(self.ffolge).get_report_bytes(name)
         return report
 
 
@@ -184,6 +184,7 @@ class CropEconomy( ClassWithModelValues ):
         
         S+= self.get_fertilizer_cost_eur_per_ha() 
         S+= self.get_extra_cost_eur_per_ha() 
+        S+= self.get_sum_session_labour_cost_eur_per_ha()
         
         return S
     
@@ -203,6 +204,15 @@ class CropEconomy( ClassWithModelValues ):
         S=0
         for workstep in self.worksteplist.worksteps:
             S+= workstep.get_diesel_eur_per_ha()
+        return S
+    
+    def get_sum_session_labour_cost_eur_per_ha(self):
+        return self.get_sum_session_labour_h_per_ha() * self.crop.ff_economy.get_session_labour_eur_per_h()
+    
+    def get_sum_session_labour_h_per_ha(self):
+        S=0
+        for workstep in self.worksteplist.worksteps:
+            S+= workstep.get_session_labour_h_per_ha()
         return S
     
     def get_sum_man_hours_per_ha(self):

@@ -2,7 +2,7 @@
   
   <v-select
     v-model="selectedKey"
-    :items="Object.keys(dung_data).concat('Dünger hinzufügen')"
+    :items="Object.keys(dung_data)"
     :label="langf('SELECT_ENTRY')"
     @change="loadData"
   ></v-select>

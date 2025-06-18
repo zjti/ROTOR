@@ -6,9 +6,9 @@ from importlib import import_module
 from ROTOR.crop import Crop
 from ROTOR  import crops
 
+
 def get_crop_dict(): 
 
-    path = crops.__path__[0]
     crop_dict ={}
     # print(list(pkgutil.iter_modules(crops.__path__)))
     # print(os.getcwd())

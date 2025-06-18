@@ -5,10 +5,10 @@ class ReproBase:
     total_HE_coefficient = 0.35
     
     def __init__(self, ackerzahl,
-                 primary_product_yield_dt_fm_per_ha, 
+                 primary_product_yield_dt_fm_per_ha =None, 
                  by_product_yield_dt_fm_per_ha = None,
                 primary_product_residual_fraction=0,
-                by_product_residual_fraction=1):
+                by_product_residual_fraction=1, *args,**kwargs):
         
         self.ackerzahl = ackerzahl
         self.primary_product_residual_fraction = primary_product_residual_fraction
@@ -57,7 +57,7 @@ class ReproBase:
                 + 
                 self.primary_product_yield_dt_fm_per_ha 
                 * self.primary_product_residual_fraction 
-                * self.humus_coefficent_stroh *0.75) * 0.1
+                * self.humus_coefficent_stroh *0.75)  * 0.1
         
         """
         Humusersatzleistung (NP) = TM-Ertrag Nebenprodukt [t TM *ha-1] 
@@ -194,7 +194,7 @@ class ReproHumusZehrer(ReproBase):
                 - self.calc_N_supply_kg_per_ha() 
                 * self.calc_system_utilization_rate()) 
         
-        B /= (self.total_N_from_fertilizer_kg_per_ha * self.calc_system_utilization_rate()) 
+        B /= (self.total_N_from_fertilizer_kg_per_ha * self.calc_system_utilization_rate() + 0.0001) #pls avoid div by 0 
         B *= self.total_HE_coefficient
         
         return B
