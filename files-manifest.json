@@ -228,14 +228,6 @@
         "url": "/ROTOR/files/ROTOR/crops/KRN_MAIS.py"
     },
     {
-        "path": "ROTOR/crops/SILO_MAIS.py",
-        "url": "/ROTOR/files/ROTOR/crops/SILO_MAIS.py"
-    },
-    {
-        "path": "ROTOR/crops/SOJA.py",
-        "url": "/ROTOR/files/ROTOR/crops/SOJA.py"
-    },
-    {
         "path": "ROTOR/crops/WN_ROGGEN.py",
         "url": "/ROTOR/files/ROTOR/crops/WN_ROGGEN.py"
     },

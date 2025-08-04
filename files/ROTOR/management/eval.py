@@ -251,10 +251,10 @@ class CropEval (ClassWithModelValues):
                 
             if hasattr(self.crop, 'has_cover_crop'):
                 if self.crop.has_cover_crop():
-                    if self.cover_crop.get_cultivation() == 'UNTER_SAAT':
+                    if self.crop.cover_crop.get_cultivation() == 'UNTER_SAAT':
                         humusclass =humus_VDLUFA_dict['ZW_UNTER']
                         
-                    elif self.cover_crop.get_cultivation() == 'BLANK_SAAT':
+                    elif self.crop.cover_crop.get_cultivation() == 'BLANK_SAAT':
                         humusclass =humus_VDLUFA_dict['ZW_BLANK']
                         
                     else:
