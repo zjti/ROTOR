@@ -73,10 +73,10 @@ class WorkStep( ClassWithModelValues ):
         self.session_labour_h_per_ha = session_labour_h_per_ha
         # UserEditableModelValue(name +'_get_date', self.get_date, tab=VF.eco_workstep_tab, type='date' )
         UserEditableModelValue('get_date', self.get_date, type='select', select_opts = self.get_date_options )
-        UserEditableModelValue('get_man_hours_h_per_ha', self.get_man_hours_h_per_ha )
-        UserEditableModelValue('get_diesel_l_per_ha', self.get_diesel_l_per_ha )
-        UserEditableModelValue('get_machine_cost_eur_per_ha', self.get_machine_cost_eur_per_ha )
-        UserEditableModelValue('get_session_labour_h_per_ha', self.get_session_labour_h_per_ha )
+        UserEditableModelValue('get_man_hours_h_per_ha', self.get_man_hours_h_per_ha , unit='h/ha')
+        UserEditableModelValue('get_diesel_l_per_ha', self.get_diesel_l_per_ha, unit='l/ha' )
+        UserEditableModelValue('get_machine_cost_eur_per_ha', self.get_machine_cost_eur_per_ha, unit='€/ha' )
+        UserEditableModelValue('get_session_labour_h_per_ha', self.get_session_labour_h_per_ha, unit='h/ha' )
         UserEditableModelValue('get_name', self.get_name, type='string' )
         
 

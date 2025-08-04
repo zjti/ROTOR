@@ -15,3 +15,8 @@ class FTTR_ERBSE(VDLUFA):
 class SOJA(VDLUFA):
     HP_HÄ_per_ha = 160
     NP_HÄ_per_ha = 0
+    
+
+class LEG_GRAS(VDLUFA):
+    HP_HÄ_per_ha = 160
+    NP_HÄ_per_ha = 0

@@ -215,17 +215,38 @@
     "price_yield_grünfutter_eur_per_dt_fm" : "Preis Grünfutter",
     "price_yield_silage_eur_per_dt_fm" : "Preis Silage",
     "price_yield_heu_eur_per_dt_fm" : "Preis Heu",
+    "price_yield_eur_per_dt_fm" : "Preis",
 
+    "yield_leistung_eur_per_ha" : "Leistung",
     "yield_grünfutter_leistung_eur_per_ha" : "Leistung Grünfutter",
     "yield_heu_leistung_eur_per_ha" : "Leistung Heu",
     "yield_silage_leistung_eur_per_ha" : "Leistung Silage",
-
+    "extra_cost_eur_per_kg": "Sonstige Kostent",
     "seed_cost_eur_per_kg": "Preis Saatgut",
     "seed_cost_eur_per_ha": "Saatgutkosten",
+
+    "cover_crop_seed_kg_per_ha": "Saatgutmenge",
+    "cover_crop_seed_cost_eur_per_kg": "Preis Saatgut",
+    "cover_crop_seed_cost_eur_per_ha": "SaatgutKossten",
+    "sum_machine_cost_eur_per_ha": "Summe Maschinenkosten",
+    "sum_diesel_cost_eur_per_ha": "Summe Dieselkosten",
+    "sum_man_hours_per_ha": "Summe Arbeitsstunden",
+
+    "gross_margin_eur_per_ha" : "Deckungsbeitrag",
+    "gross_margin_per_man_hour_eur_per_h" : "Deckungsbeitrag pro Arbeitskraftstunde",
+    "get_name":"Arbeitsgangname",
+    "get_date":"Datum",
+    "get_man_hours_h_per_ha":"Arbeitskraftstunden",
+    "get_machine_cost_eur_per_ha":"Maschinenkosten",
+    "get_diesel_l_per_ha":"Dieselbedarf",
+    "get_diesel_eur_per_ha":"Dieselkosten",
+    "get_session_labour_h_per_ha":"Sessionarbeitskraftstunden",
+    
 
     "humus_method" : "Humusbilanzmethode",
     "REPRO":"REPRO",
     "VDLUFA":"VDLUFA"
+
 
 
 

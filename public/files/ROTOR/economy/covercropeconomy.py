@@ -13,9 +13,9 @@ class CoverCropEconomy(  ClassWithModelValues ):
         self.cover_crop_seeds_kg_per_ha = cover_crop_seeds_kg_per_ha
         self.cover_crop_seed_cost_eur_per_kg = cover_crop_seed_cost_eur_per_kg
         
-        UserEditableModelValue('cover_crop_seed_kg_per_ha',self.get_cover_crop_seed_kg_per_ha ,tab=VF.eco_tab )
-        UserEditableModelValue('cover_crop_seed_cost_eur_per_kg',self.get_cover_crop_seed_cost_eur_per_kg ,tab=VF.eco_tab )
-        ModelValue('cover_crop_seed_cost_eur_per_ha', self.get_cover_crop_seed_cost_eur_per_ha, tab=VF.eco_tab )
+        UserEditableModelValue('cover_crop_seed_kg_per_ha',self.get_cover_crop_seed_kg_per_ha ,tab=VF.eco_tab, unit = 'kg/ha' )
+        UserEditableModelValue('cover_crop_seed_cost_eur_per_kg',self.get_cover_crop_seed_cost_eur_per_kg ,tab=VF.eco_tab ,unit = '€/kg' )
+        ModelValue('cover_crop_seed_cost_eur_per_ha', self.get_cover_crop_seed_cost_eur_per_ha, tab=VF.eco_tab ,unit = '€/ha' )
 
       
     def get_cover_crop_seed_kg_per_ha(self):

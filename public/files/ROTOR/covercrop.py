@@ -11,15 +11,19 @@ class CoverCrop (ClassWithModelValues):
         self.ffelement = ffelement
         
         
-        UserEditableModelValue('get_leguminosen_percentage',self.get_leguminosen_percentage ,tab=VF.anbau_tab,visible=True)
-        UserEditableModelValue('get_cultivation',self.get_cultivation ,tab=VF.anbau_tab,visible=True, type='select', select_opts=self.get_cultivation_options )
-        UserEditableModelValue('get_winterhardines',self.get_winterhardines ,tab=VF.anbau_tab,visible=True, 
+        UserEditableModelValue('get_leguminosen_percentage',self.get_leguminosen_percentage ,tab=VF.anbau_tab,
+                               visible=ffelement.has_cover_crop())
+        UserEditableModelValue('get_cultivation',self.get_cultivation ,tab=VF.anbau_tab,visible=ffelement.has_cover_crop(),
+                               type='select', select_opts=self.get_cultivation_options )
+        UserEditableModelValue('get_winterhardines',self.get_winterhardines ,tab=VF.anbau_tab,
+                               visible=ffelement.has_cover_crop(), 
                                type='select', select_opts=self.get_winterhardines_options )
 
         if self.get_winterhardines() == 'HARD' :
-            UserEditableModelValue('get_cover_crop_harvest',self.get_cover_crop_harvest ,tab=VF.anbau_tab,visible=True, type='bool' )
+            UserEditableModelValue('get_cover_crop_harvest',self.get_cover_crop_harvest ,tab=VF.anbau_tab,visible=ffelement.has_cover_crop(), type='bool' )
 
-
+        # ModelValue('calc_total_N_uptake_kg_per_ha',self.calc_total_N_uptake_kg_per_ha)
+        
 
     def calc_total_N_uptake_kg_per_ha(self):
         return self.get_leguminosen_percentage()/100 * 80 + 50
